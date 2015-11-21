@@ -1,4 +1,6 @@
 
+[Link](https://leetcode.com/problems/lru-cache/)
+
 * 三个主要私有方法：
   1. removeFirst
   2. removeNode
