@@ -3,6 +3,10 @@
 * 找第k个数， 每次干掉k/2个数
 * consider the tail of A or B as positive infinity
 * all the index involes start index
+* 结束条件
+    1. startA >= A.length
+    2. startB >= B.length
+    3. k == 1
 
 ```java
 public class Solution {
