@@ -6,12 +6,10 @@
 ```java
 public class Solution {
     public int lengthOfLongestSubstring(String s) {
-        int len = 0;
-        int longest = 0;
+        int max = 0;
         int start = 0;
-        
         int[] loc = new int[256];
-        for (int i = 0; i < loc.length;i ++) {
+        for (int i = 0; i < loc.length; i++) {
             loc[i] = -1;
         }
         for (int end = 0; end < s.length(); end++) {
@@ -19,11 +17,11 @@ public class Solution {
             if (loc[c] >= start) {
                 start = loc[c] + 1;
             }
-            len = end - start + 1;
+            int len = end - start + 1;
             loc[c] = end;
-            longest = Math.max(longest, len);
+            max = Math.max(max, len);
         }
-        return longest;
+        return max;
     }
 }
 ```
