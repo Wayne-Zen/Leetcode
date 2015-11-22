@@ -13,27 +13,21 @@
  */
 public class Solution {
     public ListNode reverseList(ListNode head) {
-        if(head == null || head.next == null) {
+        if (head == null || head.next == null) {
             return head;
-        }
-     
+        }   
+        
         ListNode p1 = head;
         ListNode p2 = head.next;
-        
-        // init key point
         head.next = null;
         
-        while(p1 != null && p2 != null){
+        while (p1 != null && p2 != null) {
             ListNode tmp = p2.next;
             p2.next = p1;
             p1 = p2;
-            if (tmp!=null){
-                p2 = tmp;
-            }else{
-                break;
-            }
+            p2 = tmp;
         }
-        return p2;
+        return p1;
     }
 }
 ```
