@@ -16,18 +16,21 @@ public class Solution {
         if (head == null || head.next == null) {
             return head;
         }   
-        
+
         ListNode p1 = head;
         ListNode p2 = head.next;
-        head.next = null;
-        
+        ListNode save = p1;
+
         while (p1 != null && p2 != null) {
             ListNode tmp = p2.next;
             p2.next = p1;
             p1 = p2;
             p2 = tmp;
         }
-        return p1;
+        head = p1;
+        save.next = p2;
+        
+        return head;
     }
 }
 ```
