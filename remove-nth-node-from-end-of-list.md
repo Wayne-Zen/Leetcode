@@ -15,6 +15,7 @@ public class Solution {
         dummy.next = head;
         ListNode slow = dummy;
         ListNode fast = dummy;
+        // 多跳一步
         for (int i = 0; i <= n; i++) {
             fast = fast.next;
         }
