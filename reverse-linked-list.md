@@ -17,18 +17,19 @@ public class Solution {
             return head;
         }   
 
-        ListNode p1 = head;
+        ListNode p1 = head; // 起始翻转点
         ListNode p2 = head.next;
         ListNode save = p1;
 
-        while (p1 != null && p2 != null) {
+        while (p2 != null) { //终止条件
             ListNode tmp = p2.next;
             p2.next = p1;
             p1 = p2;
             p2 = tmp;
         }
-        head = p1;
         save.next = p2;
+        head = p1; // p1 是翻转后的起始点
+        
         
         return head;
     }
