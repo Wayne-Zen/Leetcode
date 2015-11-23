@@ -56,7 +56,7 @@ public class Solution {
             int col1 = now.get(i);
             int row2 = now.size();
             int col2 = index;
-            if (row2 - row1 == col2 - col1 || row2 - row1 == col1 - col2) {
+            if (row1 - col1 == row2 - col2 || row1 + col1 == row2 + col2) {
                 return false;
             }
         }
