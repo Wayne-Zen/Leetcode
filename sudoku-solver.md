@@ -34,25 +34,31 @@ public class Solution {
         }        
     }
     
-    private ArrayList<Character> getChoices(char[][] board, Cell cell) {
+    private boolean[] getChoices(char[][] board, Cell cell) {
         int row = cell.row;
         int col = cell.col;
-        ArrayList<Character> ret = new ArrayList<Character>();
-        for (char c = '1'; c <= '9'; c++) {
-            ret.add(c);
+        boolean[] exist = new boolean[9];
+        for (int i = 0; i < 9; i++) {
+            char c = board[row][i];
+            if (c != '.') {
+                exist[c - '1'] = true;
+            }
         }
         for (int i = 0; i < 9; i++) {
-            ret.remove(Character.valueOf(board[row][i]));
-        }
-        for (int i = 0; i < 9; i++) {
-            ret.remove(Character.valueOf(board[i][col]));
+            char c = board[i][col];
+            if (c != '.') {
+                exist[c - '1'] = true;
+            }
         }
         int rBase = row - row % 3;
         int cBase = col - col % 3;
         for (int i = 0; i < 9; i++) {
-            ret.remove(Character.valueOf(board[rBase + i / 3][cBase + i % 3]));
+            char c = board[rBase + i / 3][cBase + i % 3];
+            if (c != '.') {
+                exist[c - '1'] = true;
+            }
         }
-        return ret;
+        return exist;
     }
     
     private void help(ArrayList<ArrayList<Character>> ans,
@@ -64,9 +70,12 @@ public class Solution {
             return;
         }
         Cell c = cells.get(pos);
-        ArrayList<Character> choices = getChoices(board, c);
-        for (int i = 0; i < choices.size(); i++) {
-            char choice = choices.get(i);
+        boolean[] choices = getChoices(board, c);
+        for (int i = 0; i < 9; i++) {
+            if (choices[i]) {
+                continue;
+            }
+            char choice = (char)('1' + i);
             now.add(choice);
             board[c.row][c.col] = choice;
             help(ans, now, cells, pos + 1, board);
