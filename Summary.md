@@ -19,3 +19,7 @@
 * 链表 dummynode
 
 
+## DFS
+* 走过之后还能用前面的，需要viisted数组。
+
+
