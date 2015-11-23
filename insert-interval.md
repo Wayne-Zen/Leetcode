@@ -19,11 +19,11 @@ public class Solution {
         for (int i = 0; i < intervals.size(); i++) {
             Interval in = intervals.get(i);
             if (in.end < newInterval.start) {
-                res.add(new Interval(in.start, in.end));
+                res.add(in);
                 continue;
             } 
             if (newInterval.end < in.start) {
-                res.add(new Interval(newInterval.start, newInterval.end));
+                res.add(newInterval);
                 newInterval = in;
                 continue;
             }
