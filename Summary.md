@@ -13,6 +13,10 @@
   * pop()
   * push()
 
+* PriorityQueue
+  * 若要指定comparator, 第一个参数必须是size
+  * size不能为0, 一定要进行参数检查
+
 ## two pointer
 * 千万不要忘记更新指针， ＋＋／－－
 * 一块一慢， 一前一后，对冲
