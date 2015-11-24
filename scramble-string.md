@@ -1,10 +1,12 @@
 [Link](https://leetcode.com/problems/scramble-string/)
 
+![]("img/Photos/scramble-string.jpg")
+
 * 注意层次的安排
 * 注意 i，j 需要逆序遍历
 * i，j 的范围根据k变化
 
-<img scr="img/Photos/scramble-string.jpg" width="400">
+
 
 ```java
 public class Solution {
