@@ -70,7 +70,7 @@ public class Solution {
                 res.add(buildGap(sub, maxWidth, lineWidth - 1)); // 坑
                 lineWidth = 0;
                 sub.clear();
-                i--;
+                i--;  // 坑
             }
         }
         if (!sub.isEmpty()) {
