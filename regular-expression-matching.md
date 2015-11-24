@@ -2,7 +2,7 @@
 
 [https://www.zybuluo.com/wayne-zen/note/224226](https://www.zybuluo.com/wayne-zen/note/224226)
 
-<img src="img/Photos/regular-expression-matching.jpg" width="400">
+<img src="img/Photos/regular-expression-matching.JPG" width="400">
 
 ```java
 public class Solution {
