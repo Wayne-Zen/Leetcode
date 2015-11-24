@@ -1,5 +1,7 @@
 [Link](https://leetcode.com/problems/largest-rectangle-in-histogram/)
 
+* 一定要记住入站
+
 ```java
 public class Solution {
     public int largestRectangleArea(int[] height) {
