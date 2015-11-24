@@ -10,7 +10,7 @@
 * dummynode: head, tail
 * 同时管理 map 和 双向链表
 
-<img src="https://lh3.googleusercontent.com/y2JryHgdkZmDFDB4wpEY3ovPutbY06DCiJAWQI_X57bhwYTh0QykHCEdULNqn9wVKSQVLH3WRQQdUytVVuNjzgL82iTA0i-cVGrhGZqHYtK6JAjXqEU1re6n2_QRMB7GUso5ivLlsWKbh6kF3kn9WXIx-O7EB_gBPFWf78RDZF3VU91oS1J345EbgXJo0JQi_LFkyq82NzMo16N6u2mzdXNAKaCIaz5PkSHmCkTl3h_RWnLhaBjIyMoAbDdH1ovF4Tcv6CL43SWl5mC-fFCLfCIMcM2jnnGRFuathutxS5wXMvDOZy7t9YjVzPdvp5AKgSl7ZHHNGmVp55DdgZf11HL2FMJouZU7OemOGoxaoS_DCvNJ_IX3C0fY4p-elitdLs8o1jW2dnBCVtjPqON_cWCeQtzVBvUbcIqvApoDnGPHJUPcyk6fZZjDBboR1sAbnbiYSHtTJgzxpdDWWN-SlnEgH2gp9Xie7UQAusX34UmvI_1LpXZ8qRhZX5fMcX2vmdS-PsbcPoOPV6V1dbT98dwSAhHS9R6Ywm1oz3dlr-U=w1728-h1122-no" width="200">
+<img src="img/Photos/lru-cache.jpg" width="400">
 ```java
 public class LRUCache {
     private class Dlink {
