@@ -10,7 +10,7 @@
 * dummynode: head, tail
 * 同时管理 map 和 双向链表
 
-<img src="img/Photos/lru-cache.jpg" width="400">
+<img src="img/Photos/lru-cache.png" width="400">
 ```java
 public class LRUCache {
     private class Dlink {

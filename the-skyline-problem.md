@@ -1,5 +1,7 @@
 [Link](https://leetcode.com/problems/the-skyline-problem/)
 
+<img src="img/Photos/the-skyline-problem.png" width="400">
+
 * 注意sort，将close edge设为负数
 
 ```java
