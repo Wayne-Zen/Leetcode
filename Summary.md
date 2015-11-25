@@ -27,4 +27,7 @@
 ## DFS
 * 走过之后还能用前面的，需要viisted数组。
 
+## binary tree
+* root 检查是第一步
+
 
