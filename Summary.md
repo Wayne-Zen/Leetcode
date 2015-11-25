@@ -3,6 +3,7 @@
 * 默认排序是ascending
 * Integer.valueof() 只接受 String， int
 * Integer.MIN_VALUE 是 -2147483648，绝对值超出int的范围，所以Math.abs(-2147483648) 还是 -2147483648
+* Java 是值传递，对象传的是地址，所以方法外定义， 方法内赋值很危险。
 
 ## java 容器
 
