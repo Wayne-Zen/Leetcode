@@ -87,8 +87,8 @@ public class Solution {
         int m = (l+r)/2;
         TreeNode left = helper(list,l,m-1);
         TreeNode root = new TreeNode(list.get(0).val);
-        root.left = left;
         list.set(0,list.get(0).next);
+        root.left = left;
         root.right = helper(list,m+1,r);
         return root;
     }
