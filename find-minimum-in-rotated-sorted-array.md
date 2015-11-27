@@ -11,7 +11,7 @@ public class Solution {
         while (lo + 1 < hi) {
             int mid = lo + (hi - lo) / 2;
             if (nums[lo] < nums[hi]) {
-                hi = mid;
+                return nums[lo];
             } else {
                 if (nums[lo] < nums[mid]) {
                     lo = mid;
