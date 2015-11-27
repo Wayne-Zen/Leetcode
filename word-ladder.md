@@ -11,13 +11,13 @@ public class Solution {
         if (beginWord.length() != endWord.length()) {
             return 0;
         }
-        int len = 0;
+        
         HashSet<String> visited = new HashSet<String>();
         LinkedList<String> queue = new LinkedList<String>();
         queue.offer(beginWord);
         visited.add(beginWord);
+        int len = 1;
         while (!queue.isEmpty()) {
-            len++;
             int size = queue.size();
             for (int i = 0; i < size; i++) {
                 String s = queue.poll();
@@ -33,6 +33,7 @@ public class Solution {
                     queue.offer(n);
                 }
             }
+            len++;
         }
         return 0;
     }
