@@ -4,32 +4,19 @@
 public class Solution {
     public List<String> summaryRanges(int[] nums) {
         List<String> res = new ArrayList<String>();
-        if (nums == null || nums.length == 0) {
-            return res;
-        }
-        if (nums.length == 1) {
-            res.add(nums[0] + "");
-            return res;
-        } // [1]
-        int start = nums[0];
-        for (int i = 1; i < nums.length; i++) {
-            if (nums[i] > nums[i - 1] + 1 ) { // overflow
-                // close
-                if (nums[i - 1] == start) {
-                    res.add(String.valueOf(start));
-                    start = nums[i];
-                } else {
-                    res.add(start + "->" + nums[i - 1]);
-                    start = nums[i];
-                }
+        int N = nums.length;
+        int start = 0;
+        while (start < N) {
+            int len = 1;
+            while (start + len < N && nums[start] + len == nums[start + len]) {
+                len++;
             }
-            if (i == nums.length - 1) {
-                if (nums[i] > nums[i - 1] + 1) {
-                    res.add(String.valueOf(nums[i]));
-                } else {
-                    res.add(start + "->" + nums[i]);
-                }
+            if (len == 1) {
+                res.add(String.valueOf(nums[start]));
+            } else {
+                res.add(nums[start] + "->" + nums[start + len - 1]);
             }
+            start += len;
         }
         return res;
     }
