@@ -1,4 +1,4 @@
-[Link](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/)
+[Link](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/)
 
 ```java
 /**
