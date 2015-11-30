@@ -3,41 +3,43 @@
 ```java
 public class Solution {
     public int calculate(String s) {
-        int sign = 1; //'+' = 1, '-' = -1
-        int mulDiv = -1; //'none' = -1, '*' = 0, '/' = 1
-        int res = 0;
-        int preV = -1;
+        s = " " + s + " ";
+        int curVal = 0;
+        int preVal = 0;
+        int sum = 0;
+        int op = 0; // + - * /
         for (int i = 0; i < s.length(); i++) {
-            if (Character.isDigit(s.charAt(i))) {
-                int num = s.charAt(i) - '0';
-                while (++i < s.length() && Character.isDigit(s.charAt(i))) {
-                    num = num * 10 + s.charAt(i) - '0';
+            char c = s.charAt(i);
+            if (Character.isDigit(c)) {
+                while (Character.isDigit(c)) {
+                    curVal = curVal * 10 + c - '0';
+                    c = s.charAt(++i);
                 }
-                i--;
-                if (mulDiv == 0) {
-                    preV *= num;
-                    mulDiv = -1; //reset
-                } else if (mulDiv == 1) {
-                    preV /= num; 
-                    mulDiv = -1; //reset
-                } else {
-                    preV = num;
+                if (op == 0) {
+                    preVal = curVal;
+                } else if (op == 1) {
+                    preVal = -curVal;
+                } else if (op == 2) {
+                    sum -= preVal;
+                    preVal = preVal * curVal;
+                } else if (op == 3) {
+                    sum -= preVal;
+                    preVal = preVal / curVal;
                 }
+                sum += preVal;
+                curVal = 0;
             }
-            else if (s.charAt(i) == '+') {
-                res += sign * preV; //previous sign 
-                sign = 1; //current sign
-            } else if (s.charAt(i) == '-') {
-                res += sign * preV;
-                sign = -1;
-            } else if (s.charAt(i) == '*') {
-                mulDiv = 0;
-            } else if (s.charAt(i) == '/') {
-                mulDiv = 1;
+            if (c == '+') {
+                op = 0;
+            } else if (c == '-') {
+                op = 1;
+            } else if (c == '*') {
+                op = 2;
+            } else if (c == '/') {
+                op = 3;
             }
         }
-        res += sign * preV;
-        return res;
+        return sum;
     }
 }
 ```
