@@ -9,6 +9,7 @@ public class Solution {
         int N = nums.length;
         int[][] dp = new int[N][N];
         // 对角线一层层往右上角走
+        // 想象k是最后一个爆的，而不是第一个
         for (int level = 0; level < N; level++) {
             int i = 0;
             int j = level;
