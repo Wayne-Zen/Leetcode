@@ -5,30 +5,20 @@ public class Solution {
     public int calculate(String s) {
         Stack<Integer> num = new Stack<Integer>();
         Stack<Character> op = new Stack<Character>();
-        int val = -1;
-        for (int i = -1; i <= s.length(); i++) {
-            // c
-            char c = ' ';
-            if (i == -1) {
-                c = '(';
-            } else if (i == s.length()) {
-                c = ')';
-            } else {
-                c = s.charAt(i);
+        int val = 0;
+        boolean numFlag = false;
+        s = "(" + s + ")";
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            while (Character.isDigit(c)) {
+                val = val * 10 + c - '0';
+                c = s.charAt(++i);
+                numFlag = true;
             }
-            
-            // handle number
-            if (Character.isDigit(c)) {
-                if (val == -1) {
-                    val = c - '0';
-                } else {
-                    val = 10 * val + c - '0';
-                } 
-            } else {
-                if (val != -1) { 
-                    num.push(val);
-                    val = -1;
-                }
+            if (numFlag) {
+                num.push(val);
+                val = 0;
+                numFlag = false;
             }
             
             // handle operator
