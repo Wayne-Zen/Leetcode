@@ -20,7 +20,9 @@ public class Solution {
                 val = 0;
                 numFlag = false;
             }
-            
+            if (c == ' ') {
+                continue;
+            }
             // handle operator
             if (c == '(' || c == '+' || c == '-') {
                 op.push(c);
