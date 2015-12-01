@@ -7,7 +7,7 @@ public class Solution {
         int curVal = 0;
         int preVal = 0;
         int sum = 0;
-        int op = 0; // + - * /
+        char op = '+';
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (Character.isDigit(c)) {
@@ -15,28 +15,22 @@ public class Solution {
                     curVal = curVal * 10 + c - '0';
                     c = s.charAt(++i);
                 }
-                if (op == 0) {
+                if (op == '+') {
                     preVal = curVal;
-                } else if (op == 1) {
+                } else if (op == '-') {
                     preVal = -curVal;
-                } else if (op == 2) {
+                } else if (op == '*') {
                     sum -= preVal;
                     preVal = preVal * curVal;
-                } else if (op == 3) {
+                } else if (op == '/') {
                     sum -= preVal;
                     preVal = preVal / curVal;
                 }
                 sum += preVal;
                 curVal = 0;
             }
-            if (c == '+') {
-                op = 0;
-            } else if (c == '-') {
-                op = 1;
-            } else if (c == '*') {
-                op = 2;
-            } else if (c == '/') {
-                op = 3;
+            if (c != ' ') {
+                op = c;
             }
         }
         return sum;
