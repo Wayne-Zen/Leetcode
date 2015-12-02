@@ -1,6 +1,7 @@
 [Link](https://leetcode.com/problems/spiral-matrix-ii/)
 
 * 注意当n为奇数时， 填补最后的空
+* 每次走n－1步
 
 ```java
 public class Solution {
