@@ -1,0 +1,15 @@
+[Link](https://leetcode.com/problems/flip-game/)
+
+```java
+public class Solution {
+    public List<String> generatePossibleNextMoves(String s) {
+        List<String> res = new ArrayList<String>();
+        for (int i = 0; i < s.length() - 1; i++) {
+            if (s.charAt(i) == s.charAt(i + 1) && s.charAt(i) == '+') {
+                res.add(s.substring(0, i) + "--" + s.substring(i + 2));
+            }
+        }
+        return res;
+    }
+}
+```
