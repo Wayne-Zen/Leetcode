@@ -12,19 +12,23 @@ public class NumArray {
     
     class SegmentTree {
         TreeNode root = new TreeNode();
-        public void build(int lo, int hi) {
-            root = buildHelp(lo, hi);
+        public void build(int[] nums) {
+            root = buildHelp(nums, 0, nums.length - 1);
         }
-        public TreeNode buildHelp(int lo, int hi) {
+        public TreeNode buildHelp(int[] nums, int lo, int hi) {
             TreeNode node = new TreeNode();
             node.lo = lo;
             node.hi = hi;
-            if (lo != hi) {
+            if (lo == hi) {
+                node.sum = nums[lo];
+                return node;
+            } else {
                 int mid = lo + (hi - lo) / 2;
-                node.left = buildHelp(lo, mid);
-                node.right = buildHelp(mid + 1, hi);
+                node.left = buildHelp(nums, lo, mid);
+                node.right = buildHelp(nums, mid + 1, hi);
+                node.sum = node.left.sum + node.right.sum;
+                return node;
             }
-            return node;
         }
         public void modify(int index, int val) {
             modifyHelp(root, index, val);   
@@ -64,10 +68,7 @@ public class NumArray {
         if (nums == null || nums.length == 0) {
             return;
         }
-        tree.build(0, nums.length - 1);
-        for (int i = 0; i < nums.length; i++) {
-            tree.modify(i, nums[i]);
-        }
+        tree.build(nums);
     }
 
     void update(int i, int val) {
