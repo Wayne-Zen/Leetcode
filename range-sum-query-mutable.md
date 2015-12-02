@@ -34,17 +34,15 @@ public class NumArray {
             modifyHelp(root, index, val);   
         }
         public void modifyHelp(TreeNode root, int index, int val) {
+            if (index < root.lo || index > root.hi) {
+                return;
+            }
             if (index == root.lo && index == root.hi) {
                 root.sum = val;
                 return;
             }
-            int mid = root.lo + (root.hi - root.lo) / 2;
-            if (root.lo <= index && index <= mid) {
-                modifyHelp(root.left, index, val);
-            }
-            if (mid + 1 <= index && index <= root.hi) {
-                modifyHelp(root.right, index, val);
-            }
+            modifyHelp(root.left, index, val);
+            modifyHelp(root.right, index, val);
             root.sum = root.left.sum + root.right.sum;
         }
         public int query(int lo, int hi) {
