@@ -38,3 +38,30 @@ public class Solution {
     }
 }
 ```
+
+```java
+public class Solution {
+    public int countDigitOne(int n) {
+        if (n < 1) {
+            return 0;
+        }
+        long base = 1;
+        long res = 0;
+        while (n / base > 0) {
+            long cur = (n / base) % 10;
+            long lo = n % base;
+            long hi = (n / base) / 10;
+            if (cur == 1) {
+                res += hi * base;
+                res += lo + 1;
+            } else if (cur < 1) {
+                res += hi * base;
+            } else if (cur > 1) {
+                res += (hi + 1) * base;
+            }
+            base *= 10;
+        }
+        return (int)res;
+    }
+}
+```
