@@ -1,5 +1,9 @@
 [Link](https://leetcode.com/problems/ugly-number-ii/)
 
+* 不能用if－else
+* 第n个，下标是n－1
+
+
 ```java
 public class Solution {
     public int nthUglyNumber(int n) {
