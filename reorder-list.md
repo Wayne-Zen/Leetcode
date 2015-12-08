@@ -42,6 +42,7 @@ public class Solution {
         // 合并
         ListNode move = dummy;
         while (head != null && p1 != null) {
+            // 千万要一个一个处理
             move.next = head;
             head = head.next;
             move = move.next;
@@ -50,7 +51,7 @@ public class Solution {
             p1 = p1.next;
             move = move.next;
         }
-        move.next = head; //slow是n/2，但是从n/2＋1开始翻转，head链比较长
+        move.next = head; //head链比较长
         head = dummy.next;
     }
 }
