@@ -8,40 +8,35 @@ public class Solution {
         }
         HashMap<Character, Integer> map = new HashMap<Character, Integer>();
         int max = 0;
-        int head = 0;
-        int tail = 0;
-        map.put(s.charAt(0), 1);
+        int lo = -1; // exclusive
+        int hi = -1;
         boolean expand = true;
-        while (head < s.length()) {
+        while (true) {
             if (expand) {
-                if (head + 1 == s.length()) break;
-                char c = s.charAt(head + 1);
-                if (map.size() == 2) {
-                    if (map.containsKey(c)) {
-                        map.put(c, map.get(c) + 1);
-                        head++;
-                    } else {
-                        expand = false;
-                    }
+                hi++;
+                if (hi == s.length()) {
+                    break;
+                }
+                char c = s.charAt(hi);
+                if (!map.containsKey(c)) {
+                    map.put(c, 1);
                 } else {
-                    if (!map.containsKey(c)) {
-                        map.put(c, 1);
-                    } else {
-                        map.put(c, map.get(c) + 1);
-                    }
-                    head++;
+                    map.put(c, map.get(c) + 1);
+                }
+                if (map.size() <= 2) {
+                    max = Math.max(max, hi - lo);
+                } else {
+                    expand = false;
                 }
             } else {
-                char c = s.charAt(tail);
-                if (map.get(c) == 1) {
+                lo++;
+                char c = s.charAt(lo);
+                map.put(c, map.get(c) - 1);
+                if (map.get(c) == 0) {
                     map.remove(c);
                     expand = true;
-                } else {
-                    map.put(c, map.get(c) - 1);
                 }
-                tail++;
             }
-            max = Math.max(max, head - tail + 1);
         }
         
         return max;
