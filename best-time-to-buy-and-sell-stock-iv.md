@@ -45,7 +45,7 @@ public class Solution {
                 local[i][j] = Math.max(global[i - 1][j - 1], local[i - 1][j] + diff);
                 // global 的话， 意味着第i天不一定进行交易
                 // 1. 第i天交易，直接退化为local
-                // 2. 第i天不交易，前i－1天还有j－1笔交易可以使用
+                // 2. 第i天不交易，前i－1天还有j笔交易可以使用
                 global[i][j] = Math.max(global[i - 1][j], local[i][j]);
             }
         }
