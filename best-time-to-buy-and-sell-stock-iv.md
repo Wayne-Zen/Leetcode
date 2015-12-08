@@ -42,7 +42,7 @@ public class Solution {
                 // 1. 第i天交易（local[i]），第i－1天也交易（local[i-1]），可以合并最后一笔交易
                 //    即前i－1天允许进行j笔交易，而不是j-1笔
                 // 2. 第i天交易（local[i]），第i－1天不一定交易（global[i-1]），只有j-1笔交易可以使用
-                local[i][j] = Math.max(global[i - 1][j - 1], local[i - 1][j] + diff);
+                local[i][j] = Math.max(global[i - 1][j - 1], local[i - 1][j]) + diff;
                 // global 的话， 意味着第i天不一定进行交易
                 // 1. 第i天交易，直接退化为local
                 // 2. 第i天不交易，前i－1天还有j笔交易可以使用
