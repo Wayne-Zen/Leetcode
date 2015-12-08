@@ -4,49 +4,46 @@
 public class Solution {
     public List<String> removeInvalidParentheses(String s) {
         List<String> res = new ArrayList<String>();
-        Queue<String> q = new LinkedList<String>();
-        HashSet<String> visited = new HashSet<String>();
-        q.offer(s);
-        visited.add(s);
-        int minMis = s.length();
-        boolean find = false;
-        while (!q.isEmpty()) {
-            String now = q.poll();
-            minMis = Math.min(minMis, check(now));
-            if (minMis == 0) {
-                find = true;
-                res.add(now);
-            }
-            // if find a match, check the rest of queue, any more match
-            // no more adding
-            if (!find) {
-                for (int i = 0; i < now.length(); i++) {
-                    if (now.charAt(i) != '(' && now.charAt(i) != ')') {
+        Queue<String> q = new LinkedList<String>(); // queue 里全是非法的
+        int maxMis = getMisMatch(s);
+        if (maxMis == 0) {
+            res.add(s);
+        } else {
+            q.offer(s);
+        }
+        for (int level = maxMis; level > 0; level--) {
+            HashSet<String> visited = new HashSet<String>();
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                String now = q.poll();
+                for (int k = 0; k < now.length(); k++) {
+                    if (now.charAt(k) != '(' && now.charAt(k) != ')') {
                         continue;
                     }
-                    String newStr = now.substring(0, i) + now.substring(i + 1);
-                    //若得到的新字符串的失配括号比原字符串少，则继续搜索；否则剪枝。
-                    if (!visited.contains(newStr) && check(newStr) < minMis) {
-                        visited.add(newStr);
-                        q.offer(newStr);
+                    String del = now.substring(0, k) + now.substring(k + 1, now.length());
+                    if (!visited.contains(del) && getMisMatch(del) == level - 1) {
+                        q.offer(del);
+                        visited.add(del);
+                        if (level == 1) {
+                            res.add(del);
+                        }
                     }
                 }
             }
         }
         return res;
     }
-    private int check(String s) {
+    private int getMisMatch(String s) {
         int a = 0;
         int b = 0;
-        for (int i = 0; i < s.length(); i++) { // notice ")("
-            if (s.charAt(i) == ')') {
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                a++;
+            } else if (c == ')') {
                 a--;
             }
-            if (s.charAt(i) == '(') {
-                a++;
-            }
             b += a < 0 ? 1 : 0;
-            a = Math.max(a, 0);
+            a = Math.max(0, a);
         }
         return a + b;
     }
