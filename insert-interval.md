@@ -14,22 +14,16 @@
  */
 public class Solution {
     public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
-        
         List<Interval> res = new ArrayList<Interval>();
-        for (int i = 0; i < intervals.size(); i++) {
-            Interval in = intervals.get(i);
-            if (in.end < newInterval.start) {
-                res.add(in);
-                continue;
-            } 
-            if (newInterval.end < in.start) {
+        for (Interval interval : intervals) {
+            if (interval.end < newInterval.start) {
+                res.add(interval);
+            } else if (interval.start > newInterval.end) {
                 res.add(newInterval);
-                newInterval = in;
-                continue;
-            }
-            if (in.end >= newInterval.start || in.start <= newInterval.end) {
-                int newStart = Math.min(in.start, newInterval.start);
-                int newEnd = Math.max(in.end, newInterval.end);
+                newInterval = interval;
+            } else {
+                int newStart = Math.min(interval.start, newInterval.start);
+                int newEnd = Math.max(interval.end, newInterval.end);
                 newInterval = new Interval(newStart, newEnd);
             }
         }
