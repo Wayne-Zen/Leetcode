@@ -5,31 +5,37 @@
 ```java
 public class Solution {
     public int compareVersion(String version1, String version2) {
-        String[] arr1 = version1.split("\\.");
-        String[] arr2 = version2.split("\\.");
-     
-        int i=0;
-        while(i<arr1.length || i<arr2.length){
-            if(i<arr1.length && i<arr2.length){
-                if(Integer.parseInt(arr1[i]) < Integer.parseInt(arr2[i])){
-                    return -1;
-                }else if(Integer.parseInt(arr1[i]) > Integer.parseInt(arr2[i])){
+        String[] v1 = version1.split("\\.");
+        String[] v2 = version2.split("\\.");
+        int i = 0;
+        for (; i < Math.min(v1.length, v2.length); i++) {
+            int int1 = Integer.valueOf(v1[i]);
+            int int2 = Integer.valueOf(v2[i]);
+            if (int1 != int2) {
+                if (int1 > int2) {
                     return 1;
-                }
-            } else if(i<arr1.length){
-                if(Integer.parseInt(arr1[i]) != 0){
-                    return 1;
-                }
-            } else if(i<arr2.length){
-               if(Integer.parseInt(arr2[i]) != 0){
+                } else {
                     return -1;
                 }
             }
-     
-            i++;
         }
-     
-        return 0;
+        if (v1.length == v2.length) {
+            return 0;
+        } else if (v1.length > v2.length) {
+            for (; i < v1.length; i++) {
+                if (Integer.valueOf(v1[i]) != 0) {
+                    return 1;
+                }
+            }
+            return 0;
+        } else {
+            for (; i < v2.length; i++) {
+                if (Integer.valueOf(v2[i]) != 0) {
+                    return -1;
+                }
+            }
+            return 0;
+        }
     }
 }
 ```
