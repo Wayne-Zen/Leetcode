@@ -1,6 +1,7 @@
 [Link](https://leetcode.com/problems/largest-rectangle-in-histogram/)
 
 * 一定要记住入站
+* 找两边小的用递增栈
 
 ```java
 public class Solution {
