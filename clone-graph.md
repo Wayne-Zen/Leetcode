@@ -14,28 +14,26 @@ public class Solution {
         if (node == null) {
             return null;
         }
-        HashMap<UndirectedGraphNode, UndirectedGraphNode> map = 
-                new HashMap<UndirectedGraphNode, UndirectedGraphNode>();
+        HashMap<UndirectedGraphNode, UndirectedGraphNode> map = new HashMap<UndirectedGraphNode, UndirectedGraphNode>();
         Queue<UndirectedGraphNode> q = new LinkedList<UndirectedGraphNode>();
         q.offer(node);
-        map.put(node, new UndirectedGraphNode(node.label));
         while (!q.isEmpty()) {
-            UndirectedGraphNode n = q.poll();
-            for (UndirectedGraphNode neighbor : n.neighbors) {
+            UndirectedGraphNode now = q.poll();
+            UndirectedGraphNode cp = new UndirectedGraphNode(now.label);
+            map.put(now, cp);
+            for (UndirectedGraphNode neighbor : now.neighbors) {
                 if (map.containsKey(neighbor)) {
                     continue;
                 }
                 q.offer(neighbor);
-                map.put(neighbor, new UndirectedGraphNode(neighbor.label));
             }
         }
         
-        for (UndirectedGraphNode n : map.keySet()) {
-            for (UndirectedGraphNode neighbor : n.neighbors) {
-                map.get(n).neighbors.add(map.get(neighbor));
+        for (UndirectedGraphNode s : map.keySet()) {
+            for (UndirectedGraphNode neighbor : s.neighbors) {
+                map.get(s).neighbors.add(map.get(neighbor));
             }
         }
-        
         return map.get(node);
     }
 }
