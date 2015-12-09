@@ -13,28 +13,21 @@
  */
 public class Solution {
     public ListNode swapPairs(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }   
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
-        ListNode n1, n2, n3, n4;
-        n1 = dummy;
-        while (true) {
-            if (n1 == null) {
-                break;
-            }
-            n2 = n1.next;
-            if (n2 == null) {
-                break;
-            }
-            n3 = n1.next.next;
-            if (n3 == null) {
-                break;
-            }
-            n4 = n1.next.next.next;
-            n1.next = n3;
-            n3.next = n2;
-            n2.next = n4;
-            // 坑： 已经交换过了
-            n1 = n2;
+        ListNode move = dummy;
+        while (move != null && move.next != null && move.next.next != null) {
+            ListNode p1 = move;
+            ListNode p2 = move.next;
+            ListNode p3 = move.next.next;
+            ListNode p4 = move.next.next.next;
+            p1.next = p3;
+            p3.next = p2;
+            p2.next = p4;
+            move = p2; // 已经交换过了
         }
         return dummy.next;
     }
