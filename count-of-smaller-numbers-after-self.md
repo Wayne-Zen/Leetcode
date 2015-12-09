@@ -42,7 +42,7 @@ class TreeNode {
     TreeNode left; 
     TreeNode right;
     int val;
-    int count = 0;
+    int count = 0; // 左子树结点数目， 左 <=
     public TreeNode(int val) {
         this.val = val;
     }
