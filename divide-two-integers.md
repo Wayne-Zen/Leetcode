@@ -8,20 +8,16 @@ public class Solution {
         }
         long dv = Math.abs((long)dividend);
         long ds = Math.abs((long)divisor);
-        long remain = dv;
         long res = 0;
-        while (remain >= ds) {
-            int sh = -1;
-            long v = remain;
-            while (v >= ds) {
-                v >>= 1;
-                sh++;
+        while (dv >= ds) {
+            int shift = -1;
+            while (dv >= (ds << (shift + 1))) {
+                shift++;
             }
-            remain -= ds << sh;
-            res += 1 << sh;
+            dv -= ds << shift;
+            res += 1 << shift;
         }
-        
-        if ((divisor > 0) != (dividend > 0)) {
+        if ((dividend > 0) != (divisor > 0)) {
             res = -res;
         }
         return (int)res;
