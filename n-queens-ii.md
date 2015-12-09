@@ -2,34 +2,36 @@
 
 ```java
 public class Solution {
-    private int cnt = 0;
     public int totalNQueens(int n) {
+        int[] cnt = new int[1];
         List<Integer> now = new ArrayList<Integer>();
-        help(now, n);
-        return cnt;
+        boolean[] visited = new boolean[n];
+        help(now, n, visited, cnt);
+        return cnt[0];
     }
-    private void help(List<Integer> now, int n) {
+    private void help(List<Integer> now, int n, boolean[] visited, int[] cnt) {
         if (now.size() == n) {
-            cnt++;
+            cnt[0]++;
             return;
         }
         for (int i = 0; i < n; i++) {
-            if (!valid(now, i)) {
+            if (visited[i] || !diag(now, i)) {
                 continue;
             }
             now.add(i);
-            help(now, n);
+            visited[i] = true;
+            help(now, n, visited, cnt);
             now.remove(now.size() - 1);
+            visited[i] = false;
         }
     }
-    private boolean valid(List<Integer> now, int index) {
+    private boolean diag(List<Integer> now, int index) {
         for (int i = 0; i < now.size(); i++) {
             int row1 = i;
             int col1 = now.get(i);
             int row2 = now.size();
             int col2 = index;
-            if (now.get(i) == index 
-                || Math.abs(row1 - row2) == Math.abs(col1 - col2)) {
+            if (row1 + col1 == row2 + col2 || row1 - col1 == row2 - col2) {
                 return false;
             }
         }
