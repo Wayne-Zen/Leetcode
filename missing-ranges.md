@@ -11,10 +11,10 @@ public class Solution {
                 upper = upper - 1;
                 break;
             }
-            if (nums[i] == lower) {
+            if (nums[i] < lower) {
+                continue;
+            } else if (nums[i] == lower) {
                 lower++;
-            } else if (nums[i] < lower) {
-                lower = nums[i];
             } else { //lower < nums[i]
                 if (nums[i] - lower == 1) {
                     res.add("" + lower);
