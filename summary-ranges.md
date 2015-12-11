@@ -4,19 +4,26 @@
 public class Solution {
     public List<String> summaryRanges(int[] nums) {
         List<String> res = new ArrayList<String>();
-        int N = nums.length;
-        int start = 0;
-        while (start < N) {
-            int len = 1;
-            while (start + len < N && nums[start] + len == nums[start + len]) {
-                len++;
-            }
-            if (len == 1) {
-                res.add(String.valueOf(nums[start]));
+        if (nums == null || nums.length == 0) {
+            return res;
+        }
+        int lo = 0;
+        for (int i = 1; i < nums.length; i++) {
+            if (i - lo == nums[i] - nums[lo]) {
+                continue;
             } else {
-                res.add(nums[start] + "->" + nums[start + len - 1]);
+                if (nums[i - 1] == nums[lo]) {
+                    res.add(nums[lo] + "");
+                } else {
+                    res.add(nums[lo] + "->" + nums[i - 1]);
+                }
+                lo = i;
             }
-            start += len;
+        }
+        if (lo == nums.length - 1) {
+            res.add(nums[lo] + "");
+        } else {
+            res.add(nums[lo] + "->" + nums[nums.length - 1]);
         }
         return res;
     }
