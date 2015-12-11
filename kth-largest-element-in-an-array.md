@@ -3,35 +3,28 @@
 ```java
 public class Solution {
     public int findKthLargest(int[] nums, int k) {
-        if (nums == null || nums.length == 0) {
-            throw new IllegalArgumentException();
-        }
-        int lo = 0;
+        int lo = 0; 
         int hi = nums.length - 1;
         while (true) {
-            int p = partition(nums, lo, hi);
-            //System.out.println(Arrays.toString(nums) + " " + p);
-            if (p == k - 1) {
-                return nums[p];
-            } else if (p < k - 1) {
-                lo = p + 1;
+            int index = partition(nums, lo, hi);
+            if (index == k - 1) {
+                return nums[index];
+            } else if (index > k - 1) {
+                hi = index - 1;
             } else {
-                hi = p - 1;
+                lo = index + 1;
             }
         }
     }
     private int partition(int[] nums, int lo, int hi) {
-        int pivot = nums[lo];
-        for (int i = lo; i <= hi; i++) {
-            if (nums[i] > pivot) {
+        int val = nums[hi];
+        for (int i = lo; i < hi; i++) {
+            if (nums[i] > val) {
                 swap(nums, lo, i);
                 lo++;
-            } else if (nums[i] < pivot) {
-                swap(nums, hi, i);
-                hi--;
-                i--;
             }
         }
+        swap(nums, lo, hi);
         return lo;
     }
     private void swap(int[] nums, int x, int y) {
@@ -39,6 +32,5 @@ public class Solution {
         nums[x] = nums[y];
         nums[y] = temp;
     }
-    
 }
 ```
