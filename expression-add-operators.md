@@ -48,47 +48,39 @@ public class Solution {
 
 ```java
 public class Solution {
-    
     public List<String> addOperators(String num, int target) {
         List<String> res = new ArrayList<String>();
-        if (num == null ||  num.length() == 0) {
+        if (num == null || num.length() == 0) {
             return res;
         }
-        help(res, "", num, target, 0);
+        for (int i = 0; i < num.length(); i++) {
+            String token = num.substring(0, i + 1);
+            long val = Long.valueOf(token);
+            String rest = num.substring(i + 1);
+            if (token.length() != 1 && token.charAt(0) == '0') {
+                continue;
+            }
+            help(res, token, rest, target, val, val);
+        }
         return res;
     }
     
-    private void help(List<String> res, 
-                      String now, String num,
-                      long target, long preVal) {
-        if (target == 0 && num.length() == 0) {
+    private void help(List<String> res, String now, String num,
+                      int target, long sum, long preVal) {
+        if (num.length() == 0 && target == sum) {
             res.add(now);
             return;
         }
         for (int i = 0; i < num.length(); i++) {
-            String sub = num.substring(0, i + 1);
+            String token = num.substring(0, i + 1);
+            long val = Long.valueOf(token);
             String rest = num.substring(i + 1);
-            if (sub.length() > 1 && sub.charAt(0) == '0') {
-                return;
+            if (token.length() != 1 && token.charAt(0) == '0') {
+                continue;
             }
-            long curVal = Long.valueOf(sub);
-            if (now.length() == 0) {
-                help(res, sub, rest, target - curVal, curVal);
-            } else {
-                for (char op : new char[]{'+', '-', '*'}) {
-                    long newTarget = target;
-                    long newPreVal = preVal;
-                    if (op == '+') {
-                        newPreVal = curVal;
-                    } else if (op == '-') {
-                        newPreVal = -curVal;
-                    } else if (op == '*') {
-                        newTarget =  target + preVal;
-                        newPreVal = preVal * curVal;
-                    } 
-                    help(res, now + op + sub, rest, newTarget - newPreVal, newPreVal);  
-                }
-            }
+            help(res, now + '+' + token, rest, target, sum + val, val);
+            help(res, now + '-' + token, rest, target, sum - val, -val);
+            help(res, now + '*' + token, rest, target, (sum - preVal) + preVal * val, preVal * val);
         }
     }
 }
