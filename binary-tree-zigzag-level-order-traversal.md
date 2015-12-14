@@ -18,34 +18,27 @@ public class Solution {
         if (root == null) {
             return res;
         }
-        boolean l2r = true;
-        Stack<TreeNode> stack = new Stack<TreeNode>();
-        stack.push(root);
-        while (!stack.isEmpty()) {
-            Stack<TreeNode> newStack = new Stack<TreeNode>();
-            List<Integer> sub = new ArrayList<Integer>();
-            while (!stack.isEmpty()) {
-                TreeNode node = stack.pop();
-                sub.add(node.val);
-                if (l2r) {
-                    if (node.left != null) {
-                        newStack.push(node.left);
-                    }
-                    if (node.right != null) {
-                        newStack.push(node.right);
-                    }
-                } else {
-                    if (node.right != null) {
-                        newStack.push(node.right);
-                    }
-                    if (node.left != null) {
-                        newStack.push(node.left);
-                    }
+        Queue<TreeNode> q = new LinkedList<TreeNode>();
+        q.offer(root);
+        boolean goRight = true;
+        while (!q.isEmpty()) {
+            int size = q.size();
+            List<Integer> level = new ArrayList<Integer>();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = q.poll();
+                level.add(node.val);
+                if (node.left != null) {
+                    q.offer(node.left);
+                }
+                if (node.right != null) {
+                    q.offer(node.right);
                 }
             }
-            l2r = !l2r;
-            stack = newStack;
-            res.add(sub);
+            if (!goRight) {
+                Collections.reverse(level);
+            }
+            res.add(level);
+            goRight = !goRight;
         }
         return res;
     }
