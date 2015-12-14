@@ -1,46 +1,46 @@
 [Link](https://leetcode.com/problems/word-search/)
 
-* 关注当前标， 一切非法不匹配，返回false
-
 ```java
 public class Solution {
     public boolean exist(char[][] board, String word) {
+        if (word.length() == 0) {
+            return true;
+        }
         int m = board.length;
         int n = board[0].length;
         boolean[][] visited = new boolean[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if (find(word, board, 0, i, j, visited)) {
+                if (board[i][j] != word.charAt(0)) {
+                    continue;
+                }
+                visited[i][j] = true;
+                if (help(board, i, j, word, 0, visited)) {
                     return true;
                 }
+                visited[i][j] = false;
             }
         }
         return false;
     }
-    
-    private boolean find(String word, char[][] board, 
-                         int pos, int row, int col,
-                         boolean[][] visited) {
-        if (pos == word.length()) {
+    private boolean help(char[][] board, int row, int col, String word, int pos, boolean[][] visited) {
+        if (pos == word.length() - 1) {
             return true;
         }
-        if (row < 0 || row >= board.length
-                || col < 0 || col >= board[0].length
-                || visited[row][col]
-                || word.charAt(pos) != board[row][col]) {
-            return false;
-        }
-        int[] rAdd = new int[]{0, 0, -1, 1};
-        int[] cAdd = new int[]{-1, 1, 0, 0};
-        visited[row][col] = true;
+        int[] rAdd = {1, -1, 0, 0};
+        int[] cAdd = {0, 0, 1, -1};
         for (int i = 0; i < 4; i++) {
-            int rNext = row + rAdd[i];
-            int cNext = col + cAdd[i];
-            if (find(word, board, pos + 1, rNext, cNext, visited)) {
+            int r = row + rAdd[i];
+            int c = col + cAdd[i];
+            if (r < 0 || r >= board.length || c < 0 || c >= board[0].length || board[r][c] != word.charAt(pos + 1) || visited[r][c]) {
+                continue;
+            }
+            visited[r][c] = true;
+            if (help(board, r, c, word, pos + 1, visited)) {
                 return true;
             }
+            visited[r][c] = false;
         }
-        visited[row][col] = false;
         return false;
     }
 }
