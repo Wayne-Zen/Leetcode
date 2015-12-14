@@ -2,26 +2,25 @@
 
 ```java
 public class Solution {
-    /**
-     * @param x: An integer
-     * @return: The sqrt of x
-     */
     public int mySqrt(int x) {
         // find the last number which square of it <= x
-        long start = 1, end = x;
-        while (start + 1 < end) {
-            long mid = start + (end - start) / 2;
-            if (mid * mid <= x) {
-                start = mid;
+        long lo = 0;
+        long hi = x;
+        while (lo + 1 < hi) {
+            long mid = lo + (hi - lo) / 2;
+            if (mid * mid == x) {
+                return (int)mid;
+            } else if (mid * mid < x) {
+                lo = mid;
             } else {
-                end = mid;
+                hi = mid;
             }
         }
-        
-        if (end * end <= x) {
-            return (int) end;
+        if (hi * hi <= x) {
+            return (int)hi;
+        } else {
+            return (int)lo;
         }
-        return (int) start;
     }
 }
 ```
