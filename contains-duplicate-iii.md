@@ -3,17 +3,20 @@
 ```java
 public class Solution {
     public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
-        if(k < 1 || t < 0)
+         if(k < 1 || t < 0)
             return false;
         TreeSet<Integer> set = new TreeSet<Integer>();
-        for(int i = 0; i < nums.length; i++){
+        for (int i = 0; i < nums.length; i++) {
+            if (i >= k + 1) {
+                set.remove(nums[i - k - 1]);
+            }
             int n = nums[i];
-            if(set.floor(n) != null && n <= t + set.floor(n) || 
-                    set.ceiling(n) != null && set.ceiling(n) <= t + n)
+            if ((set.floor(n) != null && set.floor(n) + t >= n) ||
+                    (set.ceiling(n) != null && n + t >= set.ceiling(n))) {
                 return true;
-            set.add(n);
-            if (i >= k)
-                set.remove(nums[i - k]);
+            } else {
+                set.add(nums[i]);
+            }
         }
         return false;
     }
