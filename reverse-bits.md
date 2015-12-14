@@ -4,23 +4,23 @@
 public class Solution {
     // you need treat n as an unsigned value
     public int reverseBits(int n) {
-    	for (int i = 0; i < 16; i++) {
-    		n = swapBits(n, i, 32 - i - 1);
-    	}
-     
-    	return n;
+        int lo = 0;
+        int hi= 31;
+        while (lo < hi) {
+            n = swap(n, lo, hi);
+            lo++;
+            hi--;
+        }
+        return n;
     }
-     
-    public int swapBits(int n, int i, int j) {
-    	int a = (n >> i) & 1;
-    	int b = (n >> j) & 1;
-        // 如果 i j 相同，什么都不做
-        // 如果 i j 不同，各自flip
-    	if ((a ^ b) != 0) {
-    		return n ^= (1 << i) | (1 << j);
-    	}
-     
-    	return n;
+    private int swap(int n, int lo, int hi) {
+        int a = (n >> lo) & 1;
+        int b = (n >> hi) & 1;
+        if (a != b) {
+            return n ^ (1 << lo | 1 << hi);
+        } else {
+            return n;
+        }
     }
 }
 ```
