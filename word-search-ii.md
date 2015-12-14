@@ -2,97 +2,87 @@
 
 ```java
 public class Solution {
-    class TrieNode {
-        boolean isEnd;
-        HashMap<Character, TrieNode> map = new HashMap<Character, TrieNode>();
-    }
-    class TrieTree {
-        TrieNode root = new TrieNode();
-        public void insert(String word) {
-            TrieNode node = root;
-            for (char c : word.toCharArray()) {
-                if (!node.map.containsKey(c)) {
-                    node.map.put(c, new TrieNode());
-                }
-                node = node.map.get(c);
-            }
-            node.isEnd = true;
-        }
-        public boolean search(String word) {
-            TrieNode node = root;
-            for (char c : word.toCharArray()) {
-                if (!node.map.containsKey(c)) {
-                    return false;
-                }
-                node = node.map.get(c);
-            }
-            return node.isEnd;
-        }
-        public boolean prefix(String word) {
-            TrieNode node = root;
-            for (char c : word.toCharArray()) {
-                if (!node.map.containsKey(c)) {
-                    return false;
-                }
-                node = node.map.get(c);
-            }
-            return true;
-        }
-    }
     public List<String> findWords(char[][] board, String[] words) {
         List<String> res = new ArrayList<String>();
-        StringBuilder now = new StringBuilder();
-        if (board == null || board.length == 0 || board[0].length == 0
-                || words == null || words.length == 0) {
-            return res;
-        }
-        TrieTree trie = new TrieTree();
-        for (String word : words) {
-            trie.insert(word);
-        }
         boolean[][] visited = new boolean[board.length][board[0].length];
+        TrieTree tree = new TrieTree();
+        for (String word : words) {
+            tree.insert(word);
+        }
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
-                now.append(board[i][j]);
+                if (!tree.prefix("" + board[i][j])) {
+                    continue;
+                }
                 visited[i][j] = true;
-                help(res, now, board, visited, trie, i, j);
-                now.deleteCharAt(now.length() - 1);
+                help(res, "" +  board[i][j], board, i, j, visited, tree);
                 visited[i][j] = false;
             }
-        }   
+        }
         return res;
     }
-    private void help(List<String> res, StringBuilder now,
-                      char[][] board, boolean[][] visited,
-                      TrieTree trie, int row, int col) {
-        if (!trie.prefix(now.toString())) {
-            return;
+    
+    private void help(List<String> res, String now, char[][] board,
+                      int row, int col, boolean[][] visited, TrieTree tree) {
+        if (tree.search(now) && !res.contains(now)) {
+            res.add(now);
         }
-        if (trie.search(now.toString())) {
-            if (!res.contains(now.toString())) {
-                res.add(now.toString());
-            }
-            // 不能return，否则abc ab，永远找不到abc
-            // 不同位置，可能搜到同一个结果
-        }
-        int[] rAdd = new int[]{0, 0, -1, 1};
-        int[] cAdd = new int[]{-1, 1, 0, 0};
+        int[] rAdd = {1, -1, 0, 0};
+        int[] cAdd = {0, 0, 1, -1};
         for (int i = 0; i < 4; i++) {
             int r = row + rAdd[i];
             int c = col + cAdd[i];
-            
-            if (r < 0 || r >= board.length 
-                    || c < 0 || c >= board[0].length
-                    || visited[r][c]) {
-                continue;       
+            if (r < 0 || r >= board.length || c < 0 || c >= board[0].length
+                    || visited[r][c] || !tree.prefix(now + board[r][c])) {
+                continue;
             }
-            now.append(board[r][c]);
             visited[r][c] = true;
-            help(res, now, board, visited, trie, r, c);
-            now.deleteCharAt(now.length() - 1);
+            help(res, now + board[r][c], board, r, c, visited, tree);
             visited[r][c] = false;
         }
-        
+    }
+    
+    class TreeNode {
+        boolean isEnd = false;
+        HashMap<Character, TreeNode> map = new HashMap<Character, TreeNode>();
+    }
+    
+    class TrieTree {
+        TreeNode root = new TreeNode();
+        public void insert(String s) {
+            TreeNode node = root;
+            for (char c : s.toCharArray()) {
+                if (node.map.containsKey(c)) {
+                    node = node.map.get(c);
+                } else {
+                    node.map.put(c, new TreeNode());
+                    node = node.map.get(c);
+                }
+            }
+            node.isEnd = true;
+        }
+        public boolean search(String s) {
+            TreeNode node = root;
+            for (char c : s.toCharArray()) {
+                if (node.map.containsKey(c)) {
+                    node = node.map.get(c);
+                } else {
+                    return false;
+                }
+            }
+            return node.isEnd;
+        }
+        public boolean prefix(String s) {
+            TreeNode node = root;
+            for (char c : s.toCharArray()) {
+                if (node.map.containsKey(c)) {
+                    node = node.map.get(c);
+                } else {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
 ```
