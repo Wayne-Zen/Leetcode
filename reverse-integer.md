@@ -8,6 +8,28 @@
 ```java
 public class Solution {
     public int reverse(int x) {
+        String s = String.valueOf(x);
+        int sign = 1;
+        if (x < 0) {
+            sign = -1;
+            s = s.substring(1);
+        }
+        long res = 0;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            res = res * 10 + s.charAt(i) - '0';
+        }
+        res = sign * res;
+        if (res < Integer.MIN_VALUE || res > Integer.MAX_VALUE) {
+            return 0;
+        }
+        return (int)res;
+    }
+}
+```
+
+```java
+public class Solution {
+    public int reverse(int x) {
         if(x == Integer.MIN_VALUE) {
             return 0;
         }
