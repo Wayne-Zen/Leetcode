@@ -4,40 +4,36 @@
 
 ```java
 public class Solution {
-    public ArrayList<String> wordBreak(String s, Set<String> dict) {
-        ArrayList<String> ret = new ArrayList<String>();
-        if (s==null || s.length()==0) return ret;
-        int n = s.length();
-        boolean[] dp = new boolean[n+1];
+    public List<String> wordBreak(String s, Set<String> dict) {
+        List<String> res = new ArrayList<String>();
+        int N = s.length() + 1;
+        boolean[] dp = new boolean[N];
         dp[0] = true;
-        for (int i=1; i<=n; i++) {
-            for (int j=0; j<i; j++) {
+        for (int i = 1; i < N; i++) {
+            for (int j = 0; j < i; j++) {
                 if (dp[j] && dict.contains(s.substring(j, i))) {
                     dp[i] = true;
                 }
             }
         }
-        if (dp[n] == false) return ret; //DP的作用就这一行！！！
-        StringBuilder cur = new StringBuilder();
-        dfs(s, 0, cur, ret, dict);
-        return ret;
+        if (dp[N - 1] == false) {
+            return res; //DP的作用就这一行！！！
+        }
+        dfs(s, 0, "", res, dict);
+        return res;
     }
 
-    public void dfs(String s, int start, StringBuilder cur, ArrayList<String> ret, Set<String> dict)  {
-        int n = s.length();
-        if (start >= n) {
-            ret.add(new String(cur));
+    public void dfs(String s, int pos, String now, List<String> res, Set<String> dict)  {
+        if (pos == s.length()) {
+            res.add(new String(now));
             return;
         }
-        for (int i=start+1; i<=n; i++) {
-            String sub = s.substring(start, i);
-            if (dict.contains(sub)) {
-                int oldLen = cur.length();
-                if (oldLen!=0) cur.append(" ");
-                cur.append(sub);
-                dfs(s, i, cur, ret, dict);
-                cur.delete(oldLen, cur.length());
+        for (int i = pos; i < s.length(); i++) {
+            String sub = s.substring(pos, i + 1);
+            if (!dict.contains(sub)) {
+                continue;
             }
+            dfs(s, i + 1, now + (now.length() == 0 ? "" : " ") + sub, res, dict);
         }
     }
 }
