@@ -43,3 +43,52 @@ public class Solution {
     }
 }
 ```
+```java
+import java.util.regex.*;
+
+public class Solution {
+    public List<Integer> diffWaysToCompute(String input) {
+        List<String> tokens = new ArrayList<String>();
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            if (c >= '0' && c <= '9') {
+                int val = 0;
+                while (i < input.length() && input.charAt(i) >= '0' && input.charAt(i) <= '9') {
+                    c = input.charAt(i);
+                    val = val * 10 + (c - '0');
+                    i++;
+                }
+                tokens.add(String.valueOf(val));
+                i--;
+            } else {
+                tokens.add(String.valueOf(c));
+            }
+        }
+        return help(tokens, 0, tokens.size() - 1);
+    }
+    private List<Integer> help(List<String> tokens, int lo, int hi) {
+        List<Integer> res = new ArrayList<Integer>();
+        if (lo == hi) {
+            res.add(Integer.valueOf(tokens.get(lo)));
+            return res;
+        }
+        for (int i = lo + 1; i < hi; i+=2) {
+            List<Integer> left = help(tokens, lo, i - 1);
+            List<Integer> right = help(tokens, i + 1, hi);
+            for (int l : left) {
+                for (int r : right) {
+                    String op = tokens.get(i);
+                    if (op.equals("+")) {
+                        res.add(l + r);
+                    } else if (op.equals("-")) {
+                        res.add(l - r);
+                    } else if (op.equals("*")) {
+                        res.add(l * r);
+                    }
+                }
+            }
+        }
+        return res;
+    }
+}
+```
