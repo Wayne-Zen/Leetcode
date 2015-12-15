@@ -19,22 +19,24 @@ public class Solution {
         if (dp[N - 1] == false) {
             return res; //DP的作用就这一行！！！
         }
-        dfs(s, 0, "", res, dict);
+        dfs(s, "", res, dict);
         return res;
     }
 
-    public void dfs(String s, int pos, String now, List<String> res, Set<String> dict)  {
-        if (pos == s.length()) {
+    public void dfs(String s, String now, List<String> res, Set<String> dict)  {
+        if (s.length() == 0) {
             res.add(new String(now));
             return;
         }
-        for (int i = pos; i < s.length(); i++) {
-            String sub = s.substring(pos, i + 1);
+        for (int i = 0; i < s.length(); i++) {
+            String sub = s.substring(0, i + 1);
+            String rest = s.substring(i + 1);
             if (!dict.contains(sub)) {
                 continue;
             }
-            dfs(s, i + 1, now + (now.length() == 0 ? "" : " ") + sub, res, dict);
+            dfs(rest, now + (now.length() == 0 ? "" : " ") + sub, res, dict);
         }
     }
 }
+
 ```
