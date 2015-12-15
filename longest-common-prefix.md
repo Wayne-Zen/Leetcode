@@ -34,3 +34,58 @@ public class Solution {
     }
 }
 ```
+
+```java
+public class Solution {
+    class TrieNode {
+        // Initialize your data structure here.
+        HashMap<Character, TrieNode> map = new HashMap<Character, TrieNode>();
+        boolean end = false;
+        public TrieNode() {
+        }
+    }
+    
+    public class Trie {
+        private TrieNode root;
+    
+        public Trie() {
+            root = new TrieNode();
+        }
+    
+        // Inserts a word into the trie.
+        public void insert(String word) {
+            TrieNode node = root;
+            for (char c : word.toCharArray()) {
+                if (!node.map.containsKey(c)) {
+                    node.map.put(c, new TrieNode());
+                } 
+                node = node.map.get(c);
+            }
+            node.end = true;
+        }
+    
+        public String getLongestPrefix() {
+            TrieNode node = root;
+            StringBuilder sb = new StringBuilder();
+            while (!node.end && node.map.size() == 1) {
+                for (char c : node.map.keySet()) {
+                    sb.append(c);
+                    node = node.map.get(c);
+                }
+            }
+            return sb.toString();
+        }
+    }
+    
+    public String longestCommonPrefix(String[] strs) {
+        if (strs == null || strs.length == 0) {
+            return "";
+        }
+        Trie tree = new Trie();
+        for (String str : strs) {
+            tree.insert(str);
+        }
+        return tree.getLongestPrefix();
+    }
+}
+```
