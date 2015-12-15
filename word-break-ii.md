@@ -4,75 +4,41 @@
 
 ```java
 public class Solution {
-    public List<String> wordBreak(String s, Set<String> wordDict) {
-        int N = s.length();
-        boolean[][] isWord = new boolean[N][N];
-        for (int i = 0; i < N; i++) {
-            for (int j = i; j < N; j++) {
-                isWord[i][j] = wordDict.contains(s.substring(i, j + 1));
-            }
-        }
-        
-        boolean[] dp = new boolean[s.length() + 1];
-        dp[s.length()] = true;
-        for (int i = s.length() - 1; i >= 0; i--) {
-            for (int j = i; j < s.length(); j++) {
-                if (isWord[i][j] && dp[j + 1]) {
+    public ArrayList<String> wordBreak(String s, Set<String> dict) {
+        ArrayList<String> ret = new ArrayList<String>();
+        if (s==null || s.length()==0) return ret;
+        int n = s.length();
+        boolean[] dp = new boolean[n+1];
+        dp[0] = true;
+        for (int i=1; i<=n; i++) {
+            for (int j=0; j<i; j++) {
+                if (dp[j] && dict.contains(s.substring(j, i))) {
                     dp[i] = true;
-                    break;
                 }
             }
         }
-        
-        List<String>  res = new ArrayList<String>();
-        List<Integer> now = new ArrayList<Integer>();
-        help(res, now, isWord, dp, s, 0);
-        return res;
-    }
-    
-    private void help(List<String> res,
-                      List<Integer> now,
-                      boolean[][] isWord,
-                      boolean[] dp,
-                      String s, int start) {
-        if (!dp[start]) {
-            return;
-        }
-        if (start == s.length()) {
-            StringBuilder sb = new StringBuilder();
-            int begin = 0;
-            for (int i = 0; i < now.size(); i++) {
-                if (i != 0) {
-                    sb.append(" ");
-                }
-                sb.append(s.substring(begin, now.get(i)));
-                begin = now.get(i);
-            }
-            res.add(sb.toString());
-            return;
-        }
-        for (int i = start; i < s.length(); i++) {
-            if (!isWord[start][i]) {
-                continue;
-            }
-            now.add(i + 1);
-            help(res, now, isWord, dp, s, i + 1);
-            now.remove(now.size() - 1);
-        }
-    }
-    
-    private List<String> parse(List<List<String>> res) {
-        List<String> ret = new ArrayList<String>();
-        for (List<String> sub : res) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(sub.get(0));
-            for (int i = 1; i < sub.size(); i++) {
-                sb.append(' ');
-                sb.append(sub.get(i));
-            }
-            ret.add(sb.toString());
-        }
+        if (dp[n] == false) return ret; //DP的作用就这一行！！！
+        StringBuilder cur = new StringBuilder();
+        dfs(s, 0, cur, ret, dict);
         return ret;
+    }
+
+    public void dfs(String s, int start, StringBuilder cur, ArrayList<String> ret, Set<String> dict)  {
+        int n = s.length();
+        if (start >= n) {
+            ret.add(new String(cur));
+            return;
+        }
+        for (int i=start+1; i<=n; i++) {
+            String sub = s.substring(start, i);
+            if (dict.contains(sub)) {
+                int oldLen = cur.length();
+                if (oldLen!=0) cur.append(" ");
+                cur.append(sub);
+                dfs(s, i, cur, ret, dict);
+                cur.delete(oldLen, cur.length());
+            }
+        }
     }
 }
 ```
