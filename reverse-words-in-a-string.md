@@ -11,11 +11,9 @@ public class Solution {
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (c == ' ') {
-                if (prev == ' ') {
-                    continue;
-                } else {
+                if (prev != ' ') {
                     trim.append(' ');
-                    prev = ' ';
+                    prev = c;
                 }
             } else {
                 trim.append(c);
