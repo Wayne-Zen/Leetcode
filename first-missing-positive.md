@@ -6,7 +6,7 @@
 public class Solution {
     public int firstMissingPositive(int[] nums) {
         for (int i = 0; i < nums.length; i++) {
-            while (nums[i] > 0 // stop if current value is non-positive
+            while (nums[i] - 1 >= 0 // stop if current value is non-positive
                    && nums[i] - 1 < nums.length // current must be positive, but may out of index bound
                    && nums[i] - 1 != i // swap index are the same
                    && nums[nums[i] - 1] != nums[i]) { // swap value are the same
