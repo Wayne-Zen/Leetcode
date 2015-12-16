@@ -18,11 +18,14 @@ public class Solution {
         return isSym(root.left, root.right);
     }
     private boolean isSym(TreeNode left, TreeNode right) {
-        if (left == null) {
-            return right == null;
+        if (left == null && right == null) {
+            return true;
         }
-        if (right == null) {
-            return left == null;
+        if (left == null && right != null) {
+            return false;
+        }
+        if (left != null && right == null) {
+            return false;
         }
         if (left.val != right.val) {
             return false;
