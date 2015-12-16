@@ -1,6 +1,6 @@
 [Link](https://leetcode.com/problems/sum-root-to-leaf-numbers/)
 
-* 注意存储累加结果
+* 累加结果使用全局变量或长度为1的数组
 
 ```java
 /**
@@ -13,27 +13,24 @@
  * }
  */
 public class Solution {
+    int res = 0;
     public int sumNumbers(TreeNode root) {
         if (root == null) {
             return 0;
         }
-        int[] res = new int[1];
-        res[0] = 0;
-        help(root, 0, res);
-        return res[0];
+        help(root, 0);
+        return res;
     }
-    
-    private void help(TreeNode root, int sum, int[] res) {
-        if (root == null) {
-            return;
-        }
-        sum += root.val;
+    private void help(TreeNode root, int val) {
         if (root.left == null && root.right == null) {
-            res[0] += sum;
+            res += val * 10 + root.val;
         }
-        sum *= 10;
-        help(root.left, sum, res);
-        help(root.right, sum, res);
+        if (root.left != null) {
+            help(root.left, val * 10 + root.val);
+        }
+        if (root.right != null) {
+            help(root.right, val * 10 + root.val);
+        }
     }
 }
 ```
