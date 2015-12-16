@@ -6,26 +6,19 @@ public class Solution {
     public String simplifyPath(String path) {
         Stack<String> stack = new Stack<String>();
         StringBuilder sub = new StringBuilder();
-        for (int i = 0; i < path.length() + 1; i++) {
-            char c = '/';
-            if (i != path.length()) {
-                c = path.charAt(i);
-            }
-            if (c == '/' && sub.length() != 0) {
+        for (int i = 0; i <= path.length(); i++) {
+            char c = i == path.length() ? '/' : path.charAt(i);
+            if (c == '/') {
                 String s = sub.toString();
                 sub = new StringBuilder();
                 if (s.equals(".")) {
-                    // do nothing
+                    continue;
                 } else if (s.equals("..")) {
-                    if (!stack.isEmpty()) {
-                        stack.pop();
-                    }
-                } else {
+                    if (!stack.isEmpty()) stack.pop(); // "/.." return /..
+                } else if (s.length() != 0){
                     stack.push(s);
                 }
-                continue;
-            } 
-            if (c != '/') {
+            } else {
                 sub.append(c);
             }
         }
