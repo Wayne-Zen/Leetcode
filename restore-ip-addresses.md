@@ -8,50 +8,27 @@
 ```java
 public class Solution {
     public List<String> restoreIpAddresses(String s) {
-        List<List<String>> res = new ArrayList<List<String>>();
-        List<String> now = new ArrayList<String>();
-        help(res, now, s, 0);
-        return parse(res);
+        List<String> res = new ArrayList<String>();
+        help(res, "", s, 0);
+        return res;
     }
-    private List<String> parse(List<List<String>> res) {
-        List<String> out = new ArrayList<String>();
-        for (int i = 0; i < res.size(); i++) {
-            List<String> sub = res.get(i);
-            StringBuilder sb = new StringBuilder();
-            sb.append(sub.get(0));
-            for (int j = 1; j < sub.size(); j++) {
-                sb.append('.');
-                sb.append(sub.get(j));
-            }
-            out.add(sb.toString());
-        }
-        return out;
-    }
-    private void help(List<List<String>> res,
-                      List<String> now,
-                      String s, int pos) {
-        if (now.size() == 4) {
-            if (pos == s.length()) {
-                res.add(new ArrayList<String>(now));
+    private void help(List<String> res, String now, String s, int cnt) {
+        if (cnt == 4) {
+            if (s.length() == 0) {
+                res.add(now);
             }
             return;
         }
-        for (int i = 1; i <= 3; i++) {
-            if (pos + i > s.length()) {
+        for (int i = 0; i < Math.min(3, s.length()); i++) {
+            String prefix = s.substring(0, i + 1);
+            String suffix = s.substring(i + 1);
+            if (prefix.length() != 1 && prefix.charAt(0) == '0') {
                 continue;
             }
-            String sub = s.substring(pos, pos + i);
-            if (i == 2 && s.charAt(pos) == '0') {
+            if (Integer.valueOf(prefix) > 255) {
                 continue;
             }
-            if (i == 3) {
-                if (s.charAt(pos) == '0' || Integer.valueOf(sub) > 255) {
-                    continue;
-                }
-            }
-            now.add(sub);
-            help(res, now, s, pos + i);
-            now.remove(now.size() - 1);
+            help(res, now + (now.length() == 0 ? "" : ".") + prefix, suffix, cnt + 1);
         }
     }
 }
