@@ -3,34 +3,25 @@
 ```java
 public class Solution {
     public String getHint(String secret, String guess) {
-        int A = 0;
-        int B = 0;
-        HashMap<Character, Integer> map1 = new HashMap<Character, Integer>(); // cnt 
-        HashMap<Character, Integer> map2 = new HashMap<Character, Integer>();
-        for (int i = 0; i < guess.length(); i++) {
-            if (secret.charAt(i) == guess.charAt(i)) {
-                A++;
+        // val : cnt
+        int[] cnt1 = new int[256];
+        int[] cnt2 = new int[256];
+        int bull = 0;
+        for (int i = 0; i < secret.length(); i++) {
+            char c1 = secret.charAt(i);
+            char c2 = guess.charAt(i);
+            if (c1 == c2) {
+                bull++;
             } else {
-                char c1 = secret.charAt(i);
-                if (map1.containsKey(c1)) {
-                    map1.put(c1, map1.get(c1) + 1);
-                } else {
-                    map1.put(c1, 1);
-                }
-                char c2 = guess.charAt(i);
-                if (map2.containsKey(c2)) {
-                    map2.put(c2, map2.get(c2) + 1);
-                } else {
-                    map2.put(c2, 1);
-                }
+                cnt1[c1]++;
+                cnt2[c2]++;
             }
         }
-        for (char c : map1.keySet()) {
-            if (map2.containsKey(c)) {
-                B += Math.min(map1.get(c), map2.get(c));
-            }
+        int cow = 0;
+        for (char c = 0; c < 256; c++) {
+            cow += Math.min(cnt1[c], cnt2[c]);
         }
-        return A + "A" + B + "B";
+        return bull + "A" + cow + "B";
     }
 }
 ```
