@@ -1,8 +1,8 @@
 [Link](https://leetcode.com/problems/restore-ip-addresses/)
 
-1. s[i]
-2. s[i : i+1]，s[i] !=0时
-3. s[i : i+2]，s[i] != 0，且s[i : i+2] <= 255
+* 先验证cnt，在验证s.length()
+*  i < Math.min(3, s.length())
+*  
 
 
 ```java
