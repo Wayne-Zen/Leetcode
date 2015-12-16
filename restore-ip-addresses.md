@@ -2,7 +2,6 @@
 
 * 先验证cnt，在验证s.length()
 *  i < Math.min(3, s.length())
-*  
 
 
 ```java
