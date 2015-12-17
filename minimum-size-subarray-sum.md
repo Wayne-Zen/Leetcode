@@ -6,40 +6,41 @@
 ```java
 public class Solution {
     public int minSubArrayLen(int s, int[] nums) {
-        if (nums == null || nums.length == 0) {
+        if (nums == null || nums.length == 0 || s <= 0) {
             return 0;
         }
-        int minLen = nums.length;
-        int lo = 0;
-        int hi = 0;
-        int sum = nums[0];
-        boolean find = false;
+        int len = nums.length + 1;
+        int lo = -1; // exclusive
+        int hi = -1;
+        int sum = 0;
         while (true) {
-            if (sum >= s) {
-                find = true;
-                // try to increase lo
-                if (lo < hi) {
-                    sum -= nums[lo];
-                    minLen = Math.min(minLen, hi - lo + 1);
-                    lo++;
-                } else {
-                    return 1;
-                }
-            } else { // sum < s
-                // try to increase hi
-                if (hi + 1 < nums.length) {
-                    hi++;
-                    sum += nums[hi];
-                } else {
+            if (sum < s) {
+                hi++;
+                if (hi == nums.length) {
                     break;
+                }
+                sum += nums[hi];
+                if (sum >= s) {
+                    len = Math.min(len, hi - lo);
+                    if (len == 1) {
+                        return 1;
+                    }
+                }
+            } else {
+                lo++;
+                sum -= nums[lo];
+                if (sum >= s) {
+                    len = Math.min(len, hi - lo);
+                    if (len == 1) {
+                        return 1;
+                    }
                 }
             }
         }
-        if  (find) {
-            return minLen;
-        } else {
+        if (len == nums.length + 1) {
             return 0;
         }
+        return len;
     }
 }
 ```
