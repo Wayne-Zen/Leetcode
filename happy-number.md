@@ -3,22 +3,24 @@
 ```java
 public class Solution {
     public boolean isHappy(int n) {
-        int newN = 0;
         HashSet<Integer> set = new HashSet<Integer>();
-
-        while(!set.contains(n)){
-            set.add(n);
-            newN = 0;
-            while(n != 0){
+        
+        while (true) {
+            int newN = 0;
+            while (n > 0) {
                 newN += (n % 10) * (n % 10);
-                n /= 10;
+                n = n / 10;
             }
             n = newN;
-
-            if(n == 1) return true;
+            if (n == 1) {
+                return true;
+            }
+            if (set.contains(n)) {
+                return false;
+            } else {
+                set.add(n);
+            }
         }
-
-        return false;
     }
 }
 ```
