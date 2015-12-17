@@ -3,48 +3,66 @@
 ```java
 public class Solution {
     public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        List<Integer> res = new ArrayList<Integer>();
+        if (n == 0) {
+            return res;
+        }
+        if (n == 1) {
+            res.add(0);
+            return res;
+        }
         HashMap<Integer, List<Integer>> graph = new HashMap<Integer, List<Integer>>();
+        HashMap<Integer, Integer> degree = new HashMap<Integer, Integer>();
         for (int i = 0; i < edges.length; i++) {
-            int s = edges[i][0];
-            int t = edges[i][1];
-            if (graph.containsKey(s)) {
-                graph.get(s).add(t);
+            int n0 = edges[i][0];
+            int n1 = edges[i][1];
+            if (graph.containsKey(n0)) {
+                graph.get(n0).add(n1);
             } else {
-                List<Integer> neighbor = new ArrayList<Integer>();
-                neighbor.add(t);
-                graph.put(s, neighbor);
+                List<Integer> neighbors = new ArrayList<Integer>();
+                neighbors.add(n1);
+                graph.put(n0, neighbors);
             }
-            if (graph.containsKey(t)) {
-                graph.get(t).add(s);
+            if (graph.containsKey(n1)) {
+                graph.get(n1).add(n0);
             } else {
-                List<Integer> neighbor = new ArrayList<Integer>();
-                neighbor.add(s);
-                graph.put(t, neighbor);
+                List<Integer> neighbors = new ArrayList<Integer>();
+                neighbors.add(n0);
+                graph.put(n1, neighbors);
+            }
+            if (degree.containsKey(n0)) {
+                degree.put(n0, degree.get(n0) + 1);
+            } else {
+                degree.put(n0, 1);
+            }
+            if (degree.containsKey(n1)) {
+                degree.put(n1, degree.get(n1) + 1);
+            } else {
+                degree.put(n1, 1);
             }
         }
-        ArrayList<Integer> leaves = new ArrayList<Integer>();
+        Queue<Integer> q = new LinkedList<Integer>();
         for (int i = 0; i < n; i++) {
-            if (graph.containsKey(i) && graph.get(i).size() == 1) {
-                leaves.add(i);
+            if (degree.get(i) == 1) {
+                q.offer(i);
             }
         }
-        while (n > 2) {
-            n -= leaves.size();
-            ArrayList<Integer> newLeaves = new ArrayList<Integer>();
-            for (int i = 0; i < leaves.size(); i++) {
-                int leaf = leaves.get(i);
-                int s = graph.get(leaf).get(0);
-                graph.get(s).remove(Integer.valueOf(leaf));
-                if (graph.get(s).size() == 1) {
-                    newLeaves.add(s);
+        while (graph.size() > 2) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                int s = q.poll();
+                int t = graph.get(s).get(0);
+                degree.put(s, degree.get(s) - 1);
+                degree.put(t, degree.get(t) - 1);
+                graph.remove(Integer.valueOf(s));
+                graph.get(t).remove(Integer.valueOf(s));
+                if (degree.get(t) == 1) {
+                    q.offer(t);
                 }
             }
-            leaves = newLeaves;
         }
-        if (leaves.size() == 0) {
-            leaves.add(0);
-        }
-        return leaves;
+        res.addAll(q);
+        return res;
     }
 }
 ```
