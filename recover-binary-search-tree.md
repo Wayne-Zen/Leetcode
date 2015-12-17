@@ -47,3 +47,59 @@ public class Solution {
     }
 }
 ```
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public void recoverTree(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        
+        while (root != null) {
+            stack.push(root);
+            root = root.left;
+        }
+        TreeNode prev = new TreeNode(Integer.MIN_VALUE);
+        List<TreeNode[]> swaps = new ArrayList<TreeNode[]>();
+        while (!stack.isEmpty()) {
+            root = stack.pop();
+            if (prev.val > root.val) {
+                TreeNode[] swap = new TreeNode[2];
+                swap[0] = prev;
+                swap[1] = root;
+                swaps.add(swap);
+            }
+            prev = root;
+            root = root.right;
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+        }
+        
+        if (swaps.size() == 1) {
+            TreeNode[] swap = swaps.get(0);
+            swapNodeVal(swap[0], swap[1]);
+        } else {
+            TreeNode[] swap0 = swaps.get(0);
+            TreeNode[] swap1 = swaps.get(1);
+            swapNodeVal(swap0[0], swap1[1]);
+        }
+    }
+    private void swapNodeVal(TreeNode n1, TreeNode n2) {
+        int temp = n1.val;
+        n1.val = n2.val;
+        n2.val = temp;
+    }
+}
+```
