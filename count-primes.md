@@ -3,23 +3,25 @@
 ```java
 public class Solution {
     public int countPrimes(int n) {
-        boolean notPrime[] = new boolean[n + 2];
-        notPrime[0] = notPrime[1] = true;
-        for (int i = 2; i * i < n; i++) {
-            if (!notPrime[i]) {
-                int c = i * i;
-                while (c < n) {
-                    notPrime[c] = true;
-                    c += i;
+        if (n <= 2) {
+            return 0;
+        }
+        boolean[] isPrime = new boolean[n];
+        Arrays.fill(isPrime, true);
+        isPrime[0] = false;
+        isPrime[1] = false;
+        int res = 0;
+        for (int i = 2; i < isPrime.length; i++) {
+            if (isPrime[i]) {
+                res++;
+                int x = i + i;
+                while (x < isPrime.length) {
+                    isPrime[x] = false;
+                    x += i;
                 }
             }
         }
-        int ans = 0;
-        for (int i = 0; i < n; i++) {
-            if (!notPrime[i])
-                ans ++;
-        }
-        return ans;
+        return res;
     }
 }
 ```
