@@ -14,28 +14,30 @@
  */
 public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        ListNode cpA = headA;
+        
         boolean flipA = false;
-        ListNode cpB = headB;
         boolean flipB = false;
+        ListNode saveA = headA;
+        ListNode saveB = headB;
         while (headA != null && headB != null && headA != headB) {
-            if (!flipA && headA.next == null) {
-                headA = cpB;
-                flipA = true;
+            if (headA.next == null && !flipA) {
+                headA = saveB;
+                flipA = !flipA;
             } else {
                 headA = headA.next;
             }
-            if (!flipB && headB.next == null) {
-                headB = cpA;
-                flipB = true;
+            if (headB.next == null && !flipB) {
+                headB = saveA;
+                flipB = !flipB;
             } else {
                 headB = headB.next;
             }
         }
         if (headA == null || headB == null) {
             return null;
+        } else {
+            return headA;
         }
-        return headA;
     }
 }
 ```
