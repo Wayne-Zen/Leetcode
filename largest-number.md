@@ -2,36 +2,23 @@
 
 ```java
 public class Solution {
-    public String largestNumber(int[] num) {
-        // 1045
-        // 1111 begin.
-        if (num == null) {
-            return null;
-        }
-        
+    public String largestNumber(int[] nums) {
         ArrayList<Integer> list = new ArrayList<Integer>();
-        for (int n1: num) {
-            list.add(n1);
+        for (int num: nums) {
+            list.add(num);
         }
-        
-        Collections.sort(list, new Comparator<Integer>(){
-            public int compare(Integer o1, Integer o2) {
-                String s1 = "" + o1 + o2;
-                String s2 = "" + o2 + o1;
-                
-                return s2.compareTo(s1);
+        Collections.sort(list, new Comparator<Integer>() {
+            public int compare(Integer i1, Integer i2) {
+                return ("" + i2 + i1).compareTo("" + i1 + i2);
             }
         });
-        
         StringBuilder sb = new StringBuilder();
-        for (int n: list) {
-            sb.append(n);
+        for (int i = 0; i < list.size(); i++) {
+            sb.append(list.get(i));
         }
-        // [0, 0]
         if (sb.charAt(0) == '0') {
             return "0";
         }
-        
         return sb.toString();
     }
 }
