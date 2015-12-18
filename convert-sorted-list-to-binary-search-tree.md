@@ -48,7 +48,7 @@ public class Solution {
 
 
 ```java
-/**
+//**
  * Definition for singly-linked list.
  * public class ListNode {
  *     int val;
@@ -67,29 +67,28 @@ public class Solution {
  */
 public class Solution {
     public TreeNode sortedListToBST(ListNode head) {
-        if(head == null)
+        if (head == null) {
             return null;
-        ListNode cur = head;
-        int count = 0;
-        while(cur!=null)
-        {
-            cur = cur.next;
-            count++;
         }
-        ArrayList<ListNode> list = new ArrayList<ListNode>();
-        list.add(head);
-        return helper(list,0,count-1);
+        int size = 0;
+        ListNode move = head;
+        while (move != null) {
+            size++;
+            move = move.next;
+        }
+        return help(new ListNode[]{head}, size);
     }
-    private TreeNode helper(ArrayList<ListNode> list, int l, int r)
-    {
-        if(l>r)
+    private TreeNode help(ListNode[] head, int size) {
+        if (size <= 0) {
             return null;
-        int m = (l+r)/2;
-        TreeNode left = helper(list,l,m-1);
-        TreeNode root = new TreeNode(list.get(0).val);
-        list.set(0,list.get(0).next);
+        }
+        TreeNode left = help(head, size / 2);
+        TreeNode root = new TreeNode(head[0].val);
+        head[0] = head[0].next;
+        TreeNode right = help(head, size - size / 2 - 1);
+        
         root.left = left;
-        root.right = helper(list,m+1,r);
+        root.right = right;
         return root;
     }
 }
