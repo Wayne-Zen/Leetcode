@@ -25,17 +25,12 @@ public class Solution {
             }
         }
     }
-    private class HeapComparator implements Comparator<Integer> {
-        public int compare(Integer i1, Integer i2) {
-            return i2 - i1;
-        }
-    }
     public List<int[]> getSkyline(int[][] buildings) {
         List<int[]> res = new ArrayList<int[]>();
         if (buildings == null || buildings.length == 0) {
             return res;
         }
-        
+
         ArrayList<Edge> edges = new ArrayList<Edge>();
         for (int i = 0; i < buildings.length; i++) {
             int[] building = buildings[i];
@@ -44,23 +39,28 @@ public class Solution {
         }
         Collections.sort(edges, new EdgeComparator());
         PriorityQueue<Integer> heap = 
-                new PriorityQueue<Integer>(buildings.length, new HeapComparator());
+                new PriorityQueue<Integer>(buildings.length, new Comparator<Integer>(){
+                    public int compare(Integer i1, Integer i2) {
+                        return i2 - i1;
+                    }
+                });
+        heap.offer(0);
         int H = 0;
         int curH = 0;
         for (int i = 0; i < edges.size(); i++) {
             Edge e = edges.get(i);
             if (e.start > 0) {
                 heap.offer(e.h);
-                curH = heap.peek();
             } else {
                 heap.remove(Integer.valueOf(e.h));
-                curH = heap.isEmpty() ? 0 : heap.peek();
+                
             }
+            curH = heap.peek();
             if (curH != H) {
                 H = curH;
                 res.add(new int[]{e.x, H});
             }
-            
+
         }
         return res;
     }
