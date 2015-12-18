@@ -2,19 +2,18 @@
 
 ```java
 public class WordDictionary {
-    private class TrieNode {
+    class TreeNode {
         boolean isEnd = false;
-        HashMap<Character, TrieNode> map = new HashMap<Character, TrieNode>();
+        HashMap<Character, TreeNode> map = new HashMap<Character, TreeNode>();
     }
     
-    TrieNode root = new TrieNode();
-
+    TreeNode root = new TreeNode();
     // Adds a word into the data structure.
     public void addWord(String word) {
-        TrieNode node = root;
+        TreeNode node = root;
         for (char c : word.toCharArray()) {
             if (!node.map.containsKey(c)) {
-                node.map.put(c, new TrieNode());
+                node.map.put(c, new TreeNode());
             }
             node = node.map.get(c);
         }
@@ -24,23 +23,22 @@ public class WordDictionary {
     // Returns if the word is in the data structure. A word could
     // contain the dot character '.' to represent any one letter.
     public boolean search(String word) {
-        return mySearch(word, 0, root);
+        return searchHelp(word, 0, root);
     }
-    
-    public boolean mySearch(String word, int index, TrieNode node) {
-        if (index == word.length()) {
+    private boolean searchHelp(String s, int pos, TreeNode node) {
+        if (pos == s.length()) {
             return node.isEnd;
         }
-        char c = word.charAt(index);
-        if (node.map.containsKey(c)) {
-            return mySearch(word, index + 1, node.map.get(c));
-        } else if (c == '.') {
-            for (TrieNode n : node.map.values()) {
-                if (mySearch(word, index + 1, n)) {
+        char c = s.charAt(pos);
+        if (c == '.') {
+            for (char x : node.map.keySet()) {
+                if (searchHelp(s, pos + 1, node.map.get(x))) {
                     return true;
                 }
             }
             return false;
+        } else if (node.map.containsKey(c)) {
+            return searchHelp(s, pos + 1, node.map.get(c));
         } else {
             return false;
         }
