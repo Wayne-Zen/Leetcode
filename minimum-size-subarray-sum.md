@@ -20,20 +20,14 @@ public class Solution {
                     break;
                 }
                 sum += nums[hi];
-                if (sum >= s) {
-                    len = Math.min(len, hi - lo);
-                    if (len == 1) {
-                        return 1;
-                    }
-                }
             } else {
                 lo++;
                 sum -= nums[lo];
-                if (sum >= s) {
-                    len = Math.min(len, hi - lo);
-                    if (len == 1) {
-                        return 1;
-                    }
+            }
+            if (sum >= s) {
+                len = Math.min(len, hi - lo);
+                if (len == 1) {
+                    return 1;
                 }
             }
         }
