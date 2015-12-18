@@ -4,33 +4,28 @@
 ```java
 public class Solution {
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
-        Arrays.sort(candidates);
         List<List<Integer>> res = new ArrayList<List<Integer>>();
         List<Integer> now = new ArrayList<Integer>();
+        Arrays.sort(candidates);
         help(res, now, candidates, target, 0);
         return res;
     }
-    
-    private void help(List<List<Integer>> res,
-                      List<Integer> now,
-                      int[] candidates,
-                      int target, int pos) {
+    private void help(List<List<Integer>> res, List<Integer> now,
+                      int[] candidates, int target, int pos) {
         if (target == 0) {
             res.add(new ArrayList<Integer>(now));
             return;
         }
         for (int i = pos; i < candidates.length; i++) {
-            if (i > pos && candidates[i] == candidates[i - 1]) {
-                continue;
-            }
             if (candidates[i] > target) {
                 break;
             }
+            if (i > pos && candidates[i - 1] == candidates[i]) {
+                continue;
+            }
             now.add(candidates[i]);
-            target -= candidates[i];
-            help(res, now, candidates, target, i + 1); //  i + 1 to select once
+            help(res, now, candidates, target - candidates[i], i + 1);
             now.remove(now.size() - 1);
-            target += candidates[i];
         }
     }
 }
