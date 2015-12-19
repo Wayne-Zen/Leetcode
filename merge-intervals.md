@@ -14,34 +14,29 @@
  * }
  */
 public class Solution {
-    private class MyComparator implements Comparator<Interval> {
-        @Override
-        public int compare(Interval in1, Interval in2) {
-            return in1.start - in2.start;
-        }
-    }
-    
     public List<Interval> merge(List<Interval> intervals) {
         if (intervals == null || intervals.size() == 0 || intervals.size() == 1) {
             return intervals;
         }
         // sort
-        Collections.sort(intervals, new MyComparator());
-        List<Interval> res = new ArrayList<Interval>();
-        Interval newIn = intervals.get(0);
-        for (int i = 1; i < intervals.size(); i++) {
-            Interval in = intervals.get(i);
-            if (newIn.end < in.start) {
-                res.add(new Interval(newIn.start, newIn.end));
-                newIn = in;
-                continue;
+        Collections.sort(intervals, new Comparator<Interval>(){
+            public int compare(Interval in1, Interval in2) {
+                return in1.start - in2.start;
             }
-            if (newIn.end >= in.start) {
-                int newEnd = Math.max(newIn.end, in.end);
-                newIn = new Interval(newIn.start, newEnd);
+        });
+        List<Interval> res = new ArrayList<Interval>();
+        Interval newInterval = intervals.get(0);
+        for (int i = 1; i < intervals.size(); i++) {
+            Interval interval= intervals.get(i);
+            if (newInterval.end < interval.start) {
+                res.add(newInterval);
+                newInterval = interval;
+            } else if (newInterval.end >= interval.start) {
+                int newEnd = Math.max(newInterval.end, interval.end);
+                newInterval = new Interval(newInterval.start, newEnd);
             }
         }
-        res.add(newIn);
+        res.add(newInterval);
         return res;
     }
 }
