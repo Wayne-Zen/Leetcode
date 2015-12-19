@@ -25,13 +25,12 @@ public class Solution {
             for (int i = 0; i < 4; i++) {
                 int r = row + rAdd[i];
                 int c = col + cAdd[i];
-                if (r < 0 || r >= m || c < 0 || c >= n || rooms[r][c] == -1) {
+                if (r < 0 || r >= m || c < 0 || c >= n 
+                        || rooms[r][c] == -1 || rooms[r][c] != Integer.MAX_VALUE) {
                     continue;
                 }
-                if (rooms[r][c] == Integer.MAX_VALUE) {
-                    rooms[r][c] = rooms[row][col] + 1;
-                    q.add(r * n + c);
-                }
+                rooms[r][c] = rooms[row][col] + 1;
+                q.add(r * n + c);
             }
         }
     }
