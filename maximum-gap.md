@@ -12,37 +12,27 @@ public class Solution {
             min = Math.min(min, nums[i]);
             max = Math.max(max, nums[i]);
         }
-        
-        int width = (max - min) / nums.length + 1; // KEY
-        int[][] buckets = new int[(max - min) / width + 1][2];
-        for (int[] pair : buckets) {
-            pair[0] = -1;
-            pair[1] = -1;
+        int width = Math.max(1, (max - min) / (nums.length - 1)); 
+        ArrayList<ArrayList<Integer>> buckets = new ArrayList<ArrayList<Integer>>();
+        for (int i = 0; i < (max - min) / width + 1; i++) {
+            buckets.add(new ArrayList<Integer>());
         }
         for (int x : nums) {
-            int i = (x - min) / width;
-            if (buckets[i][0] == -1) {
-                buckets[i][0] = x;
-                buckets[i][1] = x;
-            } else {
-                buckets[i][0] = Math.min(buckets[i][0], x);
-                buckets[i][1] = Math.max(buckets[i][1], x);
-            }
+            int index = (x - min) / width;
+            buckets.get(index).add(x);
         }
-        int maxGap = -1;
-        int last = 0;
-        for (int i = 0; i < buckets.length; i++) {
-            if (buckets[i][0] != -1) {
-                if (maxGap == -1) {
-                    last = buckets[i][1];
-                    maxGap = 0;
-                } else {
-                    maxGap = Math.max(maxGap, buckets[i][0] - last);
-                    last = buckets[i][1];
+        int gap = 0;
+        ArrayList<Integer> last = new ArrayList<Integer>();
+        for (int i = 0; i < (max - min) / width + 1; i++) {
+            ArrayList<Integer> now = buckets.get(i);
+            if (now.size() != 0) {
+                if (last.size() != 0) {
+                    gap = Math.max(gap, Collections.min(now) - Collections.max(last));
                 }
+                last = now;
             }
         }
-        return maxGap;
+        return gap;
     }
 }
 ```
