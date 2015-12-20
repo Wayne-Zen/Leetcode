@@ -3,13 +3,13 @@
 ```java
 public class Solution {
     public boolean wordPatternMatch(String pattern, String str) {
-        HashMap<Character, String> map1 = new HashMap<Character, String>();
-        HashMap<String, Character> map2 = new HashMap<String, Character>();
-        return help(map1, map2, pattern, str);
+        HashMap<Character, String> map = new HashMap<Character, String>();
+        HashSet<String> set = new HashSet<String>();
+        return help(map, set, pattern, str);
     }
     
-    private boolean help(HashMap<Character, String> map1,
-                         HashMap<String, Character> map2,
+    private boolean help(HashMap<Character, String> map,
+                         HashSet<String> set,
                          String pattern, String str) {
         if (pattern.length() == 0 && str.length() == 0) {
             return true;
@@ -19,40 +19,23 @@ public class Solution {
         }
         char p = pattern.charAt(0);
         for (int i = 0; i < str.length(); i++) {
-            String sub1 = str.substring(0, i + 1);
-            String sub2 = str.substring(i + 1);
-            boolean remove1 = false;
-            boolean remove2 = false;
-            if (map1.containsKey(p)) {
-                remove1 = false;
-                if (!map1.get(p).equals(sub1)) {
+            String prefix = str.substring(0, i + 1);
+            String suffix = str.substring(i + 1);
+            if ((map.containsKey(p) && !map.get(p).equals(prefix)) 
+                    || (!map.containsKey(p) && set.contains(prefix))) {
                     continue;
-                }
-            } else {
-                remove1 = true;
-                map1.put(p, sub1);
             }
-            if (map2.containsKey(sub1)) {
-                remove2 = false;
-                if (!map2.get(sub1).equals(p)) {
-                    // 坑！！， 第一个字典通过，第二个字典没通过，要记得撤销第一个字典的最近操作
-                    if (remove1) {
-                        map1.remove(p);
-                    }
-                    continue;
-                }
-            } else {
-                remove2 = true;
-                map2.put(sub1, p);
+            boolean insert = !map.containsKey(p);
+            if (insert) {
+                map.put(p, prefix);
+                set.add(prefix);
             }
-            if (help(map1, map2, pattern.substring(1), sub2)) {
+            if (help(map, set, pattern.substring(1), suffix)) {
                 return true;
             }
-            if (remove1) {
-                map1.remove(p);
-            }
-            if (remove2) {
-                map2.remove(sub1);
+            if (insert) {
+                map.remove(p);
+                set.remove(prefix);
             }
         }
         return false;
