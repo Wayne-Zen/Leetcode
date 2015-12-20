@@ -2,32 +2,30 @@
 
 ```java
 public class Vector2D {
-    Iterator<List<Integer>> lItr;
-    Iterator<Integer> iItr;
+
+    Iterator<List<Integer>> lIter;
+    Iterator<Integer> iIter;
 
     public Vector2D(List<List<Integer>> vec2d) {
-        lItr = vec2d.iterator();
-        iItr = lItr.hasNext() ? lItr.next().iterator() : null;
+        lIter = vec2d.iterator();
     }
 
     public int next() {
         hasNext();
-        return iItr.next();
+        return iIter.next();
     }
 
     public boolean hasNext() {
-        if(iItr==null)
-            return false;
-        else if(iItr.hasNext())
-            return true;
-        else {
-            while(lItr.hasNext()) {
-                iItr = lItr.next().iterator();
-                if(iItr.hasNext())
-                    return true;
-            }
-            return false;
+        while ((iIter == null || !iIter.hasNext()) && lIter.hasNext()) {
+            iIter = lIter.next().iterator();
         }
+        return !(iIter == null || !iIter.hasNext());
     }
 }
+
+/**
+ * Your Vector2D object will be instantiated and called as such:
+ * Vector2D i = new Vector2D(vec2d);
+ * while (i.hasNext()) v[f()] = i.next();
+ */
 ```
