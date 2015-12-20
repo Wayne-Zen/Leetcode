@@ -6,7 +6,7 @@ public class Solution {
         Arrays.sort(nums);
         int res = 0;
         int min = Integer.MAX_VALUE;
-        for (int i = 0; i < nums.length; i++) {
+        for (int i = 0; i < nums.length - 2; i++) {
             int head = i + 1;
             int tail = nums.length - 1;
             while (head < tail) {
