@@ -11,10 +11,10 @@
  * }
  */
 public class Solution {
-    class Wrapper {
+    class TreeNodeCol {
         TreeNode node;
         int col;
-        public Wrapper(TreeNode node, int col) {
+        public TreeNodeCol(TreeNode node, int col) {
             this.node = node;
             this.col = col;
         }
@@ -24,45 +24,27 @@ public class Solution {
         if (root == null) {
             return res;
         }
-        Queue<Wrapper> q = new LinkedList<Wrapper>();
-        Wrapper rootWrapper = new Wrapper(root, 0);
-        q.offer(rootWrapper);
-        HashMap<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
-        List<Integer> valSet = new ArrayList<Integer>();
-        valSet.add(rootWrapper.node.val);
-        map.put(0, valSet);
+        TreeMap<Integer, List<Integer>> map = new TreeMap<Integer, List<Integer>>();// col -> valset
+        Queue<TreeNodeCol> q = new LinkedList<TreeNodeCol>();
+        q.offer(new TreeNodeCol(root, 0));
         while (!q.isEmpty()) {
-            Wrapper wrapper = q.poll();
-            int col = wrapper.col;
-            TreeNode node = wrapper.node;
-            if (node.left != null) {
-                Wrapper lWrapper = new Wrapper(node.left, col - 1);
-                q.offer(lWrapper);
-                if (!map.containsKey(col - 1)) {
-                    List<Integer> lvalSet = new ArrayList<Integer>();
-                    lvalSet.add(lWrapper.node.val);
-                    map.put(col - 1, lvalSet);
-                } else {
-                    map.get(col - 1).add(lWrapper.node.val);
-                }
+            TreeNodeCol wrap = q.poll();
+            if (map.containsKey(wrap.col)) {
+                map.get(wrap.col).add(wrap.node.val);
+            } else {
+                List<Integer> vals = new ArrayList<Integer>();
+                vals.add(wrap.node.val);
+                map.put(wrap.col, vals);
             }
-            if (node.right != null) {
-                Wrapper rWrapper = new Wrapper(node.right, col + 1);
-                q.offer(rWrapper);
-                if (!map.containsKey(col + 1)) {
-                    List<Integer> rvalSet = new ArrayList<Integer>();
-                    rvalSet.add(rWrapper.node.val);
-                    map.put(col + 1, rvalSet);
-                } else {
-                    map.get(col + 1).add(rWrapper.node.val);
-                }
+            if (wrap.node.left != null) {
+                q.offer(new TreeNodeCol(wrap.node.left, wrap.col - 1));
+            }
+            if (wrap.node.right != null) {
+                q.offer(new TreeNodeCol(wrap.node.right, wrap.col + 1));
             }
         }
-        Set<Integer> cols = map.keySet();
-        List<Integer> colList = new ArrayList<Integer>(cols);
-        Collections.sort(colList);
-        for (int col : colList) {
-            res.add(map.get(col));
+        for (List<Integer> l : map.values()) {
+            res.add(l);
         }
         return res;
     }
