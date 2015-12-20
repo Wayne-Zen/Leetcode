@@ -12,16 +12,17 @@
  */
 public class Solution {
     public TreeNode upsideDownBinaryTree(TreeNode root) {
-        TreeNode prev = null, right = null, next = null;
-        while(root != null){
-            next = root.left;
-            root.left = right;
-            right = root.right;
-            root.right = prev;
-            prev = root;
+        TreeNode parent = null;
+        TreeNode parentRight = null;
+        while (root != null) {
+            TreeNode next = root.left;
+            root.left = parentRight;
+            parentRight = root.right;
+            root.right = parent;
+            parent = root;
             root = next;
         }
-        return prev;
+        return parent;
     }
 }
 ```
