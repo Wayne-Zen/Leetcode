@@ -42,11 +42,11 @@ public class Solution {
         if (c == '.') {
             return true;
         }
-        int num = c - '0';
-        if (num < 1 || num > 9 || visited[num - 1]) {
+        int num = c - '1';
+        if (num < 0 || num >= 9 || visited[num]) {
             return false;
         }
-        visited[num - 1] = true;
+        visited[num] = true;
         return true;
     }
 }
