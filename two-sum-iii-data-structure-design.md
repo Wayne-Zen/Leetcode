@@ -2,29 +2,28 @@
 
 ```java
 public class TwoSum {
-    HashMap<Integer, Integer> map;
-    public TwoSum() {
-        map = new HashMap<Integer, Integer>();
-    }
-    
-    public void add(int x) {
-        if (map.containsKey(x)) {
-            map.put(x, map.get(x)+1);
-        }
-        else {
-            map.put(x, 1);
-        }
-    }
-    
-    public boolean find(int target) {
-        for (int i : map.keySet()) {
-            if (map.containsKey(target-i)) {
-                if (target - i != i) return true;
-                else if (map.get(i) >= 2) return true;
-            }
-        }
-        return false;
-    }
+    // num -> count
+    HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+    // Add the number to an internal data structure.
+	public void add(int number) {
+	    if (map.containsKey(number)) {
+	        map.put(number,map.get(number) + 1);
+	    } else {
+	        map.put(number, 1);
+	    }
+	}
+
+    // Find if there exists any pair of numbers which sum is equal to the value.
+	public boolean find(int value) {
+	    for (int i : map.keySet()) {
+	        int num1 = i;
+	        int num2 = value - i;
+	        if ((num1 == num2 && map.get(num1) >= 2) || (num1 != num2 && map.containsKey(num2))) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
 }
 
 
