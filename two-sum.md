@@ -53,8 +53,7 @@ public class Solution {
                 result[0] = map.get(target-numbers[i]) + 1;
                 result[1] = i + 1;
                 break;
-            }
-            else {
+            } else {
                 map.put(numbers[i], i);
             }
         }
