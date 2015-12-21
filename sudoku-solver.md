@@ -2,89 +2,68 @@
 
 ```java
 public class Solution {
-    private class Cell {
-        int row;
-        int col;
-        public Cell(int row, int col) {
-            this.row = row;
-            this.col = col;
-        }
-    }
-    
     public void solveSudoku(char[][] board) {
-        ArrayList<Cell> cells = new ArrayList<Cell>();
-        ArrayList<Character> now = new ArrayList<Character>();
-        ArrayList<ArrayList<Character>> ans = new ArrayList<ArrayList<Character>>();
+        List<Integer> locs = new ArrayList<Integer>();
+        List<Character> now = new ArrayList<Character>();
+        List<Character> res = new ArrayList<Character>();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (board[i][j] == '.') {
-                    cells.add(new Cell(i, j));
+                    locs.add(i * 9 + j);
                 }
             }
         }
-        help(ans, now, cells, 0, board);
-        fill(board, ans.get(0), cells);
-    }
-    
-    private void fill(char[][] board, ArrayList<Character> ans,
-                      ArrayList<Cell> cells) {
-        for (int i = 0; i < ans.size(); i++) {
-            Cell c = cells.get(i);
-            board[c.row][c.col] = ans.get(i);
-        }        
-    }
-    
-    private boolean[] getChoices(char[][] board, Cell cell) {
-        int row = cell.row;
-        int col = cell.col;
-        boolean[] exist = new boolean[9];
-        for (int i = 0; i < 9; i++) {
-            char c = board[row][i];
-            if (c != '.') {
-                exist[c - '1'] = true;
-            }
-        }
-        for (int i = 0; i < 9; i++) {
-            char c = board[i][col];
-            if (c != '.') {
-                exist[c - '1'] = true;
-            }
-        }
-        int rBase = row - row % 3;
-        int cBase = col - col % 3;
-        for (int i = 0; i < 9; i++) {
-            char c = board[rBase + i / 3][cBase + i % 3];
-            if (c != '.') {
-                exist[c - '1'] = true;
-            }
-        }
-        return exist;
-    }
-    
-    private void help(ArrayList<ArrayList<Character>> ans,
-                      ArrayList<Character> now,
-                      ArrayList<Cell> cells,
-                      int pos, char[][] board) {
-        if (now.size() == cells.size()) {
-            ans.add(new ArrayList<Character>(now));
+        if (!help(board, locs, res, now)) {
             return;
         }
-        Cell c = cells.get(pos);
-        boolean[] choices = getChoices(board, c);
-        for (int i = 0; i < 9; i++) {
-            if (choices[i]) {
-                continue;
-            }
-            char choice = (char)('1' + i);
-            now.add(choice);
-            board[c.row][c.col] = choice;
-            help(ans, now, cells, pos + 1, board);
-            if (ans.size() != 0) {
-                break;
-            }
-            now.remove(now.size() - 1);
-            board[c.row][c.col] = '.';
+        for (int i = 0; i < res.size(); i++) {
+            int loc = locs.get(i);
+            board[loc / 9][loc % 9] = res.get(i);
         }
+    }
+    private boolean help(char[][] board, List<Integer> locs, 
+                      List<Character> res, List<Character> now) {
+        if (now.size() == locs.size()) {
+            res = now;
+            return true;
+        }
+        int loc = locs.get(now.size());
+        int row = loc / 9;
+        int col = loc % 9;
+        List<Character> cand = getCand(board, row, col);
+        for (char c : cand) {
+            board[row][col] = c;
+            now.add(c);
+            if (help(board, locs, res, now)) {
+                return true;
+            }
+            board[row][col] = '.';
+            now.remove(now.size() - 1);
+        }
+        return false;
+    }
+    private List<Character> getCand(char[][] board, int row, int col) {
+        boolean[] show = new boolean[9];
+        int rBase = (row / 3) * 3;
+        int cBase = (col / 3) * 3;
+        for (int k = 0; k < 9; k++) {
+            if (board[row][k] != '.') {
+                show[board[row][k] - '1'] = true;
+            }
+            if (board[k][col] != '.') {
+                show[board[k][col] - '1'] = true;
+            }
+            if (board[rBase + k / 3][cBase + k % 3] != '.') {
+                show[board[rBase + k / 3][cBase + k % 3] - '1'] = true;
+            }
+        }
+        List<Character> res = new ArrayList<Character>();
+        for (int i = 0; i < 9; i++) {
+            if (!show[i]) {
+                res.add((char)('1' + i));
+            }
+        }
+        return res;
     }
 }
 ```
