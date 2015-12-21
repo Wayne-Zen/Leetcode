@@ -2,31 +2,36 @@
 
 ```java
 public class ValidWordAbbr {
-    HashMap<String, String> map; // short, long
+    HashMap<String, String> map = new HashMap<String, String>();
     public ValidWordAbbr(String[] dictionary) {
-        map = new HashMap<String, String>();
-        for(String str:dictionary){
-            String key = getKey(str);
-            // If there is more than one string belong to the same key
-            // then the key will be invalid, we set the value to ""
-            if(map.containsKey(key)){
-                if(!map.get(key).equals(str)){
-                    map.put(key, "");
-                }
+        for (String str : dictionary) {
+            if (str.length() <= 2) {
+                continue;
             }
-            else{
-                map.put(key, str);
+            String s = shorten(str);
+            if (map.containsKey(s)) {
+                if (!map.get(s).equals(str)) {
+                    map.put(s, "");
+                }
+            } else {
+                map.put(s, str);
             }
         }
     }
 
     public boolean isUnique(String word) {
-        return !map.containsKey(getKey(word))||map.get(getKey(word)).equals(word);
+        if (word.length() <= 2) {
+            return true;
+        }
+        String s = shorten(word);
+        if (map.containsKey(s) && !map.get(s).equals(word)) {
+            return false;
+        }
+        return true;
     }
-
-    String getKey(String str){
-        if(str.length()<=2) return str;
-        return ""+str.charAt(0)+(str.length()-2)+str.charAt(str.length()-1);
+    
+    private String shorten(String str) {
+        return "" + str.charAt(0) + (str.length() - 2) + str.charAt(str.length() - 1);
     }
 }
 
