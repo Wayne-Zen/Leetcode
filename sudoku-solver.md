@@ -4,7 +4,6 @@
 public class Solution {
     public void solveSudoku(char[][] board) {
         List<Integer> locs = new ArrayList<Integer>();
-        List<Character> now = new ArrayList<Character>();
         List<Character> res = new ArrayList<Character>();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -13,7 +12,7 @@ public class Solution {
                 }
             }
         }
-        if (!help(board, locs, res, now)) {
+        if (!help(board, locs, res)) {
             return;
         }
         for (int i = 0; i < res.size(); i++) {
@@ -21,24 +20,22 @@ public class Solution {
             board[loc / 9][loc % 9] = res.get(i);
         }
     }
-    private boolean help(char[][] board, List<Integer> locs, 
-                      List<Character> res, List<Character> now) {
-        if (now.size() == locs.size()) {
-            res = now;
+    private boolean help(char[][] board, List<Integer> locs, List<Character> res) {
+        if (res.size() == locs.size()) {
             return true;
         }
-        int loc = locs.get(now.size());
+        int loc = locs.get(res.size());
         int row = loc / 9;
         int col = loc % 9;
         List<Character> cand = getCand(board, row, col);
         for (char c : cand) {
             board[row][col] = c;
-            now.add(c);
-            if (help(board, locs, res, now)) {
+            res.add(c);
+            if (help(board, locs, res)) {
                 return true;
             }
             board[row][col] = '.';
-            now.remove(now.size() - 1);
+            res.remove(res.size() - 1);
         }
         return false;
     }
