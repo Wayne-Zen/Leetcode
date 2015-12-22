@@ -3,19 +3,24 @@
 ```java
 public class Solution {
     public boolean isPalindrome(String s) {
-        s = s.toUpperCase();
+        if (s == null || s.length() == 0) {
+            return true;
+        }
+        s = s.toLowerCase();
         int lo = 0;
         int hi = s.length() - 1;
-        while (lo <= hi) {
-            if (!Character.isDigit(s.charAt(lo)) && !Character.isLetter(s.charAt(lo))) {
+        while (lo < hi) {
+            char c1 = s.charAt(lo);
+            char c2 = s.charAt(hi);
+            if (!Character.isLetterOrDigit(c1)) {
                 lo++;
                 continue;
             }
-            if (!Character.isDigit(s.charAt(hi)) && !Character.isLetter(s.charAt(hi))) {
+            if (!Character.isLetterOrDigit(c2)) {
                 hi--;
                 continue;
             }
-            if (s.charAt(lo) != s.charAt(hi)) {
+            if (c1 != c2) {
                 return false;
             } else {
                 lo++;
