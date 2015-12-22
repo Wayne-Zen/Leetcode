@@ -3,22 +3,20 @@
 ```java
 public class Solution {
     public int shortestDistance(String[] words, String word1, String word2) {
-        int index1 = -1;
-        int index2 = -1;
-        int min = words.length;
+        int i1 = -1;
+        int i2 = -1;
+        int min = words.length + 1;
         for (int i = 0; i < words.length; i++) {
-            if (word1.equals(words[i])) {
-                index1 = i;
-                if (index2 != -1) {
-                    int len = index1 - index2;
-                    min = Math.min(min, len);
+            if (words[i].equals(word1)) {
+                i1 = i;
+                if (i2 != -1) {
+                    min = Math.min(min, i1 - i2);
                 }
             }
-            if (word2.equals(words[i])) {
-                index2 = i;
-                if (index1 != -1) {
-                    int len = index2 - index1;
-                    min = Math.min(min, len);
+            if (words[i].equals(word2)) {
+                i2 = i;
+                if (i1 != -1) {
+                    min = Math.min(min, i2 - i1);
                 }
             }
         }
