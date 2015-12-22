@@ -5,22 +5,21 @@
 ```java
 public class Solution {
     public int findDuplicate(int[] nums) {
-        int N = nums.length - 1;
         int lo = 1;
-        int hi = N;
+        int hi = nums.length - 1;
         while (lo + 1 < hi) {
-            int pivotVal = lo + (hi - lo) / 2;
-            int less = less(nums, pivotVal);
-            if (less < pivotVal) {
-                lo = pivotVal;
-            } else if (less >= pivotVal) {
-                hi = pivotVal;
+            int val = lo + (hi - lo) / 2;
+            int less = less(nums, val);
+            if (less < val) {
+                lo = val;
+            } else {
+                hi = val;
             }
         }
-        if (less(nums, hi) >= hi) {
-            return lo;
-        } else {
+        if (less(nums, hi) < hi) {
             return hi;
+        } else {
+            return lo;
         }
     }
     private int less(int[] nums, int pivotVal) {
