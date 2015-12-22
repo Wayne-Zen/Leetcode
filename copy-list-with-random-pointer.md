@@ -41,7 +41,6 @@ public class Solution {
             head = head.next;
             cp = cp.next;
         }
-        cp.next = null; // 坑
         return cpDummy.next;
     }
 }
