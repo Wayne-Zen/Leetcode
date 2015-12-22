@@ -4,53 +4,48 @@
 public class Solution {
     public List<String> generatePalindromes(String s) {
         List<String> res = new ArrayList<String>();
-        int[] freq = new int[256];
+        if (s == null || s.length() == 0) {
+            return res;
+        }
+        int[] cnt = new int[256];
         for (char c : s.toCharArray()) {
-            freq[c]++;
+            cnt[c]++;
         }
-        String odd = "";
-        int oddCnt = 0;
+        int odd = 0;
+        String oddc = "";
         for (char c = 0; c < 256; c++) {
-            if (freq[c] % 2 == 1) {
-                if (oddCnt != 0) {
-                    return res;
-                }
-                oddCnt++;
-                odd = "" + c;
+            if (cnt[c] % 2 != 0) {
+                odd++;
+                oddc = String.valueOf(c);
             }
         }
-        if (s.length() % 2 == 0) {
-            if (oddCnt != 0) {
-                return res;
-            } 
-        } else {
-            if (oddCnt != 1) {
-                return res;
-            }
+        if (s.length() % 2 != odd) {
+            return res;
         }
+        
         int avail = 0;
         for (char c = 0; c < 256; c++) {
-            freq[c] /= 2;
-            avail += freq[c];
+            cnt[c] /= 2;
+            avail += cnt[c];
         }
-        help(res, "", avail, freq, odd);
+        help(res, "", avail, cnt, oddc);
         return res;
     }
     
-    private void help(List<String> res, String now,
-                      int avail, int[] freq, String odd) {
+    private void help(List<String> res, String now, int avail,
+                      int[] cnt, String oddc) {
         if (avail == 0) {
-            StringBuilder sb = new StringBuilder(now);
-            res.add(now + odd + sb.reverse().toString());
+            StringBuilder rev = (new StringBuilder(now)).reverse();
+            res.add(now + oddc + rev);
             return;
         }
         for (char c = 0; c < 256; c++) {
-            if (freq[c] == 0) {
+            if (cnt[c] == 0) {
                 continue;
             }
-            freq[c]--;
-            help(res, now + c, avail - 1, freq, odd);
-            freq[c]++;
+            cnt[c]--;
+            help(res, now + c, avail - 1, cnt, oddc);
+            cnt[c]++;
         }
     }
 }
