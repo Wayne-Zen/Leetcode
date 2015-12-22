@@ -37,7 +37,7 @@ public class Solution {
         int[] cnt = new int[1024 * 1024];
         int index = 0;
         for (int i = 0; i < 10; i++) {
-            index += (table[s.charAt(i)] << (2 * i));
+            index += table[s.charAt(i)] << (2 * i);
         }
         cnt[index]++;
         for (int i = 10; i < s.length(); i++) {
