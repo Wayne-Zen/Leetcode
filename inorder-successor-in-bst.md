@@ -21,8 +21,8 @@ public class Solution {
                 root = root.left;
             }
         }
-        if (root.right != null) {
-            root = root.right;
+        if (p.right != null) {
+            root = p.right;
             while (root.left != null) {
                 root = root.left;
             }
