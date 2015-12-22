@@ -22,10 +22,11 @@ public class Solution {
     public boolean containsNearbyDuplicate(int[] nums, int k) {
         Set<Integer> set = new HashSet<Integer>();
         for(int i = 0; i < nums.length; i++){
-            if(set.contains(nums[i])) {
+            int val = nums[i];
+            if(set.contains(val)) {
                 return true;
             }
-            set.add(nums[i]);
+            set.add(val);
             if (set.size() > k) {
                 set.remove(nums[i - k]);
             }
