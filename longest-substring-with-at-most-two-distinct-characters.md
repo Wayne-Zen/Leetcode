@@ -15,11 +15,7 @@ public class Solution {
                     break;
                 }
                 char c = s.charAt(hi);
-                if (freq.containsKey(c)) {
-                    freq.put(c, freq.get(c) + 1);
-                } else {
-                    freq.put(c, 1);
-                }
+                freq.put(c, freq.containsKey(c) ? freq.get(c) + 1 : 1);
                 if (freq.size() > 2) {
                     expand = false;
                 } else {
