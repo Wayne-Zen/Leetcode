@@ -3,28 +3,21 @@
 ```java
 public class Solution {
     public int removeDuplicates(int[] nums) {
-        if (nums == null) {
+        if (nums == null || nums.length == 0) {
             return 0;
         }
-        if (nums.length <= 2) {
-            return nums.length;
-        }
+        int res = 1;
         int cnt = 1;
-        int loc = 1;
         for (int i = 1; i < nums.length; i++) {
-            if (nums[i] == nums[i - 1]) {
-                if (cnt == 1) {
-                    nums[loc] = nums[i];
-                    loc++;
-                    cnt++;
-                }
-            } else {
+            if (nums[i] != nums[res - 1]) {
+                nums[res++] = nums[i];
                 cnt = 1;
-                nums[loc] = nums[i];
-                loc++;
+            } else if (cnt == 1) {
+                nums[res++] = nums[i];
+                cnt++;
             }
         }
-        return loc;
+        return res;
     }
 }
 ```
