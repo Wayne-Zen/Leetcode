@@ -3,14 +3,11 @@
 ```java
 public class Solution {
     public int lengthOfLongestSubstringTwoDistinct(String s) {
-        if (s == null || s.length() < 2) {
-            return s.length();
-        }
-        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
-        int max = 0;
+        HashMap<Character, Integer> freq = new HashMap<Character, Integer>();
         int lo = -1; // exclusive
         int hi = -1;
         boolean expand = true;
+        int max = 0;
         while (true) {
             if (expand) {
                 hi++;
@@ -18,27 +15,29 @@ public class Solution {
                     break;
                 }
                 char c = s.charAt(hi);
-                if (!map.containsKey(c)) {
-                    map.put(c, 1);
+                if (freq.containsKey(c)) {
+                    freq.put(c, freq.get(c) + 1);
                 } else {
-                    map.put(c, map.get(c) + 1);
+                    freq.put(c, 1);
                 }
-                if (map.size() <= 2) {
-                    max = Math.max(max, hi - lo);
-                } else {
+                if (freq.size() > 2) {
                     expand = false;
+                } else {
+                    max = Math.max(max, hi - lo);
                 }
             } else {
                 lo++;
                 char c = s.charAt(lo);
-                map.put(c, map.get(c) - 1);
-                if (map.get(c) == 0) {
-                    map.remove(c);
+                freq.put(c, freq.get(c) - 1);
+                if (freq.get(c) == 0) {
+                    freq.remove(c);
+                }
+                if (freq.size() <= 2) {
                     expand = true;
+                    max = Math.max(max, hi - lo);
                 }
             }
         }
-        
         return max;
     }
 }
