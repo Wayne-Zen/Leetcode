@@ -12,30 +12,27 @@
  * }
  */
 public class Solution {
-    public ArrayList<Integer> postorderTraversal(TreeNode root) {
-        ArrayList<Integer> res = new ArrayList<Integer>();
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<Integer>();
         if (root == null) {
             return res;
         }
-        
-        TreeNode cur = root;
-        TreeNode prev = root; 
-        // root must be the last, set prev to root to avoid prev != null check
         Stack<TreeNode> stack = new Stack<TreeNode>();
         stack.push(root);
+        TreeNode prev = root;
         while (!stack.isEmpty()) {
-            cur = stack.peek();
-            if ((cur.left == null && cur.right == null)
-                    || (prev == cur.left || prev == cur.right)) {
-                res.add(cur.val);
-                prev = cur;
-                stack.pop();
+            root = stack.peek();
+            if ((root.left == null && root.right == null) 
+                    || prev == root.left || prev == root.right) {
+                root = stack.pop();
+                res.add(root.val);
+                prev = root;
             } else {
-                if (cur.right != null) {
-                    stack.push(cur.right);
+                if (root.right != null) {
+                    stack.push(root.right);
                 }
-                if (cur.left != null) {
-                    stack.push(cur.left);
+                if (root.left != null) {
+                    stack.push(root.left);
                 }
             }
         }
