@@ -3,21 +3,17 @@
 ```java
 public class Solution {
     public boolean canPermutePalindrome(String s) {
-        int[] freq = new int[256];
+        int[] cnt = new int[256];
         for (char c : s.toCharArray()) {
-            freq[c]++;
+            cnt[c]++;
         }
         int odd = 0;
-        for (int i = 0; i < freq.length; i++) {
-            if(freq[i] % 2 == 1) {
+        for (char c = 0; c < 256; c++) {
+            if (cnt[c] % 2 == 1) {
                 odd++;
-            } 
+            }
         }
-        if (s.length() % 2 == 0) {
-            return odd == 0;
-        } else {
-            return odd == 1;
-        }
+        return s.length() % 2 == odd;
     }
 }
 ```
