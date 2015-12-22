@@ -60,7 +60,8 @@ public class Solution {
         if (head == null) {
             return null;
         }
-        RandomListNode save = head;
+        RandomListNode dummy = new RandomListNode(-1);
+        dummy.next = head;
         HashMap<RandomListNode, RandomListNode> map = new HashMap<RandomListNode, RandomListNode>();
         while (head != null) {
             RandomListNode cp = new RandomListNode(head.label);
@@ -72,7 +73,7 @@ public class Solution {
             r.next = map.get(s.next);
             r.random = map.get(s.random);
         }
-        return map.get(save);
+        return map.get(dummy.next);
     }
 }
 ```
