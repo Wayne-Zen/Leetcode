@@ -1,46 +1,111 @@
 [Link](https://leetcode.com/problems/substring-with-concatenation-of-all-words/)
 
-* 新建HashMap，注意判断
-* words 可能有duplicates
+```java
+public class Solution {
+    public List<Integer> findSubstring(String s, String[] words) {
+        List<Integer> res = new LinkedList<Integer>();
+        if(words == null || words.length == 0 || s == null || s.equals("")) return res;
+        HashMap<String, Integer> freq = new HashMap<String, Integer>();
+        // 统计数组中每个词出现的次数，放入哈希表中待用
+        for(String word : words){
+            freq.put(word, freq.containsKey(word) ? freq.get(word) + 1 : 1);
+        }
+        // 得到每个词的长度
+        int len = words[0].length();
+        // 错开位来统计
+        for(int i = 0; i < len; i++){
+            // 建一个新的哈希表，记录本轮搜索中窗口内单词出现次数
+            HashMap<String, Integer> currFreq = new HashMap<String, Integer>();
+            // start是窗口的开始，count表明窗口内有多少词
+            int start = i, count = 0;
+            for(int j = i; j <= s.length() - len; j += len){
+                String sub = s.substring(j, j + len);
+                // 看下一个词是否是给定数组中的
+                if(freq.containsKey(sub)){
+                    // 窗口中单词出现次数加1
+                    currFreq.put(sub, currFreq.containsKey(sub) ? currFreq.get(sub) + 1 : 1);
+                    count++;
+                    // 如果该单词出现次数已经超过给定数组中的次数了，说明多来了一个该单词，所以要把窗口中该单词上次出现的位置及之前所有单词给去掉
+                    while(currFreq.get(sub) > freq.get(sub)){
+                        String leftMost = s.substring(start, start + len);
+                        currFreq.put(leftMost, currFreq.get(leftMost) - 1);
+                        start = start + len;
+                        count--;
+                    }
+                    // 如果窗口内单词数和总单词数一样，则找到结果
+                    if(count == words.length){
+                        String leftMost = s.substring(start, start + len);
+                        currFreq.put(leftMost, currFreq.get(leftMost) - 1);
+                        res.add(start);
+                        start = start + len;
+                        count--;
+                    }
+                // 如果截出来的单词都不在数组中，前功尽弃，重新开始
+                } else {
+                    currFreq.clear();
+                    start = j + len;
+                    count = 0;
+                }
+            }
+        }
+        return res;
+    }
+}
+```
 
 ```java
 public class Solution {
     public List<Integer> findSubstring(String s, String[] words) {
-        List<Integer> res = new ArrayList<Integer>();
-        HashMap<String, Integer> frequency = new HashMap<String, Integer>();
-        for (int i = 0; i < words.length; i++) {
-            if (frequency.containsKey(words[i])) {
-                frequency.put(words[i], frequency.get(words[i]) + 1);
-            } else {
-                frequency.put(words[i], 1);
-            }
+        List<Integer> res = new LinkedList<Integer>();
+        if(words == null || words.length == 0 || s == null || s.equals("")) {
+            return res;
+        }
+        HashMap<String, Integer> freq = new HashMap<String, Integer>();
+        for(String word : words){
+            freq.put(word, freq.containsKey(word) ? freq.get(word) + 1 : 1);
         }
         int len = words[0].length();
-        int total_len = len * words.length;
-        for (int i = 0; i < s.length() - total_len + 1; i++) {
-            HashMap<String, Integer> localFrequency = new HashMap<String, Integer>();
-            int j = 0;
-            for (; j < total_len; j += len) {
-                String token = s.substring(i + j, i + j + len);
-                if (!frequency.containsKey(token)) {
-                    break;
-                } else {
-                    if (localFrequency.containsKey(token)) {
-                        int cnt = localFrequency.get(token) + 1;
-                        if (cnt > frequency.get(token)) {
-                            break;
-                        }
-                        localFrequency.put(token, cnt);
+        for (int i = 0; i < len; i++) {
+            HashMap<String, Integer> obs = new HashMap<String, Integer>();
+            int lo = i - 1; // exclusive
+            int hi = i - 1;
+            boolean expand = true;
+            String bump = "";
+            while (true) {
+                if (expand) {
+                    hi += len;
+                    if (hi >= s.length()) {
+                        break;
+                    }
+                    String token = s.substring(hi + 1 - len, hi + 1);
+                    if (!freq.containsKey(token)) {
+                        lo = hi;
+                        obs.clear();
                     } else {
-                        localFrequency.put(token, 1);
+                        obs.put(token, obs.containsKey(token) ? obs.get(token) + 1 : 1);
+                        if (obs.get(token) > freq.get(token)) {
+                            bump = token;
+                            expand = false;
+                        } else {
+                            if (hi - lo == len * words.length) {
+                                res.add(lo + 1);
+                            }
+                        }
+                    }
+                } else {
+                    lo += len;
+                    String token = s.substring(lo + 1 - len, lo + 1);
+                    obs.put(token, obs.get(token) - 1);
+                    if (token.equals(bump)) {
+                        bump = "";
+                        expand = true;
+                        if (hi - lo == len * words.length) {
+                            res.add(lo + 1);
+                        }
                     }
                 }
             }
-            if (j == total_len) {
-                res.add(i);
-            }
         }
-        
         return res;
     }
 }
