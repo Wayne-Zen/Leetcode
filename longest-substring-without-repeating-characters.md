@@ -33,6 +33,7 @@ public class Solution {
                 cnt[c]--;
                 if (bump == c && cnt[c] <= 1) {
                     expand = true;
+                    bump = ' ';
                     max = Math.max(max, hi - lo);
                 }
             }
