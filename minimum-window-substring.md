@@ -2,51 +2,53 @@
 
 ```java
 public class Solution {
-    private boolean match(int[] a, int[] b) {
-        for (int i = 0; i < 256; i++) {
-            if (a[i] < b[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
     public String minWindow(String s, String t) {
-        String res = "";
-        int head = -1;
-        int tail = -1;
-        boolean full = false;
-        int[] dict = new int[256];
-        int[] observe = new int[256];
-        for (int i = 0; i < t.length(); i++) {
-            dict[t.charAt(i)]++;
+
+        int[] cnt = new int[256];
+        int unique = 0;
+        for (char c : t.toCharArray()) {
+            if (cnt[c] == 0) {
+                unique++;
+            }
+            cnt[c]++;
         }
-        int min = Integer.MAX_VALUE;
-        
+        int lo = -1; // exclusive
+        int hi = -1;
+        boolean expand = true;
+        int min = s.length() + 1;
+        String res = "";
+        int[] obsCnt = new int[256];
+        int obsUnique = 0;
         while (true) {
-            if (!full) {
-                tail++;
-                if (tail == s.length()) {
+            if (expand) {
+                hi++;
+                if (hi == s.length()) {
                     break;
                 }
-                char c = s.charAt(tail);
-                if (dict[c] != 0) {
-                    observe[c]++;
-                    if (observe[c] == dict[c]) {
-                        full = match(observe, dict);
+                char c = s.charAt(hi);
+                obsCnt[c]++;
+                if (obsCnt[c] == cnt[c]) {
+                    obsUnique++;
+                }
+                if (obsUnique == unique) {
+                    expand = false;
+                    if (hi - lo  < min) {
+                        min = hi - lo;
+                        res = s.substring(lo + 1, hi + 1);
                     }
                 }
             } else {
-                head++;
-                char c = s.charAt(head);
-                if (dict[c] != 0) {
-                    observe[c]--;
-                    if (observe[c] < dict[c]) {
-                        int len = tail - head + 1;
-                        if (len <= min) {
-                            res = s.substring(head, tail + 1);
-                            min = len;
-                        }
-                        full = false;
+                lo++;
+                char c = s.charAt(lo);
+                obsCnt[c]--;
+                if (obsCnt[c] < cnt[c]) {
+                    obsUnique--;
+                    expand = true;
+                }
+                if (obsUnique == unique) {
+                    if (hi - lo  < min) {
+                        min = hi - lo;
+                        res = s.substring(lo + 1, hi + 1);
                     }
                 }
             }
