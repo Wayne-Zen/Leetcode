@@ -86,10 +86,9 @@ public class Solution {
                         if (obs.get(token) > freq.get(token)) {
                             bump = token;
                             expand = false;
-                        } else {
-                            if (hi - lo == len * words.length) {
-                                res.add(lo + 1);
-                            }
+                        } 
+                        if ((obs.get(token) == freq.get(token)) && hi - lo == len * words.length) {
+                            res.add(lo + 1);
                         }
                     }
                 } else {
@@ -99,7 +98,7 @@ public class Solution {
                     if (token.equals(bump)) {
                         bump = "";
                         expand = true;
-                        if (hi - lo == len * words.length) {
+                        if ((obs.get(token) == freq.get(token)) && hi - lo == len * words.length) {
                             res.add(lo + 1);
                         }
                     }
