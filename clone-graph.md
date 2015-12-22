@@ -19,8 +19,7 @@ public class Solution {
         q.offer(node);
         while (!q.isEmpty()) {
             UndirectedGraphNode now = q.poll();
-            UndirectedGraphNode cp = new UndirectedGraphNode(now.label);
-            map.put(now, cp);
+            map.put(now, new UndirectedGraphNode(now.label));
             for (UndirectedGraphNode neighbor : now.neighbors) {
                 if (map.containsKey(neighbor)) {
                     continue;
