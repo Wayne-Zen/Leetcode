@@ -22,30 +22,28 @@ public class Solution {
         }
         return max;
     }
-    
-    private int hist(int[] h) {
-        int max = 0;
-        int[][] bound = new int[h.length][2];
+
+    public int hist(int[] height) {
+        if (height == null || height.length == 0) {
+            return 0;
+        }
+        // store index
         Stack<Integer> stack = new Stack<Integer>();
-        for (int in = 0; in < h.length; in++) {
-            while (!stack.isEmpty() && h[stack.peek()] >= h[in]) {
+        int[][] bound = new int[height.length][2];
+        int max = 0;
+        for (int in = 0; in < height.length; in++) {
+            while (!stack.isEmpty() && height[stack.peek()] >= height[in]) {
                 int out = stack.pop();
                 bound[out][1] = in;
-                int area = h[out] * (bound[out][1] - bound[out][0] - 1);
-                max = Math.max(max, area);
-            } 
-            if (stack.isEmpty()) {
-                bound[in][0] = -1;
-            } else {
-                bound[in][0] = stack.peek();
+                max = Math.max(max, (bound[out][1] - bound[out][0] - 1) * height[out]);
             }
+            bound[in][0] = stack.isEmpty() ? -1 : stack.peek();
             stack.push(in);
         }
         while (!stack.isEmpty()) {
             int out = stack.pop();
-            bound[out][1] = h.length;
-            int area = h[out] * (bound[out][1] - bound[out][0] - 1);
-            max = Math.max(max, area);
+            bound[out][1] = height.length;
+            max = Math.max(max, (bound[out][1] - bound[out][0] - 1) * height[out]);
         }
         return max;
     }
