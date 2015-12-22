@@ -31,7 +31,7 @@ public class Solution {
             fast = fast.next;
             slow = slow.next;
         }
-        fast.next = head;
+        fast.next = head; // when fast == slow, also modify slow
         head = slow.next;
         slow.next = null;
         return head;
