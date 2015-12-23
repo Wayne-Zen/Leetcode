@@ -12,20 +12,23 @@
  */
 public class Solution {
     public int closestValue(TreeNode root, double target) {
-        int val = 0;
-        double min = Double.MAX_VALUE;
+        double diff = Double.MAX_VALUE;
+        int res = 0;
         while (root != null) {
-            if (Math.abs(target - root.val) < min) {
-                min = Math.abs(target - root.val);
-                val = root.val;
-            }
+            double newDiff = Math.abs(root.val - target);
+            if (newDiff <= diff) {
+                diff = newDiff;
+                res = root.val;
+            } 
             if (root.val < target) {
                 root = root.right;
-            } else {
+            } else if (root.val > target){
                 root = root.left;
+            } else {
+                break;
             }
         }
-        return val;
+        return res;
     }
 }
 ```
