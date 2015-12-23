@@ -3,17 +3,23 @@
 ```java
 public class Solution {
     public int hIndex(int[] citations) {
-        Integer[] cite = new Integer[citations.length];
-        for (int i = 0; i < cite.length; i++) {
-            cite[i] = citations[i];
+        int N = citations.length;
+        int[] cnt = new int[N + 1];
+        for (int cite : citations) {
+            if (cite >= N) {
+                cnt[N]++;
+            } else {
+                cnt[cite]++;
+            }
         }
-        Arrays.sort(cite, Collections.reverseOrder());
-        for (int i = 0; i < cite.length; i++) {
-            if (i >= cite[i]) {
+        int sum = 0;
+        for (int i = N; i >= 0; i--) {
+            sum += cnt[i];
+            if (sum >= i) {
                 return i;
             }
         }
-        return cite.length;
+        return 0;
     }
 }
 ```
