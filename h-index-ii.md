@@ -3,40 +3,23 @@
 ```java
 public class Solution {
     public int hIndex(int[] citations) {
-        int N = citations.length;
-        if (N == 0) {
+        if (citations == null || citations.length == 0) {
             return 0;
         }
         int lo = 0;
-        int hi = N - 1;
+        int hi = citations.length - 1;
         while (lo + 1 < hi) {
             int mid = lo + (hi - lo) / 2;
-            if (N - mid <= citations[mid]) {
-                hi = mid;
-            } else {
+            int paperNum = citations.length - mid;
+            int citationNum = citations[mid];
+            if (paperNum > citationNum) {
                 lo = mid;
+            } else {
+                hi = mid;
             }
         }
-        if (N - lo <= citations[lo]) {
-            return N - lo;
-        } else if (N - hi <= citations[hi]) {
-            return N - hi;
-        }
-        return 0;
-    }
-}
-```
-
-```java
-public class Solution {
-    public int hIndex(int[] citations) {
-        int N = citations.length;
-        for (int i = N - 1; i >= 0; i--) {
-            if (citations[i] < N - i) {
-                return N - i - 1;
-            }
-        }
-        return N;
+        return Math.max(Math.min(citations.length - hi, citations[hi]),
+                        Math.min(citations.length - lo, citations[lo]));
     }
 }
 ```
