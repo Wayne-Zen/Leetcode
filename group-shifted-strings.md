@@ -3,38 +3,43 @@
 ```java
 public class Solution {
     public List<List<String>> groupStrings(String[] strings) {
-        List<List<String>> res = new ArrayList<List<String>>();
-        if (strings == null || strings.length == 0) {
-            return res;
-        }
         HashMap<String, List<String>> map = new HashMap<String, List<String>>();
-        for (String str : strings) {
-            String key = convert(str);
-            if (map.containsKey(key)) {
-                map.get(key).add(str);
+        for (String s : strings) {
+            String shift = shift(s);
+            if (map.containsKey(shift)) {
+                map.get(shift).add(s);
             } else {
                 List<String> group = new ArrayList<String>();
-                group.add(str);
-                map.put(key, group);
+                group.add(s);
+                map.put(shift, group);
             }
         }
-        for (String key : map.keySet()) {
-            Collections.sort(map.get(key));
-            res.add(map.get(key));
+        List<List<String>> res = new ArrayList<List<String>>();
+        for (List<String> group : map.values()) {
+            Collections.sort(group);
+            res.add(group);
         }
         return res;
     }
-    private String convert(String str) {
-        if (str.length() == 0) {
-            return str;
+    private String shift(String s) {
+        if (s.length() == 0) {
+            return "";
         }
-        int offset = str.charAt(0) - 'a';
         StringBuilder sb = new StringBuilder();
+        // c = 'a' + offset;
         sb.append('a');
-        for (int i = 1; i < str.length(); i++) {
-            char c = (char)(((str.charAt(i) - 'a' - offset) + 26) % 26 + 'a');
-            sb.append(c);
+        int offset = s.charAt(0) - 'a';
+        for (int i = 1; i < s.length(); i++) {
+            char c = s.charAt(i);
+            char x = (char)(c - offset);
+            if (x < 'a') {
+                x += 26;
+            } else if (x > 'z') {
+                x -= 26;
+            }
+            sb.append(x);
         }
+        System.out.println(sb.toString());
         return sb.toString();
     }
 }
