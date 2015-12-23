@@ -14,10 +14,10 @@ public class Solution {
     public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
         Stack<TreeNode> stack = new Stack<TreeNode>();
         while (root.val != p.val) {
-            stack.push(root);
             if (root.val < p.val) {
                 root = root.right;
             } else {
+                stack.push(root);
                 root = root.left;
             }
         }
@@ -28,9 +28,6 @@ public class Solution {
             }
             return root;
         } else {
-            while (!stack.isEmpty() && stack.peek().val < p.val) {
-                stack.pop();
-            }
             return stack.isEmpty() ? null : stack.pop();
         }
     }
