@@ -2,52 +2,35 @@
 
 ```java
 public class Solution {
-    /**
-     * @param numbers : Give an array numbers of n integer
-     * @return : Find all unique triplets in the array which gives the sum of zero.
-     */
     public List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> res = new ArrayList<List<Integer>>();
-        if (nums == null || nums.length < 3) {
-            return res;
-        }
         Arrays.sort(nums);
-        
-        // 不可提前去重; e.g [-1, -1, 2]
-        for (int i = 0; i < nums.length; i++) {
-            if (i != 0 && nums[i] == nums[i - 1]) {
-				continue; // to skip duplicate numbers; e.g [0,0,0,0]
-			}
-			
-			int target = -nums[i];
-			if (target < 0) {
-			    break;
-			}
-            int head = i + 1;
-            int tail = nums.length - 1;
-            while (head < tail) {
-                
-                int sum = nums[head] + nums[tail];
-                if (sum < target) {
-                    head++;
-                } else if (sum > target) {
-                    tail--;
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            int lo = i + 1;
+            int hi = nums.length - 1;
+            while (lo < hi) {
+                int sum = nums[i] + nums[lo] + nums[hi];
+                if (sum == 0) {
+                    List<Integer> sub = new ArrayList<Integer>();
+                    sub.add(nums[i]);
+                    sub.add(nums[lo]);
+                    sub.add(nums[hi]);
+                    res.add(sub);
+                    lo++;
+                    hi--;
+                    while (lo < hi && nums[lo] == nums[lo - 1]) {
+                        lo++;
+                    }
+                    while (lo < hi && nums[hi] == nums[hi + 1]) {
+                        hi--;
+                    }
+                } else if (sum < 0) {
+                    lo++;
                 } else {
-                    List<Integer> tmp = new ArrayList<Integer>();
-					tmp.add(nums[i]);
-					tmp.add(nums[head]);
-					tmp.add(nums[tail]);
-					res.add(tmp);
-					// do forget
-					head++;
-					tail--;
-					// to skip duplicates
-					while (head < tail && nums[head] == nums[head - 1]) { 
-						head++;
-					}
-					while (head < tail && nums[tail] == nums[tail + 1]) { 
-						tail--;
-					}
+                    hi--;
                 }
             }
         }
