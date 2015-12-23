@@ -1,5 +1,34 @@
 [Link](https://leetcode.com/problems/contains-duplicate-iii/)
 
+O(N)
+
+```java
+public class Solution {
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        if (k < 1 || t < 0) {
+            return false;
+        }
+        // bucket index -> lastest val
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        for (int i = 0; i < nums.length; i++) {
+            if (i > k) {
+                map.remove(nums[i - k - 1] / Math.max(1, t));
+            }
+            int key = nums[i] / Math.max(1, t);
+            for (int x : new int[]{key, key - 1, key + 1}) {
+                if (map.containsKey(x) && Math.abs(map.get(x) - (long)nums[i]) <= t) {
+                    return true;
+                }
+            }
+            map.put(key, nums[i]);
+        }
+        return false;
+    }
+}
+```
+
+O(NlogK)
+
 ```java
 public class Solution {
     public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
