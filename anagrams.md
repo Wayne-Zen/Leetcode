@@ -3,25 +3,23 @@
 ```java
 public class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
-        List<List<String>> res = new ArrayList<List<String>>();
-        // root string to group index
-        HashMap<String, Integer> map = new HashMap<String, Integer>();
-        for (int i = 0; i < strs.length; i++) {
-            char[] s_arr = strs[i].toCharArray();
-            Arrays.sort(s_arr);
-            String s = String.valueOf(s_arr);
+        HashMap<String, List<String>> map = new HashMap<String, List<String>>();
+        for (String str : strs) {
+            char[] arr = str.toCharArray();
+            Arrays.sort(arr);
+            String s = String.valueOf(arr);
             if (map.containsKey(s)) {
-                res.get(map.get(s)).add(strs[i]);
+                map.get(s).add(str);
             } else {
-                map.put(s, map.size());
-                List<String> sub = new ArrayList<String>();
-                sub.add(strs[i]);
-                res.add(sub);
+                List<String> group = new ArrayList<String>();
+                group.add(str);
+                map.put(s, group);
             }
         }
-        //sort result
-        for (List<String> sub : res) {
-            Collections.sort(sub);
+        List<List<String>> res = new ArrayList<List<String>>();
+        for (List<String> group : map.values()) {
+            Collections.sort(group);
+            res.add(group);
         }
         return res;
     }
