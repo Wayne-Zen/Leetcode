@@ -3,24 +3,33 @@
 ```java
 public class Solution {
     public int divide(int dividend, int divisor) {
-        if (dividend == Integer.MIN_VALUE && divisor == -1) {
-            return Integer.MAX_VALUE;
-        }
-        long dv = Math.abs((long)dividend);
+        if (dividend == 0) return 0;
+        if (divisor == 0) throw new IllegalArgumentException();
+        
+        long dd = Math.abs((long)dividend);
         long ds = Math.abs((long)divisor);
         long res = 0;
-        while (dv >= ds) {
-            int shift = -1;
-            while (dv >= (ds << (shift + 1))) {
-                shift++;
+        while (dd >= ds) {
+            long mul = 1;
+            long dsSave = ds;
+            while (dd >= ds) {
+                ds <<= 1;
+                mul <<= 1;
             }
-            dv -= ds << shift;
-            res += 1 << shift;
+            res += mul >> 1;
+            dd -= ds >> 1;
+            ds = dsSave;
         }
         if ((dividend > 0) != (divisor > 0)) {
             res = -res;
+        } 
+        if (res > Integer.MAX_VALUE) {
+            return Integer.MAX_VALUE;
+        } else if (res < Integer.MIN_VALUE) {
+            return Integer.MIN_VALUE;
+        } else {
+            return (int)res;
         }
-        return (int)res;
     }
 }
 ```
