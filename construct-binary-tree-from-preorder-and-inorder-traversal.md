@@ -15,27 +15,23 @@
  */
 public class Solution {
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        if (preorder.length == 0 || inorder.length == 0) {
-            return null;
-        }
-        return help(preorder, inorder, 0, preorder.length, 0, inorder.length);
+        return help(preorder, inorder, 0, preorder.length - 1, 0, inorder.length - 1);
     }
-    private TreeNode help(int[] preorder, int[] inorder,
-                          int ps, int pe, int is, int ie) { // tail exclusive
-        if (ps >= pe || is >= ie || ps < 0 || pe > preorder.length || is < 0 || ie > inorder.length) {
+    private TreeNode help(int[] preorder, int[] inorder, int lo1, int hi1, int lo2, int hi2) {
+        if (lo1 > hi1) {
             return null;
         }
-        TreeNode root = new TreeNode(preorder[ps]);
-        int mid = 0;
-        for (int i = is; i < ie; i++) {
-            if (inorder[i] == root.val) {
-                mid = i;
+        int val = preorder[lo1];
+        int index = 0;
+        for (int i = lo2; i <= hi2; i++) {
+            if (val == inorder[i]) {
+                index = i;
             }
         }
-        int L = mid - is;
-        int R = ie - is - L - 1;
-        root.left = help(preorder, inorder, ps + 1, ps + L + 1, is, is + L);
-        root.right = help(preorder, inorder, ps + L + 1, pe, is + L + 1, ie);
+        int len = index - lo2;
+        TreeNode root = new TreeNode(val);
+        root.left = help(preorder, inorder, lo1 + 1, lo1 + len, lo2, lo2 + len - 1);
+        root.right = help(preorder, inorder, lo1 + len + 1, hi1, lo2 + len + 1, hi2);
         return root;
     }
 }
