@@ -3,7 +3,7 @@
 ```java
 public class Solution {
     public String fractionToDecimal(int numerator, int denominator) {
-        if (numerator == 0) return "0";
+        if (numerator == 0) return "0"; // in case "0"/"-6"="-0" 
         if (denominator == 0) return "";
         
         String ans = "";
