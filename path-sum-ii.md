@@ -15,34 +15,31 @@
 public class Solution {
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
         List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<Integer> now = new ArrayList<Integer>();
         if (root == null) {
             return res;
         }
-        List<Integer> now = new ArrayList<Integer>();
         now.add(root.val);
-        help(res, now, root, sum);
-        now.remove(now.size() -1);
+        help(res, now, root, sum - root.val);
+        now.remove(now.size() - 1);
         return res;
     }
-    private void help(List<List<Integer>> res,
-                      List<Integer> now, 
+    private void help(List<List<Integer>> res, List<Integer> now,
                       TreeNode root, int sum) {
-        if (root == null) {
-            return;
-        }
-        if (root.left == null && root.right == null
-                && root.val == sum) {
-            res.add(new ArrayList<Integer>(now));
-            return;
+        if (root.left == null && root.right == null) {
+            if (sum == 0) {
+                res.add(new ArrayList<Integer>(now));
+                return;
+            }
         }
         if (root.left != null) {
             now.add(root.left.val);
-            help(res, now, root.left, sum - root.val);
+            help(res, now, root.left, sum - root.left.val);
             now.remove(now.size() - 1);
         }
         if (root.right != null) {
             now.add(root.right.val);
-            help(res, now, root.right, sum - root.val);
+            help(res, now, root.right, sum - root.right.val);
             now.remove(now.size() - 1);
         }
     }
