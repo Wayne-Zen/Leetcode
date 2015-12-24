@@ -12,34 +12,24 @@
  */
 public class Solution {
     public TreeNode buildTree(int[] inorder, int[] postorder) {
-        if (inorder == null || inorder.length == 0) {
-            return null;
-        }
-        if (postorder == null || postorder.length == 0) {
-            return null;
-        }
-        if (inorder.length != postorder.length) {
-            return null;
-        }
-        return help(inorder, postorder, 0, inorder.length, 0, postorder.length);
+        return help(inorder, postorder, 0, inorder.length - 1, 0, postorder.length - 1);
     }
-    private TreeNode help(int[] inorder, int[] postorder, int is, int ie, int ps, int pe) {
-        if (is >= ie || ps >= pe 
-                || is < 0 || ie > inorder.length
-                || ps < 0 || pe > postorder.length) {
-            return null;    
+    private TreeNode help(int[] inorder, int[] postorder, int lo1, int hi1, int lo2, int hi2) {
+        if (lo1 > hi1) {
+            return null;
         }
-        TreeNode root = new TreeNode(postorder[pe - 1]);
-        int mid = 0;
-        for (int i = is; i < ie; i++) {
-            if (inorder[i] == root.val) {
-                mid = i;
+        int val = postorder[hi2];
+        int index = 0;
+        for (int i = lo1; i <= hi1; i++) {
+            if (inorder[i] == val) {
+                index = i;
+                break;
             }
         }
-        int L = mid - is;
-        int R = ie - is - L - 1;
-        root.left = help(inorder, postorder, is, is + L, ps, ps + L);
-        root.right = help(inorder, postorder, is + L + 1, ie, ps + L, pe - 1);
+        int len = index - lo1;
+        TreeNode root = new TreeNode(val);
+        root.left = help(inorder, postorder, lo1, index - 1, lo2, lo2 + len - 1);
+        root.right = help(inorder, postorder, index + 1, hi1, lo2 + len, hi2 - 1);
         return root;
     }
 }
