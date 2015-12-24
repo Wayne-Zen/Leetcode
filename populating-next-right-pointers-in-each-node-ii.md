@@ -15,45 +15,43 @@ public class Solution {
     public void connect(TreeLinkNode root) {
         if (root == null) {
             return;
-        }   
-        TreeLinkNode last = null; // 构建层的上一个节点
-        TreeLinkNode head = null; // 构建层的头节点
-        TreeLinkNode now = root;
-        while (now != null) {
-            if (head == null && (now.left != null || now.right != null)) {
-                if (now.left != null) {
-                    head = now.left;
-                } else {
-                    head = now.right;
+        }
+
+        TreeLinkNode nextLevelHead = root;
+        
+        while (nextLevelHead != null) {
+            TreeLinkNode move = nextLevelHead;
+            nextLevelHead = null;
+            TreeLinkNode prev = null;
+            while (move != null) {
+                if (move.left != null && move.right != null) {
+                    if (nextLevelHead == null) {
+                        nextLevelHead = move.left;
+                    }
+                    if (prev != null) {
+                        prev.next = move.left;
+                    }
+                    move.left.next = move.right;
+                    prev = move.right;
+                } else if (move.left != null && move.right == null) {
+                    if (nextLevelHead == null) {
+                        nextLevelHead = move.left;
+                    }
+                    if (prev != null) {
+                        prev.next = move.left;
+                    }
+                    prev = move.left;
+                } else if (move.left == null && move.right != null) {
+                    if (nextLevelHead == null) {
+                        nextLevelHead = move.right;
+                    }
+                    if (prev != null) {
+                        prev.next = move.right;
+                    }
+                    prev = move.right;
                 }
-            }
-            
-            if (now.left != null && now.right != null) {
-                if (last != null) {
-                    last.next = now.left;
-                }
-                now.left.next = now.right;
-                last = now.right;
-            } else if (now.left != null && now.right == null) {
-                if (last != null) {
-                    last.next = now.left;
-                }
-                last = now.left;
-            } else if (now.left == null && now.right != null) {
-                if (last != null) {
-                    last.next = now.right;
-                }
-                last = now.right;   
-            }
-                
-            
-            if (now.next == null) {
-                now = head;
-                head = null;
-                last = null;
-            } else {
-                now = now.next;
-            }
+                move = move.next;
+            }    
         }
     }
 }
