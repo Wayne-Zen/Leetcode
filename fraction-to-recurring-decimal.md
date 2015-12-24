@@ -6,7 +6,7 @@ public class Solution {
         if (numerator == 0) return "0";
         if (denominator == 0) return "";
         StringBuilder sb = new StringBuilder();
-        if ((numerator > 0) ^ (denominator > 0)) {
+        if ((numerator > 0) != (denominator > 0)) {
             sb.append('-');
         }
         long num = Math.abs((long)numerator);
