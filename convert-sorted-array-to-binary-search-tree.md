@@ -18,7 +18,7 @@ public class Solution {
         return help(nums, 0, nums.length - 1);
     }
     private TreeNode help(int[] nums, int lo, int hi) {
-        if (lo > hi || lo < 0 || hi >= nums.length) {
+        if (lo > hi) {
             return null;
         }
         int mid = lo + (hi - lo) / 2;
