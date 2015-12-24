@@ -11,22 +11,29 @@
  * }
  */
 public class Solution {
+    int cnt = 0;
     public int countUnivalSubtrees(TreeNode root) {
-        int[] arr = new int[1];
-        postOrder(arr, root);
-        return arr[0];
+        help(root);
+        return cnt;
     }
-    public boolean postOrder (int[] arr, TreeNode node) {
-        if (node == null) return true;
-        boolean left = postOrder(arr, node.left);
-        boolean right = postOrder(arr, node.right);
-        if (left && right) {
-            if (node.left != null && node.left.val != node.val) return false;
-            if (node.right != null && node.right.val != node.val) return false;
-            arr[0]++;
+    private boolean help(TreeNode root) {
+        if (root == null) {
             return true;
         }
-        return false;
+        boolean left = help(root.left);
+        boolean right = help(root.right);
+        if (left && right) {
+            if (root.left != null && root.left.val != root.val) {
+                return false;
+            }
+            if (root.right != null && root.right.val != root.val) {
+                return false;
+            }
+            cnt++;
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 ```
