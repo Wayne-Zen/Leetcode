@@ -3,42 +3,36 @@
 ```java
 public class Solution {
     public int myAtoi(String str) {
-        if (str == null || str.length() < 1)
+        if (str == null) {
             return 0;
-     
-        // trim white spaces
+        }
         str = str.trim();
-     
-        char flag = '+';
-     
-        // check negative or positive
-        int i = 0;
-        if (str.charAt(0) == '-') {
-            flag = '-';
-            i++;
-        } else if (str.charAt(0) == '+') {
-            i++;
+        if (str.length() == 0) {
+            return 0;
         }
-        // use double to store result
-        double result = 0;
-     
-        // calculate value
-        while (str.length() > i && str.charAt(i) >= '0' && str.charAt(i) <= '9') {
-            result = result * 10 + (str.charAt(i) - '0');
-            i++;
+        int flag = 1;
+        if (str.charAt(0) == '+') {
+            str = str.substring(1);
+        } else if (str.charAt(0) == '-') {
+            str = str.substring(1);
+            flag = -1;
         }
-     
-        if (flag == '-')
-            result = -result;
-     
-        // handle max and min
-        if (result > Integer.MAX_VALUE)
+        double val = 0;
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (!Character.isDigit(c)) {
+                break;
+            }
+            val = val * 10 + c - '0';
+        }
+        val = val * flag;
+        if (val > Integer.MAX_VALUE) {
             return Integer.MAX_VALUE;
-     
-        if (result < Integer.MIN_VALUE)
+        } else if (val < Integer.MIN_VALUE) {
             return Integer.MIN_VALUE;
-     
-        return (int) result;
+        } else {
+            return (int)val;
+        }
     }
 }
 ```
