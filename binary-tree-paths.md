@@ -16,22 +16,19 @@ public class Solution {
         if (root == null) {
             return res;
         }
-        String now = new String();
-        help(res, now, root);
+        help(res, String.valueOf(root.val), root);
         return res;
     }
-    
     private void help(List<String> res, String now, TreeNode root) {
         if (root.left == null && root.right == null) {
-            String s = now + "->" + root.val;
-            res.add(s.substring(2));
+            res.add(now);
             return;
         }
         if (root.left != null) {
-            help(res, now + "->" + root.val, root.left);
+            help(res, now + "->" + root.left.val, root.left);
         }
         if (root.right != null) {
-            help(res, now + "->" + root.val, root.right);
+            help(res, now + "->" + root.right.val, root.right);
         }
     }
 }
