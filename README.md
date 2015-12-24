@@ -9,3 +9,4 @@
 * [Word Break II](https://github.com/Wayne-Zen/Leetcode/blob/master/word-break-ii.md)
 * [Convert Sorted List to Binary Search Tree](https://github.com/Wayne-Zen/Leetcode/blob/master/convert-sorted-list-to-binary-search-tree.md)
 * [Valid Number](https://github.com/Wayne-Zen/Leetcode/blob/master/valid-number.md)
+* [String to Integer (atoi)](https://github.com/Wayne-Zen/Leetcode/blob/master/string-to-integer-atoi.md)
