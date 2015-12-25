@@ -5,11 +5,13 @@
 ```java
 public class Solution {
     public int rangeBitwiseAnd(int m, int n) {
-        int mask = ~0;
-        while ((m & mask) != (n & mask)) {
-            mask <<= 1;
+        int i = 0;
+        while (m != n) {
+            m >>= 1;
+            n >>= 1;
+            i++;
         }
-        return m & mask;
+        return m << i;
     }
 }
 ```
