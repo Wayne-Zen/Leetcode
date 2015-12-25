@@ -7,52 +7,49 @@ public class Solution {
         if (nums == null || nums.length == 0) {
             return res;
         }
-        int can1 = 0;
-        int can2 = 0;
+        int val1 = 0;
         int cnt1 = 0;
+        int val2 = 0;
         int cnt2 = 0;
-        for (int x : nums) {
+        for (int num : nums) {
             if (cnt1 == 0) {
-                can1 = x;
-                cnt1 = 1;
+                val1 = num;
+                cnt1++;
                 continue;
-            } else if (x == can1) {
+            } else if (num == val1) {
                 cnt1++;
                 continue;
             }
             if (cnt2 == 0) {
-                can2 = x;
-                cnt2 = 1;
-                continue;
-            } else if (x == can2) {
+                val2 = num;
                 cnt2++;
                 continue;
-            }
-            if (x != can1 && x != can2) {
-                cnt1--;
-                cnt2--;
-            }
+            } else if (num == val2) {
+                cnt2++;
+                continue;
+            } 
+            cnt1--;
+            cnt2--;
         }
-        
-        if (can1 == can2) {
-            res.add(can1);
+        if (val1 == val2) {
+            res.add(val1);
             return res;
         }
         cnt1 = 0;
         cnt2 = 0;
-        for (int x : nums) {
-            if (x == can1) {
+        for (int num : nums) {
+            if (num == val1) {
                 cnt1++;
-            }
-            if (x == can2) {
+            } 
+            if (num == val2) {
                 cnt2++;
             }
         }
-        if (cnt1 > nums.length/3) {
-            res.add(can1);
+        if (cnt1 > nums.length / 3) {
+            res.add(val1);
         }
-        if (cnt2 > nums.length/3) {
-            res.add(can2);
+        if (cnt2 > nums.length / 3) {
+            res.add(val2);
         }
         return res;
     }
