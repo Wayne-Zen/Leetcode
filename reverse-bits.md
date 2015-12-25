@@ -5,7 +5,7 @@ public class Solution {
     // you need treat n as an unsigned value
     public int reverseBits(int n) {
         int lo = 0;
-        int hi= 31;
+        int hi = 31;
         while (lo < hi) {
             n = swap(n, lo, hi);
             lo++;
@@ -17,10 +17,10 @@ public class Solution {
         int a = (n >> lo) & 1;
         int b = (n >> hi) & 1;
         if (a != b) {
-            return n ^ (1 << lo | 1 << hi);
-        } else {
-            return n;
+            n ^= 1 << lo;
+            n ^= 1 << hi;
         }
+        return n;
     }
 }
 ```
