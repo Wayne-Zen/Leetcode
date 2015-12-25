@@ -9,12 +9,10 @@ public class Solution {
             if (count == 0) {
                 candidate = nums[i];
                 count = 1;
-            } else {
-                if (nums[i] == candidate) {
+            } else if (nums[i] == candidate) {
                     count++;
-                } else {
+            } else {
                     count--;
-                }
             }
         }
         return candidate;
