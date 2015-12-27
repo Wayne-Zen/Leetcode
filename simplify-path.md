@@ -4,37 +4,41 @@
 ```java
 public class Solution {
     public String simplifyPath(String path) {
-        Stack<String> stack = new Stack<String>();
-        StringBuilder sub = new StringBuilder();
-        for (int i = 0; i <= path.length(); i++) {
-            char c = i == path.length() ? '/' : path.charAt(i);
+        StringBuilder sb = new StringBuilder();
+        LinkedList<String> list = new LinkedList<String>();
+        char prev = '/';
+        path = path + "/";
+        for (int i = 0; i < path.length(); i++) {
+            char c = path.charAt(i);
             if (c == '/') {
-                String s = sub.toString();
-                sub = new StringBuilder();
-                if (s.equals(".")) {
-                    continue;
-                } else if (s.equals("..")) {
-                    if (!stack.isEmpty()) stack.pop(); // "/.." return /..
-                } else if (s.length() != 0){
-                    stack.push(s);
+                if (prev != '/') {
+                    String token = sb.toString();
+                    sb = new StringBuilder();
+                    if (token.equals(".")) {
+                        // do nothing
+                    } else if (token.equals("..")) {
+                        if (!list.isEmpty()) {
+                            list.removeLast();
+                        }
+                    } else {
+                        list.addLast(token);
+                    }
                 }
             } else {
-                sub.append(c);
+                sb.append(c);
             }
+            prev = c;
         }
-        if (stack.isEmpty()) {
+        if (list.size() == 0) {
             return "/";
         }
-        StringBuilder res = new StringBuilder();
-        Stack<String> rev = new Stack<String>();
-        while (!stack.isEmpty()) {
-            rev.push(stack.pop());
+        sb = new StringBuilder();
+        Iterator<String> iter = list.iterator();
+        while (iter.hasNext()) {
+            sb.append("/");
+            sb.append(iter.next());
         }
-        while (!rev.isEmpty()) {
-            res.append('/');
-            res.append(rev.pop());
-        }
-        return res.toString();
+        return sb.toString();
     }
 }
 ```
