@@ -2,25 +2,27 @@
 
 ```java
 public class Solution {
-    public String convert(String s, int nRows) {  
-        if(s == null || s.length()==0 || nRows <=0)  
-            return "";  
-        if(nRows == 1)  
+    public String convert(String s, int numRows) {
+        if (numRows == 1) {
             return s;
-            
-        StringBuilder res = new StringBuilder();  
-        int size = 2*nRows-2;  
-        for(int i=0;i<nRows;i++){  
-            for(int j=i;j<s.length();j+=size){  
-                res.append(s.charAt(j));  
-                if(i != 0 && i != nRows - 1){//except the first row and the last row
-                    int temp = j+size-2*i;
-                    if(temp<s.length())
-                        res.append(s.charAt(temp));
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < numRows; i++) {
+            int size = 2 * numRows - 2;
+            for (int j = i; j < s.length(); j+=size) {
+                if (i == 0 || i == numRows - 1) {
+                    sb.append(s.charAt(j));
+                } else {
+                    int loc1 = j;
+                    int loc2 = j + size - 2 * i;
+                    sb.append(s.charAt(loc1));
+                    if (loc2 < s.length()) {
+                        sb.append(s.charAt(loc2));
+                    }
                 }
-            }                  
-        }  
-        return res.toString();  
+            }
+        }
+        return sb.toString();
     }
 }
 ```
