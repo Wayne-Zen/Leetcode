@@ -3,29 +3,30 @@
 ```java
 public class Solution {
     public String multiply(String num1, String num2) {
-        String n1 = (new StringBuilder(num1)).reverse().toString();
-        String n2 = (new StringBuilder(num2)).reverse().toString();
-        
-        int[] d = new int[n1.length()+n2.length()];     // 构建数组存放乘积
-        for(int i=0; i<n1.length(); i++){
-            for(int j=0; j<n2.length(); j++){
-                d[i+j] += (n1.charAt(i)-'0') * (n2.charAt(j)-'0');      // 在正确位置累加乘积
+        int[] res = new int[num1.length() + num2.length()];
+        for (int i = 0; i < num1.length(); i++) {
+            for (int j = 0; j < num2.length(); j++) {
+                int num0 = num1.length() - 1 - i + num2.length() - 1 - j;
+                int loc = res.length - num0 - 1;
+                res[loc] += (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
             }
         }
-        
         int carry = 0;
+        for (int i = res.length - 1; i >= 0; i--) {
+            int val = carry + res[i];
+            res[i] = val % 10;
+            carry = val / 10;
+        }
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < d.length; i++) {
-            int sum = carry + d[i];
-            sb.append(sum % 10);
-            carry = sum / 10;
+        int start = res.length - 1;
+        for (int i = 0; i < res.length; i++) {
+            if (res[i] != 0) {
+                start = i; 
+                break;
+            }
         }
-        if (carry != 0) {
-            sb.append(carry);
-        }
-        sb = sb.reverse();
-        while(sb.charAt(0)=='0' && sb.length()>1){
-            sb.deleteCharAt(0);
+        for (int i = start; i < res.length; i++) {
+            sb.append(res[i]);
         }
         return sb.toString();
     }
