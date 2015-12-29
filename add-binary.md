@@ -4,30 +4,28 @@
 ```java
 public class Solution {
     public String addBinary(String a, String b) {
-        int carry = 0;
         StringBuilder sb = new StringBuilder();
-        if (a.length() > b.length()) {
-            String temp = a;
-            a = b;
-            b = temp;
+        int i1 = a.length() - 1;
+        int i2 = b.length() - 1;
+        int carry = 0;
+        while (i1 >= 0 && i2 >= 0) {
+            int val = carry + a.charAt(i1) - '0' + b.charAt(i2) - '0';
+            sb.append(val % 2);
+            carry = val / 2;
+            i1--;
+            i2--;
         }
-        // l1 <= l2
-        int l1 = a.length();
-        int l2 = b.length();
-        for (int i = 0; i < l1; i++) {
-             int c1 = a.charAt(l1 - 1 - i) - '0';
-             int c2 = b.charAt(l2 - 1 - i) - '0';
-             int sum = c1 + c2 + carry;
-             int bit = sum % 2;
-             carry = sum / 2;
-             sb.append(bit);
+        while (i1 >= 0) {
+            int val = carry + a.charAt(i1) - '0';
+            sb.append(val % 2);
+            carry = val / 2;
+            i1--;
         }
-        for (int i = l1; i < l2; i++) {
-            int c = b.charAt(l2 - 1 - i) - '0';
-            int sum = c + carry;
-            int bit = sum % 2;
-            carry = sum / 2;
-            sb.append(bit);
+        while (i2 >= 0) {
+            int val = carry + b.charAt(i2) - '0';
+            sb.append(val % 2);
+            carry = val / 2;
+            i2--;
         }
         if (carry == 1) {
             sb.append(1);
