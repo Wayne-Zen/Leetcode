@@ -8,34 +8,28 @@ public class Solution {
         if (num == null || num.length() == 0) {
             return res;
         }
-        for (int i = 0; i < num.length(); i++) {
-            String token = num.substring(0, i + 1);
-            long val = Long.valueOf(token);
-            String rest = num.substring(i + 1);
-            if (token.length() != 1 && token.charAt(0) == '0') {
-                continue;
-            }
-            help(res, token, rest, target, val, val);
-        }
+        help(res, "", 0, 0, num, target);
         return res;
     }
-    
-    private void help(List<String> res, String now, String num,
-                      int target, long sum, long preVal) {
-        if (num.length() == 0 && target == sum) {
+    private void help(List<String> res, String now, long sum, long preVal, String num, int target) {
+        if (num.length() == 0 && sum == target) {
             res.add(now);
             return;
         }
-        for (int i = 0; i < num.length(); i++) {
-            String token = num.substring(0, i + 1);
-            long val = Long.valueOf(token);
-            String rest = num.substring(i + 1);
-            if (token.length() != 1 && token.charAt(0) == '0') {
+        for (int i = 1; i <= num.length(); i++) {
+            String prefix = num.substring(0, i);
+            String suffix = num.substring(i);
+            if (prefix.length() > 1 && prefix.charAt(0) == '0') {
                 continue;
             }
-            help(res, now + '+' + token, rest, target, sum + val, val);
-            help(res, now + '-' + token, rest, target, sum - val, -val);
-            help(res, now + '*' + token, rest, target, (sum - preVal) + preVal * val, preVal * val);
+            long curVal = Long.valueOf(prefix);
+            if (now.length() == 0) {
+                help(res, prefix, curVal, curVal, suffix, target);
+            } else {
+                help(res, now + "*" + prefix, sum - preVal + preVal * curVal, preVal * curVal, suffix, target);
+                help(res, now + "+" + prefix, sum + curVal, curVal, suffix, target);
+                help(res, now + "-" + prefix, sum - curVal, -curVal, suffix, target);
+            }
         }
     }
 }
