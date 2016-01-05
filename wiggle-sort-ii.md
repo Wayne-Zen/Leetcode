@@ -30,31 +30,25 @@ public class Solution {
         nums[x] = nums[y];
         nums[y] = temp;
     }
+    private int transform(int x, int n) {
+        return (2 * x + 1) % (n | 1);
+    }
     public void wiggleSort(int[] nums) {
         int median = find(nums, nums.length / 2);
         int lo = 0; 
         int hi = nums.length - 1;
+        int n = nums.length;
         for (int i = lo; i <= hi; i++) {
-            if (nums[i] < median) {
-                swap(nums, lo++, i);
-            } else if (nums[i] > median) {
-                swap(nums, hi--, i--);
+            if (nums[transform(i, n)] > median) {
+                swap(nums, transform(lo, n), transform(i, n));
+                lo++;
+            } else if (nums[transform(i, n)] < median) {
+                swap(nums, transform(hi, n), transform(i, n));
+                hi--;
+                i--;
             }
         }
         
-        int[] res = new int[nums.length];
-        int i1 = (nums.length - 1) / 2;
-        int i2 = nums.length - 1;
-        for (int i = 0; i < res.length; i++) {
-            if (i % 2 == 0) {
-                res[i] = nums[i1--];
-            } else {
-                res[i] = nums[i2--];
-            }
-        }
-        for (int i = 0; i < res.length; i++) {
-            nums[i] = res[i];
-        }
     }
 }
 ```
