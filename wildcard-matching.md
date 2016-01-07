@@ -18,8 +18,6 @@ public class Solution {
                     dp[i][j] = dp[i - 1][j - 1];    
                 } else if (p.charAt(j - 1) == '*') {
                     dp[i][j] = dp[i][j - 1] || dp[i - 1][j];
-                } else {
-                    dp[i][j] = false;
                 }
             }
         }
