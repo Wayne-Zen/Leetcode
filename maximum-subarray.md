@@ -7,18 +7,16 @@ public class Solution {
         if (nums == null || nums.length == 0) {
             return 0;
         }
-        int maxSum = nums[0];
-        int curSum = nums[0];
+        int sum = nums[0];
+        int max = nums[0];
         for (int i = 1; i < nums.length; i++) {
-            if (curSum <= 0) {
-                curSum = 0;
+            if (sum < 0) {
+                sum = 0;
             }
-            curSum = curSum + nums[i];
-            if (curSum > maxSum) {
-                maxSum = curSum;
-            }
+            sum += nums[i];
+            max = Math.max(max, sum);
         }
-        return maxSum;
+        return max;
     }
 }
 ```
