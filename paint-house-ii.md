@@ -18,7 +18,18 @@ public class Solution {
             int min2 = Integer.MAX_VALUE; // 次小
             int index1 = 0;
             int index2 = 0;
-            for (int j = 0; j < k; j++) {
+            if (dp[i - 1][0] < dp[i - 1][1]) {
+                min1 = dp[i - 1][0];
+                min2 = dp[i - 1][1];
+                index1 = 0;
+                index2 = 1;
+            } else {
+                min1 = dp[i - 1][1];
+                min2 = dp[i - 1][0];
+                index1 = 1;
+                index2 = 0;
+            }
+            for (int j = 2; j < k; j++) {
                 if (dp[i - 1][j] < min1) {
                     min2 = min1;
                     index2 = index1;
