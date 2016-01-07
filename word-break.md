@@ -3,18 +3,18 @@
 ```java
 public class Solution {
     public boolean wordBreak(String s, Set<String> wordDict) {
-        int N = s.length() + 1;
-        boolean[] dp = new boolean[N];
+        int n = s.length() + 1;
+        boolean[] dp = new boolean[n];
         dp[0] = true;
-        for (int i = 1; i < N; i++) {
-            for (int j = 0; j < i; j++) {
-                if (dp[j] && wordDict.contains(s.substring(j, i))) {
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j <= i; j++) { // last part length
+                if (dp[i - j] && wordDict.contains(s.substring(i - j, i))) {
                     dp[i] = true;
                     break;
                 }
             }
         }
-        return dp[N - 1];
+        return dp[n - 1];
     }
 }
 ```
