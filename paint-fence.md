@@ -3,17 +3,11 @@
 ```java
 public class Solution {
     public int numWays(int n, int k) {
-        if (k < 1) {
-            return 0;
-        }
         if (n == 0) {
             return 0;
         }
         if (n == 1) {
             return k;
-        }
-        if (n == 2) {
-            return k * k;
         }
         int[] dp = new int[n + 1];
         dp[0] = 0;
