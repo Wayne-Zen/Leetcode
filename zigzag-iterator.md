@@ -2,34 +2,39 @@
 
 ```java
 public class ZigzagIterator {
-
-    boolean b1 = true;
-    Iterator<Integer> it1;
-    Iterator<Integer> it2;
+    Iterator<Integer> iter1;
+    Iterator<Integer> iter2;
+    boolean p1 = true;
     public ZigzagIterator(List<Integer> v1, List<Integer> v2) {
-        this.it1 = v1.iterator();
-        this.it2 = v2.iterator();
+        if (v1 != null) {
+            iter1 = v1.iterator();
+        }
+        if (v2 != null) {
+            iter2 = v2.iterator();
+        }
     }
 
     public int next() {
-        if (it1.hasNext() && it2.hasNext()) {
-            if (b1) {
-                b1 = !b1;
-                return it1.next();
+        if (iter1 != null && iter1.hasNext() && iter2 != null && iter2.hasNext()) {
+            int res = 0;
+            if (p1) {
+                res = iter1.next();
             } else {
-                b1 = !b1;
-                return it2.next();
+                res = iter2.next();
             }
-        }
-        if (it1.hasNext()) {
-            return it1.next();
-        } else { // (it2.hasNext())
-            return it2.next();
+            p1 = !p1;
+            return res;
+        } else if (iter1 != null && iter1.hasNext()) {
+            return iter1.next();
+        } else if (iter2 != null && iter2.hasNext()){
+            return iter2.next();
+        } else {
+            return 0;
         }
     }
 
     public boolean hasNext() {
-        return it1.hasNext() || it2.hasNext();
+        return (iter1 != null && iter1.hasNext()) || (iter2 != null && iter2.hasNext());
     }
 }
 
