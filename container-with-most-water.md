@@ -26,3 +26,34 @@ public class Solution {
     }
 }
 ```
+
+```java
+public class Solution {
+    public int maxArea(int[] height) {
+
+        int lpos = 0;
+        int rpos = height.length - 1;
+        int max = 0;
+
+        while (lpos < rpos) {
+            int area =  Math.min(height[lpos], height[rpos]) * (rpos - lpos);
+            max = Math.max(max, area);
+            if (height[lpos] < height[rpos]) {
+                int i = 1;
+                while (lpos + i < rpos && height[lpos + i] <= height[lpos]) {
+                    i++;
+                }
+                lpos += i;
+            } else {
+                int i = 1;
+                while (lpos < rpos - i && height[rpos - i] <= height[rpos]) {
+                    i++;
+                }
+                rpos -= i;
+            }
+        }
+
+        return max;
+    }
+}
+```
