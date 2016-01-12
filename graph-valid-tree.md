@@ -2,6 +2,44 @@
 
 ```java
 public class Solution {
+    public boolean validTree(int n, int[][] edges) {
+        if (n == 0) {
+            return false;
+        }
+        HashMap<Integer, HashSet<Integer>> graph = new HashMap<Integer, HashSet<Integer>>();
+        for (int i = 0; i < n; i++) {
+            graph.put(i, new HashSet<Integer>());
+        }
+        for (int i = 0; i < edges.length; i++) {
+            int s = edges[i][0];
+            int t = edges[i][1];
+            graph.get(s).add(t);
+            graph.get(t).add(s);
+        }
+        HashSet<Integer> visited = new HashSet<Integer>();
+        Queue<Integer> q = new LinkedList<Integer>();
+        visited.add(0);
+        q.offer(0);
+        while (!q.isEmpty()) {
+            int s = q.poll();
+            for (int t : graph.get(s)) {
+                graph.get(t).remove(s);
+                if (visited.contains(t)) {
+                    return false;
+                }
+                q.offer(t);
+                visited.add(t);
+            }
+            graph.remove(s);
+        }
+    
+        return visited.size() == n;
+    }
+}
+```
+
+```java
+public class Solution {
     class UF {
         int count;
         int[] parent;
