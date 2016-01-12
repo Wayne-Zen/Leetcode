@@ -3,24 +3,33 @@
 ```java
 public class Solution {
     public String shortestPalindrome(String s) {
-        StringBuffer rev_s = new StringBuffer(s);
-        rev_s = rev_s.reverse();
-        StringBuffer l = new StringBuffer();
-        l.append(s);
-        l.append('#');
-        l.append(rev_s);
-        int[] p = new int[l.length()];
-        for (int i=1; i<l.length(); i++) {
-            int j = p[i-1];
-            while (j>0 && l.charAt(i) != l.charAt(j)) {
-                j = p[j-1];
-            }
-            p[i] = j + (l.charAt(i)==l.charAt(j) ? 1 : 0);
+        int n = s.length();
+        int[] v = new int[2 * n + 1];
+        int pos = 0;
+        for (int i = 0; i < n; i++) {
+            v[pos++] = s.charAt(i);
         }
-        StringBuffer res = new StringBuffer();
-        res.append(rev_s.substring(0, s.length() - p[p.length-1]));
-        res.append(s);
-        return res.toString();
+        v[pos++] = Integer.MAX_VALUE;
+        for (int i = n - 1; i >= 0; i--) {
+            v[pos++] = s.charAt(i);
+        }
+        int j = 0;
+        int[] p = new int[v.length];
+        for (int i = 1; i < v.length; i++) {
+            while (j != 0 && v[j] != v[i]) {
+                j = p[j - 1];
+            }
+            if (v[j] == v[i]) {
+                j++;
+                p[i] = j;
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = n + 1; i < n + 1 + n - p[p.length - 1]; i++) {
+            sb.append((char)v[i]);
+        }
+        sb.append(s);
+        return sb.toString();
     }
 }
 ```
