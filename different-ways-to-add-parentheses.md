@@ -5,7 +5,7 @@ import java.util.regex.*;
 
 public class Solution {
     public List<Integer> diffWaysToCompute(String input) {
-        Pattern pattern = Pattern.compile("((\\d*\\.\\d+)|(\\d+)|([\\+\\-\\*/\\(\\)]))");
+        Pattern pattern = Pattern.compile("((\\d+)|([\\+\\-\\*/]))");
         Matcher m = pattern.matcher(input);
         List<String> all = new ArrayList<String>();
         while(m.find()) {
