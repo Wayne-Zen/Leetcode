@@ -26,11 +26,11 @@ public class Solution {
                 break;
             }
         }
-        char[] res_arr = new char[res.size()];
-        for (int i = 0; i < res_arr.length; i++) {
-            res_arr[i] = res.get(i);
+        StringBuilder sb = new StringBuilder();
+        for (char c : res) {
+            sb.append(c);
         }
-        return String.valueOf(res_arr);
+        return sb.toString();
     }
 }
 ```
