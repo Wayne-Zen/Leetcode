@@ -9,7 +9,7 @@ public class Solution {
         }
         int lo = 0;
         for (int i = 1; i < nums.length; i++) {
-            if (i - lo == nums[i] - nums[lo]) {
+            if (nums[i] == nums[i - 1] + 1) {
                 continue;
             } else {
                 if (nums[i - 1] == nums[lo]) {
