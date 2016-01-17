@@ -17,15 +17,18 @@ public class Solution {
             return res;
         }
         Stack<TreeNode> stack = new Stack<TreeNode>();
-        TreeNode cur = root;
-        while (cur != null || !stack.isEmpty()) {
-            while (cur != null) {
-                stack.push(cur);
-                cur = cur.left;
+        while (root != null) {
+            stack.push(root);
+            root = root.left;
+        }
+        while (!stack.isEmpty()) {
+            root = stack.pop();
+            res.add(root.val);
+            root = root.right;
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
             }
-            cur = stack.pop();
-            res.add(cur.val);
-            cur = cur.right;
         }
         return res;
     }
