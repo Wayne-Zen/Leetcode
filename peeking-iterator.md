@@ -4,23 +4,22 @@
 // Java Iterator interface reference:
 // https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html
 class PeekingIterator implements Iterator<Integer> {
-    private Iterator<Integer> iterator;
-    private Integer save;
-    private boolean saved = false;
-    
+    boolean peeked = false;
+    Integer peekedVal = 0;
+    Iterator<Integer> iter;
 	public PeekingIterator(Iterator<Integer> iterator) {
 	    // initialize any member here.
-	    this.iterator = iterator;
+	    iter = iterator;
 	}
 
     // Returns the next element in the iteration without advancing the iterator.
 	public Integer peek() {
-	    if (saved) {
-            return save;
+	    if (peeked) {
+	        return peekedVal;
 	    } else {
-	        save = next();
-            saved = true;
-            return save;
+            peeked = true;
+            peekedVal = iter.next();
+            return peekedVal;
 	    }
 	}
 
@@ -28,20 +27,20 @@ class PeekingIterator implements Iterator<Integer> {
 	// Override them if needed.
 	@Override
 	public Integer next() {
-	    if (saved) {
-	        saved = false;
-	        return save;
+	    if (peeked) {
+	        peeked = false;
+	        return peekedVal;
 	    } else {
-	        return iterator.next();
+	        return iter.next();
 	    }
 	}
 
 	@Override
 	public boolean hasNext() {
-	    if (saved) {
+	    if (peeked) {
 	        return true;
 	    } else {
-	        return iterator.hasNext();
+	        return iter.hasNext();
 	    }
 	}
 }
