@@ -11,7 +11,6 @@ public class Vector2D {
     }
 
     public int next() {
-        hasNext();
         return iIter.next();
     }
 
