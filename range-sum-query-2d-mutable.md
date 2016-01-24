@@ -61,8 +61,6 @@ public class NumMatrix {
             if (r < node.r1 || r > node.r2 || c < node.c1 || c > node.c2) {
                 return;
             }
-            int rmid = node.r1 + (node.r2 - node.r1) / 2;
-            int cmid = node.c1 + (node.c2 - node.c1) / 2;
             modifyHelp(node.lu, r, c, val);
             modifyHelp(node.ru, r, c, val);
             modifyHelp(node.ld, r, c, val);
