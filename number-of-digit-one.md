@@ -40,28 +40,26 @@ public class Solution {
 ```
 
 ```java
-public class Solution {
-    public int countDigitOne(int n) {
-        if (n < 1) {
-            return 0;
+public int countDigitOne(int n) {
+    int res = 0;
+    int curn = 0;
+    int lown = 0;
+    int highn = n;
+    int lowc = 1;
+    while (highn > 0) {
+        curn = highn % 10;
+        highn = highn / 10;
+        if (curn == 1) {
+            res += highn * lowc;
+            res += lown + 1;
+        } else if (curn < 1) {
+            res += highn * lowc;
+        } else if (curn > 1) {
+            res += (highn + 1) * lowc;
         }
-        long base = 1;
-        long res = 0;
-        while (n / base > 0) {
-            long cur = (n / base) % 10;
-            long lo = n % base;
-            long hi = (n / base) / 10;
-            if (cur == 1) {
-                res += hi * base;
-                res += lo + 1;
-            } else if (cur < 1) {
-                res += hi * base;
-            } else if (cur > 1) {
-                res += (hi + 1) * base;
-            }
-            base *= 10;
-        }
-        return (int)res;
+        lown = lown + lowc * curn;
+        lowc *= 10;
     }
+    return res;
 }
 ```
