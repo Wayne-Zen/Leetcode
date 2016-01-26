@@ -12,30 +12,30 @@ public class Solution extends Reader4 {
      */
     Queue<Character> q = new LinkedList<Character>();
     public int read(char[] buf, int n) {
-        char[] temp = new char[4];    
+        char[] temp = new char[4];
         int index = 0;
-        while (index < n) {
-            while (!q.isEmpty()) {
-                buf[index++] = q.poll();
-                if (index == n) {
-                    return index;
-                }
-            }
-            int n4 = read4(temp);
-            for (int i = 0; i < n4; i++) {
-                buf[index++] = temp[i];
-                if (index == n) {
-                    for (int k = i + 1; k < n4; k++) {
-                        q.offer(temp[k]);
-                    }
-                    return index;
-                }
-            }
-            if (n4 < 4) {
+        if (n == 0) {
+            return 0;
+        } 
+        while (!q.isEmpty()) {
+            buf[index++] = q.poll();
+            if (index == n) {
                 return index;
             }
         }
-        return index;
+        while (true) {
+            int n4 = read4(temp);
+            int copyNum = Math.min(n4, n - index);
+            for (int i = 0; i < copyNum; i++) {
+                buf[index++] = temp[i];
+            }
+            if (n4 < 4 || n == index) {
+                for (int i = copyNum; i < n4; i++) {
+                    q.offer(temp[i]);
+                }
+                return index;
+            }
+        }
     }
 }
 ```
