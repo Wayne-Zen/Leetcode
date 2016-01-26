@@ -1,5 +1,12 @@
 [Link](https://leetcode.com/problems/count-of-range-sum/)
 
+The merge sort based solution counts the answer while doing the merge. During the merge stage, we have already sorted the left half `[start, mid)` and right half `[mid, end)`. We then iterate through the left half with index `i`. For each `i`, we need to find two indices `k` and `j` in the right half where
+
+* `j` is the first index satisfy `S_j - S_i > upper`;
+* `k` is the first index satisfy `S_k - S_i >= lower`.
+
+Then the number of sums in `[lower, upper]` is `j-k`. We also use another index `t` to copy the elements satisfy `S_t < S_i` to a cache in order to complete the merge sort.
+
 ```java
 public class Solution {
     class TreeNode {
