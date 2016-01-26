@@ -34,10 +34,12 @@ public class Solution {
         return (2 * x + 1) % (n | 1);
     }
     public void wiggleSort(int[] nums) {
+        // find median smaller | larger
         int median = find(nums, nums.length / 2);
         int lo = 0; 
         int hi = nums.length - 1;
         int n = nums.length;
+        // wiggle sort larger | smaller
         for (int i = lo; i <= hi; i++) {
             if (nums[transform(i, n)] > median) {
                 swap(nums, transform(lo, n), transform(i, n));
