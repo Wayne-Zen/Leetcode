@@ -3,25 +3,27 @@
 ```java
 public class Solution {
     public List<List<Integer>> getFactors(int n) {
-        List<List<Integer>> result = new ArrayList<List<Integer>>();
-        if (n <= 3) return result;
-        helper(n, -1, result, new ArrayList<Integer>());
-        return result; 
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        if (n <= 3) return res;
+        List<Integer> now = new ArrayList<Integer>();
+        help(res, now, n, 2, n);
+        return res;
     }
-    
-    public void helper(int n, int lower, List<List<Integer>> result, List<Integer> cur) {
-        if (lower != -1) {
-            cur.add(n);
-            result.add(new ArrayList<Integer>(cur));
-            cur.remove(cur.size() - 1);
-        }
-        int upper = (int)Math.floor(Math.sqrt(n));
-        for (int i = Math.max(2, lower); i <= upper; ++i) {
-            if (n % i == 0) {
-                cur.add(i);
-                helper(n / i, i, result, cur);
-                cur.remove(cur.size() - 1);
+    private void help(List<List<Integer>> res, List<Integer> now, int n, int base, int init) {
+        if (n == 1) {
+            if (now.size() == 1 && now.get(0) == init) {
+                return;
             }
+            res.add(new ArrayList<Integer>(now));
+            return;
+        }
+        for (int i = base; i <= n; i++) {
+            if (n % i != 0) {
+                continue;
+            }
+            now.add(i);
+            help(res, now, n / i, i, init);
+            now.remove(now.size() - 1);
         }
     }
 }
