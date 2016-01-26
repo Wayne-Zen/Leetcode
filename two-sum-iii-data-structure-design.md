@@ -4,26 +4,28 @@
 public class TwoSum {
     // num -> count
     HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+    ArrayList<Integer> keys = new ArrayList<Integer>();
     // Add the number to an internal data structure.
-	public void add(int number) {
-	    if (map.containsKey(number)) {
-	        map.put(number,map.get(number) + 1);
-	    } else {
-	        map.put(number, 1);
-	    }
-	}
+    public void add(int number) {
+        if (map.containsKey(number)) {
+            map.put(number,map.get(number) + 1);
+        } else {
+            map.put(number, 1);
+            keys.add(number);
+        }
+    }
 
     // Find if there exists any pair of numbers which sum is equal to the value.
-	public boolean find(int value) {
-	    for (int i : map.keySet()) {
-	        int num1 = i;
-	        int num2 = value - i;
-	        if ((num1 == num2 && map.get(num1) >= 2) || (num1 != num2 && map.containsKey(num2))) {
-	            return true;
-	        }
-	    }
-	    return false;
-	}
+    public boolean find(int value) {
+        for (int i : keys) {
+            int num1 = i;
+            int num2 = value - i;
+            if ((num1 < num2 && map.containsKey(num2)) || (num1 == num2 && map.get(num1) >= 2)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 
