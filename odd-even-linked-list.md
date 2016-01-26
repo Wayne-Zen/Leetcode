@@ -14,25 +14,26 @@ public class Solution {
         if (head == null || head.next == null) {
             return head;
         }
-        ListNode odd = head;
-        ListNode even = head.next;
-        ListNode evenSave = even;
-        ListNode move = head.next.next;
-        while (move != null && move.next != null) {
-            odd.next = move;
-            even.next = move.next;
-            
-            odd = odd.next;
-            even = even.next;
-            move = move.next.next;
+        ListNode oddDummy = new ListNode(-1);
+        ListNode evenDummy = new ListNode(-1);
+        ListNode oddMove = oddDummy;
+        ListNode evenMove = evenDummy;
+        int index = 1;
+        while (head != null) {
+            if (index % 2 == 1) {
+                oddMove.next = head;
+                head = head.next;
+                oddMove = oddMove.next;
+            } else {
+                evenMove.next = head;
+                head = head.next;
+                evenMove = evenMove.next;
+            }
+            index++;
         }
-        if (move != null) {
-            odd.next = move;
-            odd = odd.next;
-        }
-        odd.next = evenSave;
-        even.next = null;
-        return head;
+        oddMove.next = evenDummy.next;
+        evenMove.next = null;
+        return oddDummy.next;
     }
 }
 ```
