@@ -13,21 +13,16 @@ public class Solution extends Reader4 {
     public int read(char[] buf, int n) {
         char[] temp = new char[4];
         int index = 0;
-        while (index < n) {
+        while (true) {
             int n4 = read4(temp);
-            for (int i = 0; i < n4; i++) {
-                if (index < n) {
-                    buf[index] = temp[i];
-                    index++;
-                } else {
-                    return index;
-                }
+            int copyNum = Math.min(n4, n - index);
+            for (int i = 0; i < copyNum; i++) {
+                buf[index++] = temp[i];
             }
-            if (n4 < 4) {
+            if (n4 < 4 || index == n) {
                 return index;
             }
         }
-        return index;
     }
 }
 ```
