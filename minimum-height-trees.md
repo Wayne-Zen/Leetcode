@@ -3,35 +3,22 @@
 ```java
 public class Solution {
     public List<Integer> findMinHeightTrees(int n, int[][] edges) {
-        List<Integer> res = new ArrayList<Integer>();
-        if (n == 1) {
-            res.add(0);
-            return res;
-        }
-        HashMap<Integer, List<Integer>> graph = new HashMap<Integer, List<Integer>>();
+        HashMap<Integer, HashSet<Integer>> graph = new HashMap<Integer, HashSet<Integer>>();
         HashMap<Integer, Integer> degree = new HashMap<Integer, Integer>();
+        for (int i = 0; i < n; i++) {
+            graph.put(i, new HashSet<Integer>());
+            degree.put(i, 0);
+        }
         for (int i = 0; i < edges.length; i++) {
-            int n1 = edges[i][0];
-            int n2 = edges[i][1];
-            if (graph.containsKey(n1)) {
-                graph.get(n1).add(n2);
-            } else {
-                List<Integer> neighbors = new ArrayList<Integer>();
-                neighbors.add(n2);
-                graph.put(n1, neighbors);
-            }
-            if (graph.containsKey(n2)) {
-                graph.get(n2).add(n1);
-            } else {
-                List<Integer> neighbors = new ArrayList<Integer>();
-                neighbors.add(n1);
-                graph.put(n2, neighbors);
-            }
-            degree.put(n1, degree.containsKey(n1) ? degree.get(n1) + 1 : 1);
-            degree.put(n2, degree.containsKey(n2) ? degree.get(n2) + 1: 1);
+            int s = edges[i][0];
+            int t = edges[i][1];
+            graph.get(s).add(t);
+            graph.get(t).add(s);
+            degree.put(s, degree.get(s) + 1);
+            degree.put(t, degree.get(t) + 1);
         }
         Queue<Integer> q = new LinkedList<Integer>();
-        for (int i : degree.keySet()) {
+        for (int i = 0; i < n; i++) {
             if (degree.get(i) == 1) {
                 q.offer(i);
             }
@@ -40,17 +27,18 @@ public class Solution {
             int size = q.size();
             for (int i = 0; i < size; i++) {
                 int s = q.poll();
-                int t = graph.get(s).get(0);
-                degree.put(s, degree.get(s) - 1);
+                int t = graph.get(s).iterator().next();
+                graph.get(t).remove(s);
+                graph.remove(s);
                 degree.put(t, degree.get(t) - 1);
-                graph.remove(Integer.valueOf(s));
-                graph.get(t).remove(Integer.valueOf(s));
+                degree.remove(s);
                 if (degree.get(t) == 1) {
                     q.offer(t);
                 }
             }
         }
-        res.addAll(q);
+        List<Integer> res = new ArrayList<Integer>();
+        res.addAll(graph.keySet());
         return res;
     }
 }
