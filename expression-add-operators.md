@@ -2,6 +2,7 @@
 
 
 ```java
+
 public class Solution {
     public List<String> addOperators(String num, int target) {
         List<String> res = new ArrayList<String>();
@@ -12,13 +13,15 @@ public class Solution {
         return res;
     }
     private void help(List<String> res, String now, long sum, long preVal, String num, int target) {
-        if (num.length() == 0 && sum == target) {
-            res.add(now);
+        if (num.length() == 0) {
+            if (sum == target) {
+                res.add(now);
+            }
             return;
         }
-        for (int i = 1; i <= num.length(); i++) {
-            String prefix = num.substring(0, i);
-            String suffix = num.substring(i);
+        for (int k = 0; k < num.length(); k++) {
+            String prefix = num.substring(0, k + 1);
+            String suffix = num.substring(k + 1);
             if (prefix.length() > 1 && prefix.charAt(0) == '0') {
                 continue;
             }
