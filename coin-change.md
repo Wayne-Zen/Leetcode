@@ -3,7 +3,6 @@
 ```java
 public class Solution {
     public int coinChange(int[] coins, int amount) {
-        Arrays.sort(coins);
         int M = coins.length; 
         int N = amount + 1;
         int[][] dp = new int[M][N];
