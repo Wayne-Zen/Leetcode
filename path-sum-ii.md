@@ -28,8 +28,8 @@ public class Solution {
         if (root.left == null && root.right == null) {
             if (sum == root.val) {
                 res.add(new ArrayList<Integer>(now));
-                return;
             }
+            return;
         }
         if (root.left != null) {
             now.add(root.left.val);
