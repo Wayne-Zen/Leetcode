@@ -16,20 +16,18 @@ public class Solution {
         if (root == null) {
             return res;
         }
-        help(res, String.valueOf(root.val), root);
+        List<String> left = binaryTreePaths(root.left);
+        List<String> right = binaryTreePaths(root.right);
+        for (String s : left) {
+            res.add(root.val + "->" + s);
+        }
+        for (String s : right) {
+            res.add(root.val + "->" + s);
+        }
+        if (left.size() == 0 && right.size() == 0) {
+            res.add(String.valueOf(root.val));
+        }
         return res;
-    }
-    private void help(List<String> res, String now, TreeNode root) {
-        if (root.left == null && root.right == null) {
-            res.add(now);
-            return;
-        }
-        if (root.left != null) {
-            help(res, now + "->" + root.left.val, root.left);
-        }
-        if (root.right != null) {
-            help(res, now + "->" + root.right.val, root.right);
-        }
     }
 }
 ```
