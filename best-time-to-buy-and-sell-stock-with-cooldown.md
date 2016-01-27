@@ -9,7 +9,7 @@ public class Solution {
         int N = prices.length;
         int[] sell = new int[N];
         int[] buy = new int[N];
-        // 初始化是关键
+        // 初始化是关键, buy 意味着有一只股票在手上
         sell[0] = 0;
         sell[1] = Math.max(0, prices[1] - prices[0]);
         buy[0] = -prices[0];
