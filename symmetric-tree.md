@@ -15,22 +15,22 @@ public class Solution {
         if (root == null) {
             return true;
         }
-        return isSym(root.left, root.right);
+        return check(root.left, root.right);
     }
-    private boolean isSym(TreeNode left, TreeNode right) {
+    private boolean check(TreeNode left, TreeNode right) {
         if (left == null && right == null) {
             return true;
-        }
-        if (left == null && right != null) {
+        } else if (left != null && right == null) {
             return false;
-        }
-        if (left != null && right == null) {
+        } else if (left == null && right != null) {
             return false;
+        } else {
+            if (left.val != right.val) {
+                return false;
+            } else {
+                return check(left.right, right.left) && check(left.left, right.right);
+            }
         }
-        if (left.val != right.val) {
-            return false;
-        }
-        return isSym(left.right, right.left) && isSym(left.left, right.right);
     }
 }
 ```
