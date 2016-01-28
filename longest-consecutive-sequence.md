@@ -18,12 +18,14 @@ public class Solution {
             int len = 1;
             int n1 = n - 1;
             int n2 = n + 1;
-            while (set.contains(n1) || set.contains(n2)) {
+            while (set.contains(n1)) {
                 if (set.contains(n1)) {
                     len++;
                     set.remove(n1);
                     n1--;
                 }
+            }
+            while (set.contains(n2)) {
                 if (set.contains(n2)) {
                     len++;
                     set.remove(n2);
