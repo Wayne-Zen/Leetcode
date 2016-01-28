@@ -1,40 +1,43 @@
 [Link](https://leetcode.com/problems/minimum-size-subarray-sum/)
 
-* 需要纪录是否发现了满足要求的subarray
-* expand 和 shrink, 坐标更新与求和的顺序不一样
 
 ```java
 public class Solution {
     public int minSubArrayLen(int s, int[] nums) {
-        if (nums == null || nums.length == 0 || s <= 0) {
+        if (nums == null || nums.length == 0) {
             return 0;
         }
-        int len = nums.length + 1;
         int lo = -1; // exclusive
         int hi = -1;
         int sum = 0;
+        boolean expand = true;
+        int len = Integer.MAX_VALUE;
         while (true) {
-            if (sum < s) {
+            if (expand) {
                 hi++;
                 if (hi == nums.length) {
                     break;
                 }
                 sum += nums[hi];
+                if (sum >= s) {
+                    expand = false;
+                    len = Math.min(len, hi - lo);
+                } 
             } else {
                 lo++;
                 sum -= nums[lo];
-            }
-            if (sum >= s) {
-                len = Math.min(len, hi - lo);
-                if (len == 1) {
-                    return 1;
+                if (sum >= s) {
+                    len = Math.min(len, hi - lo);
+                } else {
+                    expand = true;
                 }
             }
         }
-        if (len == nums.length + 1) {
+        if (len == Integer.MAX_VALUE) {
             return 0;
+        } else {
+            return len;
         }
-        return len;
     }
 }
 ```
