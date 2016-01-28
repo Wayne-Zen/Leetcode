@@ -11,28 +11,27 @@
  */
 public class Solution {
     public void connect(TreeLinkNode root) {
-        TreeLinkNode now = root;
-        TreeLinkNode head = null; // 纪录下一层的头，方便跳转到下一层
-        while (now != null) {
-            if (head == null && now.left != null) {
-                head = now.left;
-            } 
-            if (now.left != null && now.right == null) {
-                now = head;
-                head = null;
-            } else if (now.left == null && now.right == null) {
-                now = head;
-                head = null;
-            } else if (now.left != null && now.right != null) {
-                now.left.next = now.right;
-                if (now.next != null) {
-                    now.right.next = now.next.left;
-                    now = now.next;
-                } else {
-                    now = head;
-                    head = null;
+        if (root == null) {
+            return;
+        }
+        TreeLinkNode nextLevelHead = root;
+        while (nextLevelHead != null) {
+            TreeLinkNode move = nextLevelHead;
+            nextLevelHead = null;
+            TreeLinkNode prev = null;
+            while (move != null) {
+                if (move.left != null && move.right != null) {
+                    if (nextLevelHead == null) {
+                        nextLevelHead = move.left;
+                    }
+                    if (prev != null) {
+                        prev.next = move.left;
+                    }
+                    move.left.next = move.right;
+                    prev = move.right;
                 }
-            }
+                move = move.next;
+            }    
         }
     }
 }
