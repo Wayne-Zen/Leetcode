@@ -9,6 +9,9 @@ public class Solution {
             return false;
         }
         // bucket index -> lastest val
+        // 纪录最近的坐标
+        // 如果去掉的头元素在window里有相同的值的元素[1, 100, 200, 1, 5]
+        // 再slide到取出头元素之前就已经，满足条件返回true了， 所以可以直接remove
         HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
         for (int i = 0; i < nums.length; i++) {
             if (i > k) {
