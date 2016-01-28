@@ -53,14 +53,12 @@ public class Solution {
                 heap.offer(e.h);
             } else {
                 heap.remove(Integer.valueOf(e.h));
-                
             }
             curH = heap.peek();
             if (curH != H) {
                 H = curH;
                 res.add(new int[]{e.x, H});
             }
-
         }
         return res;
     }
