@@ -6,7 +6,7 @@ public class WordDictionary {
         boolean isEnd = false;
         HashMap<Character, TreeNode> map = new HashMap<Character, TreeNode>();
     }
-    
+
     TreeNode root = new TreeNode();
     // Adds a word into the data structure.
     public void addWord(String word) {
@@ -37,10 +37,12 @@ public class WordDictionary {
                 }
             }
             return false;
-        } else if (node.map.containsKey(c)) {
-            return searchHelp(s, pos + 1, node.map.get(c));
         } else {
-            return false;
+            if (node.map.containsKey(c)) {
+                return searchHelp(s, pos + 1, node.map.get(c));
+            } else {
+                return false;
+            }
         }
     }
 }
