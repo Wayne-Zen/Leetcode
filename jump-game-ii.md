@@ -3,17 +3,21 @@
 ```java
 public class Solution {
     public int jump(int[] nums) {
-        int step = 0;
-        int lastCov = 0; // last coverage
-        int curCov = 0;  // current coverage
-        for (int i = 0; i < nums.length; ++i) {
-            if (i > lastCov) {
-                lastCov = curCov;
-                ++step;
-            }
-            curCov = Math.max(curCov, i + nums[i]);
+        if (nums.length == 1) {
+            return 0;
         }
-
+        int step = 1;
+        int reach = nums[0];
+        int index = 1;
+        while (reach < nums.length - 1) {
+            step++;
+            int nextReach = 0;
+            while (index <= reach) {
+                nextReach = Math.max(nextReach, index + nums[index]);
+                index++;
+            }
+            reach = nextReach;
+        }
         return step;
     }
 }
