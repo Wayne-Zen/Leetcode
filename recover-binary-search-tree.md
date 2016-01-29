@@ -17,49 +17,6 @@
  */
 public class Solution {
     public void recoverTree(TreeNode root) {
-        ArrayList<TreeNode> prev = new ArrayList<TreeNode>();
-        prev.add(null);
-        ArrayList<TreeNode> swap = new ArrayList<TreeNode>();
-        help(prev, root, swap);
-        if (swap.size() > 0) {
-            int temp = swap.get(0).val;
-            swap.get(0).val = swap.get(1).val;
-            swap.get(1).val = temp;
-        }
-    }
-    private void help(ArrayList<TreeNode> prev,
-                      TreeNode root,
-                      ArrayList<TreeNode> swap) {
-        if (root == null) {
-            return;
-        }    
-        help(prev, root.left, swap);
-        if (prev.get(0) != null && prev.get(0).val > root.val) {
-            if (swap.size() == 0) {
-                swap.add(prev.get(0));
-                swap.add(root);
-            } else {
-                swap.set(1, root);
-            }
-        }
-        prev.set(0, root);
-        help(prev, root.right, swap);
-    }
-}
-```
-
-```java
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
- */
-public class Solution {
-    public void recoverTree(TreeNode root) {
         if (root == null) {
             return;
         }
