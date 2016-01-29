@@ -3,22 +3,21 @@
 ```java
 public class Solution {
     public String minWindow(String s, String t) {
-
-        int[] cnt = new int[256];
-        int unique = 0;
+        int[] targetFreq = new int[256];
+        int charNum = 0;
         for (char c : t.toCharArray()) {
-            if (cnt[c] == 0) {
-                unique++;
+            if (targetFreq[c] == 0) {
+                charNum++;
             }
-            cnt[c]++;
+            targetFreq[c]++;
         }
         int lo = -1; // exclusive
         int hi = -1;
         boolean expand = true;
+        int matchCnt = 0;
+        int[] windowFreq = new int[256];
         int min = s.length() + 1;
         String res = "";
-        int[] obsCnt = new int[256];
-        int obsUnique = 0;
         while (true) {
             if (expand) {
                 hi++;
@@ -26,13 +25,13 @@ public class Solution {
                     break;
                 }
                 char c = s.charAt(hi);
-                obsCnt[c]++;
-                if (obsCnt[c] == cnt[c]) {
-                    obsUnique++;
+                windowFreq[c]++;
+                if (windowFreq[c] == targetFreq[c]) {
+                    matchCnt++;
                 }
-                if (obsUnique == unique) {
+                if (matchCnt == charNum) {
                     expand = false;
-                    if (hi - lo  < min) {
+                    if (hi - lo < min) {
                         min = hi - lo;
                         res = s.substring(lo + 1, hi + 1);
                     }
@@ -40,13 +39,14 @@ public class Solution {
             } else {
                 lo++;
                 char c = s.charAt(lo);
-                obsCnt[c]--;
-                if (obsCnt[c] < cnt[c]) {
-                    obsUnique--;
-                    expand = true;
+                windowFreq[c]--;
+                if (windowFreq[c] < targetFreq[c]) {
+                    matchCnt--;
                 }
-                if (obsUnique == unique) {
-                    if (hi - lo  < min) {
+                if (matchCnt < charNum) {
+                    expand = true;
+                } else {
+                    if (hi - lo < min) {
                         min = hi - lo;
                         res = s.substring(lo + 1, hi + 1);
                     }
