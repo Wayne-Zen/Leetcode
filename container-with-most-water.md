@@ -39,17 +39,17 @@ public class Solution {
             int area =  Math.min(height[lpos], height[rpos]) * (rpos - lpos);
             max = Math.max(max, area);
             if (height[lpos] < height[rpos]) {
-                int i = 1;
-                while (lpos + i < rpos && height[lpos + i] <= height[lpos]) {
-                    i++;
+                int next = lpos + 1;
+                while (next < rpos && height[next] <= height[lpos]) {
+                    next++;
                 }
-                lpos += i;
+                lpos = next;
             } else {
-                int i = 1;
-                while (lpos < rpos - i && height[rpos - i] <= height[rpos]) {
-                    i++;
+                int next = rpos - 1;
+                while (lpos < next && height[next] <= height[rpos]) {
+                    next--;
                 }
-                rpos -= i;
+                rpos = next;
             }
         }
 
