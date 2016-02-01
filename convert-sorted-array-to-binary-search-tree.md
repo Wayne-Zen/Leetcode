@@ -29,3 +29,32 @@ public class Solution {
     }
 }
 ```
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    int index = 0;
+    public TreeNode sortedArrayToBST(int[] nums) {
+        return help(nums, nums.length);
+    }
+    public TreeNode help(int[] nums, int size) {
+        if (size <= 0) {
+            return null;
+        }
+        TreeNode left = help(nums, size / 2);
+        TreeNode root = new TreeNode(nums[index++]);
+        TreeNode right = help(nums, size - size / 2 - 1);
+        root.left = left;
+        root.right = right;
+        return root;
+    }
+}
+```
