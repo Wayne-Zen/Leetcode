@@ -66,6 +66,7 @@ public class Solution {
  * }
  */
 public class Solution {
+    ListNode now;
     public TreeNode sortedListToBST(ListNode head) {
         if (head == null) {
             return null;
@@ -76,17 +77,18 @@ public class Solution {
             size++;
             move = move.next;
         }
-        return help(new ListNode[]{head}, size);
+        now = head;
+        return help(size);
     }
-    private TreeNode help(ListNode[] head, int size) {
+    private TreeNode help(int size) {
         if (size <= 0) {
             return null;
         }
-        TreeNode left = help(head, size / 2);
-        TreeNode root = new TreeNode(head[0].val);
-        head[0] = head[0].next;
-        TreeNode right = help(head, size - size / 2 - 1);
-        
+        TreeNode left = help(size / 2);
+        TreeNode root = new TreeNode(now.val);
+        now = now.next;
+        TreeNode right = help(size - size / 2 - 1);
+
         root.left = left;
         root.right = right;
         return root;
