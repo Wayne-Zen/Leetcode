@@ -41,8 +41,9 @@ public class Solution {
  * }
  */
 public class Solution {
-    int index = 0;
+    int index;
     public TreeNode sortedArrayToBST(int[] nums) {
+        index = 0;
         return help(nums, nums.length);
     }
     public TreeNode help(int[] nums, int size) {
