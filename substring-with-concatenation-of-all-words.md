@@ -56,52 +56,57 @@ public class Solution {
 ```java
 public class Solution {
     public List<Integer> findSubstring(String s, String[] words) {
-        List<Integer> res = new LinkedList<Integer>();
-        if(words == null || words.length == 0 || s == null || s.equals("")) {
+        List<Integer> res = new ArrayList<Integer>();
+        if (words == null || words.length == 0) {
             return res;
         }
-        HashMap<String, Integer> freq = new HashMap<String, Integer>();
-        for(String word : words){
-            freq.put(word, freq.containsKey(word) ? freq.get(word) + 1 : 1);
+        int wordLen = words[0].length();
+        if (s == null || s.length() < wordLen * words.length) {
+            return res;
         }
-        int len = words[0].length();
-        for (int i = 0; i < len; i++) {
-            HashMap<String, Integer> obs = new HashMap<String, Integer>();
-            int lo = i - 1; // exclusive
-            int hi = i - 1;
+        HashMap<String, Integer> targetFreq = new HashMap<String, Integer>();
+        for (String word : words) {
+            targetFreq.put(word, targetFreq.containsKey(word) ? targetFreq.get(word) + 1 : 1);
+        }
+        
+        for (int i = 0; i < wordLen; i++) {
+            HashMap<String, Integer> windowFreq = new HashMap<String, Integer>();
             boolean expand = true;
             String bump = "";
+            int lo = i - 1; // exclusive;
+            int hi = i - 1;
             while (true) {
                 if (expand) {
-                    hi += len;
+                    hi += wordLen;
                     if (hi >= s.length()) {
                         break;
                     }
-                    String token = s.substring(hi + 1 - len, hi + 1);
-                    if (!freq.containsKey(token)) {
+                    String token = s.substring(hi + 1 - wordLen, hi + 1);
+                    if (!targetFreq.containsKey(token)) {
                         lo = hi;
-                        obs.clear();
+                        windowFreq.clear();
                     } else {
-                        obs.put(token, obs.containsKey(token) ? obs.get(token) + 1 : 1);
-                        if (obs.get(token) > freq.get(token)) {
+                        windowFreq.put(token, windowFreq.containsKey(token) ? windowFreq.get(token) + 1 : 1);
+                        if (windowFreq.get(token) == targetFreq.get(token)) {
+                            if (hi - lo == wordLen * words.length) {
+                                res.add(lo + 1);
+                            }
+                        } else if (windowFreq.get(token) > targetFreq.get(token)) {
                             bump = token;
                             expand = false;
-                        } 
-                        if ((obs.get(token) == freq.get(token)) && hi - lo == len * words.length) {
-                            res.add(lo + 1);
                         }
                     }
                 } else {
-                    lo += len;
-                    String token = s.substring(lo + 1 - len, lo + 1);
-                    obs.put(token, obs.get(token) - 1);
+                    lo += wordLen;
+                    String token = s.substring(lo + 1 - wordLen, lo + 1);
+                    windowFreq.put(token, windowFreq.get(token) - 1);
                     if (token.equals(bump)) {
                         bump = "";
                         expand = true;
-                        if ((obs.get(token) == freq.get(token)) && hi - lo == len * words.length) {
+                        if (hi - lo == wordLen * words.length) {
                             res.add(lo + 1);
                         }
-                    }
+                    } 
                 }
             }
         }
