@@ -12,16 +12,11 @@ public class Solution {
             if (index == vals.length) {
                 return false;
             }
-            if (vals[index].equals("#")) {
-                node = null;
-            } else{
-                node.val = Integer.valueOf(vals[index]);
-            }
-            index++;
-            if (node != null) {
+            if (!vals[index].equals("#")) {
                 stack.push(new TreeNode(-1)); // right
                 stack.push(new TreeNode(-1)); // left
             }
+            index++;
         }
         return index == vals.length;
     }
