@@ -22,3 +22,30 @@ public class Solution {
     }
 }
 ```
+```java
+public class Solution {
+    int index = 0;
+    public boolean isValidSerialization(String preorder) {
+        String[] vals = preorder.split(",");
+        index = 0;
+        if (help(vals)) {
+            return index == vals.length;
+        } else {
+            return false;
+        }
+    }
+    private boolean help(String[] vals) {
+        if (index == vals.length) {
+            return false;
+        }
+        String val = vals[index++];
+        if (val.equals("#")) {
+            return true;
+        } else{
+            boolean left = help(vals);
+            boolean right = help(vals);
+            return left && right;
+        }
+    }
+}
+```
