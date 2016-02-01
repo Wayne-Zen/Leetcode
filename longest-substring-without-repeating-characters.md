@@ -12,7 +12,6 @@ public class Solution {
         boolean expand = true;
         int max = 0;
         int[] cnt = new int[256];
-        char bump = ' ';
         while (true) {
             if (expand) {
                 hi++;
@@ -23,7 +22,6 @@ public class Solution {
                 cnt[c]++;
                 if (cnt[c] > 1) {
                     expand = false;
-                    bump = c;
                 } else {
                     max = Math.max(max, hi - lo);
                 }
@@ -31,9 +29,8 @@ public class Solution {
                 lo++;
                 char c = s.charAt(lo);
                 cnt[c]--;
-                if (bump == c && cnt[c] <= 1) {
+                if (cnt[c] == 1) {
                     expand = true;
-                    bump = ' ';
                     max = Math.max(max, hi - lo);
                 }
             }
