@@ -72,7 +72,6 @@ public class Solution {
         for (int i = 0; i < wordLen; i++) {
             HashMap<String, Integer> windowFreq = new HashMap<String, Integer>();
             boolean expand = true;
-            String bump = "";
             int lo = i - 1; // exclusive;
             int hi = i - 1;
             while (true) {
@@ -92,7 +91,6 @@ public class Solution {
                                 res.add(lo + 1);
                             }
                         } else if (windowFreq.get(token) > targetFreq.get(token)) {
-                            bump = token;
                             expand = false;
                         }
                     }
@@ -100,8 +98,7 @@ public class Solution {
                     lo += wordLen;
                     String token = s.substring(lo + 1 - wordLen, lo + 1);
                     windowFreq.put(token, windowFreq.get(token) - 1);
-                    if (token.equals(bump)) {
-                        bump = "";
+                    if (windowFreq.get(token) == targetFreq.get(token)) {
                         expand = true;
                         if (hi - lo == wordLen * words.length) {
                             res.add(lo + 1);
