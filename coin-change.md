@@ -2,37 +2,57 @@
 
 ```java
 public class Solution {
+    // dp[x + c] = min(dp[x] + 1, dp[x + c])
+    // 其中dp[x]代表凑齐金额x所需的最少硬币数，c为可用的硬币面值
     public int coinChange(int[] coins, int amount) {
-        int M = coins.length; 
-        int N = amount + 1;
-        int[][] dp = new int[M][N];
-        for (int j = 0; j < N; j++) {
-            if (j % coins[0] == 0) {
-                dp[0][j] = j / coins[0];
-            } else {
-                dp[0][j] = -1;
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, -1);
+        dp[0] = 0;
+        for (int x = 0; x < amount; x++) {
+            if (dp[x] == -1) {
+                continue;
+            }
+            for (int c : coins) {
+                if (x + c > amount) {
+                    continue;
+                }
+                if (dp[x + c] == -1 || dp[x + c] > dp[x] + 1) {
+                    dp[x + c] = dp[x] + 1;
+                }
             }
         }
-        for (int i = 1; i < M; i++) {
-            for (int j = 0; j < N; j++) {
-                // coins[i]: coin value;
-                // j: total;
-                // dp[i][j]: num of coin
-                int val = coins[i];
-                long min = Long.MAX_VALUE;
-                for (int k = 0; k <= j / val; k++) {
-                    if (dp[i - 1][j - k * val] != -1) {
-                        min = Math.min(min, k + dp[i - 1][j - k * val]);
+        return dp[amount];
+    }
+}
+```
+
+```java
+public class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int m = coins.length + 1;
+        int n = amount + 1;
+        int[][] dp = new int[m][n];
+        for (int j = 1; j < n; j++) {
+            dp[0][j] = -1;
+        }
+        for (int i = 1; i < m; i++) {
+            int val = coins[i - 1];
+            for (int j = 1; j < n; j++) {
+                int target = j;
+                // k current val
+                dp[i][j] = Integer.MAX_VALUE;
+                for (int k = target / val; k >= 0; k--) {
+                    // rest val is target - k * val;
+                    if (dp[i - 1][target - k * val] != -1) {
+                        dp[i][j] = Math.min(dp[i][j], k + dp[i - 1][target - k * val]);
                     }
                 }
-                if (min == Long.MAX_VALUE) {
+                if (dp[i][j] == Integer.MAX_VALUE) {
                     dp[i][j] = -1;
-                } else {
-                    dp[i][j] = (int)min;
                 }
             }
         }
-        return dp[M - 1][N - 1];
+        return dp[m - 1][n - 1];
     }
 }
 ```
