@@ -108,3 +108,59 @@ public class Solution {
     }
 }
 ```
+
+```java
+public class Solution {
+    public int countRangeSum(int[] nums, int lower, int upper) {
+        int n = nums.length;
+        long[] sums = new long[n + 1];
+        for (int i = 1; i <= n; i++)
+            sums[i] = sums[i - 1] + nums[i - 1];
+        return help(sums, 0, n, lower, upper); 
+    }
+    
+    private int help(long[] sums, int lo, int hi, int lower, int upper) {
+        if (lo == hi) {
+            return 0;
+        }
+        int mid = lo + (hi - lo) / 2;
+        int cnt = help(sums, lo, mid, lower, upper)
+                + help(sums, mid + 1, hi, lower, upper);
+        // count
+        int p1 = mid + 1;
+        int p2 = mid + 1;
+        for (int i = lo; i <= mid; i++) {
+            while (p1 <= hi && sums[p1] - sums[i] < lower) {
+                p1++;
+            }
+            while (p2 <= hi && sums[p2] - sums[i] <= upper) {
+                p2++;
+            }
+            cnt += p2 - p1;
+        }
+        // sort
+        long[] cache = new long[hi - lo + 1];
+        int h1 = lo;
+        int h2 = mid + 1;
+        int index = 0;
+        while (h1 <= mid && h2 <= hi) {
+            if (sums[h1] < sums[h2]) {
+                cache[index++] = sums[h1++];
+            } else {
+                cache[index++] = sums[h2++];
+            }
+        }
+        while (h1 <= mid) {
+            cache[index++] = sums[h1++];
+        }
+        while (h2 <= hi) {
+            cache[index++] = sums[h2++];
+        }
+        index = 0;
+        for (int i = lo; i <= hi; i++) {
+            sums[i] = cache[index++];
+        }
+        return cnt;
+    }
+}
+```
