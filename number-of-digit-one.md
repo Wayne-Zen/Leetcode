@@ -10,26 +10,33 @@
 ```java
 public class Solution {
     public int countDigitOne(int n) {
-        int res = 0;
-        int curn = 0;
-        int lown = 0;
-        int highn = n;
-        int lowc = 1;
-        while (highn > 0) {
-            curn = highn % 10;
-            highn = highn / 10;
-            if (curn == 1) {
-                res += highn * lowc;
-                res += lown + 1;
-            } else if (curn < 1) {
-                res += highn * lowc;
-            } else if (curn > 1) {
-                res += (highn + 1) * lowc;
+        if (n <= 0) {
+            return 0;
+        }
+        int lown = 0; // low part number;
+        int lowc = 1; // 10^(lown.length)
+        int highn = n / 10; // high part number; 
+        int now = n % 10;  // current digit;
+        int cnt = 0;
+        while (lown != n) {
+            if (now == 1) {
+                //     [highn, highn] & [0, lown]
+                cnt += lown + 1;
+                //     [0, highn - 1] & [0, 99...]
+                cnt += highn * lowc;
+            } else if (now > 1) {
+                //     [0, highn] & [0, 99...]
+                cnt += (highn + 1) * lowc;
+            } else if (now < 1) {
+                //     [0, hignn - 1] & [0, 99...]
+                cnt += highn * lowc;
             }
-            lown = lown + lowc * curn;
+            lown = lowc * now + lown;
+            now = highn % 10;
+            highn /= 10;
             lowc *= 10;
         }
-        return res;
+        return cnt;
     }
 }
 ```
