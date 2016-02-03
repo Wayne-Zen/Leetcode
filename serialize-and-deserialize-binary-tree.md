@@ -13,43 +13,39 @@
 public class Codec {
 
     // Encodes a tree to a single string.
+    StringBuilder sb;
     public String serialize(TreeNode root) {
-        StringBuilder sb = new StringBuilder();
-        serializeHelp(root, sb);
+        sb = new StringBuilder();
+        serializeHelp(root);
         sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
     }
-    
-    private void serializeHelp(TreeNode root, StringBuilder sb) {
+    private void serializeHelp(TreeNode root) {
         if (root == null) {
             sb.append("#,");
         } else {
             sb.append(root.val + ",");
-            serializeHelp(root.left, sb);
-            serializeHelp(root.right, sb);
+            serializeHelp(root.left);
+            serializeHelp(root.right);
         }
     }
 
     // Decodes your encoded data to tree.
     int index = 0;
     public TreeNode deserialize(String data) {
-        System.out.println(data);
         String[] vals = data.split(",");
         index = 0;
         return deserializeHelp(vals);
     }
-    
     private TreeNode deserializeHelp(String[] vals) {
         String val = vals[index++];
         if (val.equals("#")) {
             return null;
         } else {
-            TreeNode root = new TreeNode(Integer.valueOf(val));
-            TreeNode left = deserializeHelp(vals);
-            TreeNode right = deserializeHelp(vals);
-            root.left = left;
-            root.right = right;
-            return root;
+            TreeNode node = new TreeNode(Integer.valueOf(val));
+            node.left = deserializeHelp(vals);
+            node.right = deserializeHelp(vals);
+            return node;
         }
     }
 }
