@@ -4,28 +4,21 @@
 public class Solution {
     public List<String> findItinerary(String[][] tickets) {
         HashMap<String, ArrayList<String>> graph = new HashMap<String, ArrayList<String>>();
-        HashSet<String> cities = new HashSet<String>();
         for (int i = 0; i < tickets.length; i++) {
             String from = tickets[i][0];
             String to = tickets[i][1];
-            cities.add(from);
-            cities.add(to);
-        }
-        for (String city : cities) {
-            graph.put(city, new ArrayList<String>());
-        }
-        for (int i = 0; i < tickets.length; i++) {
-            String from = tickets[i][0];
-            String to = tickets[i][1];
+            if (!graph.containsKey(from)) {
+                graph.put(from, new ArrayList<String>());
+            }
+            if (!graph.containsKey(to)) {
+                graph.put(to, new ArrayList<String>());
+            }
             graph.get(from).add(to);
         }
         List<String> res = new ArrayList<String>();
         res.add("JFK");
-        if (help(res, "JFK", tickets.length, graph)) {
-            return res;
-        } else {
-            return new ArrayList<String>();
-        }
+        help(res, "JFK", tickets.length, graph);
+        return res;
     }
     private boolean help(List<String> res, String now, int remain,
                       HashMap<String, ArrayList<String>> graph) {
