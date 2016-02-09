@@ -9,34 +9,31 @@ public class Solution {
         int m = matrix.length;
         int n = matrix[0].length;
         int[][] cache = new int[m][n];
-        int max = 1;
+        int max = 0;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                max = Math.max(max, help(matrix, i, j, cache));
+                max = Math.max(max, help(matrix, cache, i, j));
             }
         }
         return max;
     }
-    int[] rAdd = {0, 0, 1, -1};
-    int[] cAdd = {1, -1, 0, 0};
-    private int help(int[][] matrix, int row, int col, int[][] cache) {
+    private int help(int[][] matrix, int[][] cache, int row, int col) {
         if (cache[row][col] != 0) {
             return cache[row][col];
         }
-        int m = matrix.length;
-        int n = matrix[0].length;
+        int[] rAdd = new int[]{0, 0, 1, -1};
+        int[] cAdd = new int[]{1, -1, 0, 0};
         int max = 1;
         for (int i = 0; i < 4; i++) {
             int r = row + rAdd[i];
             int c = col + cAdd[i];
-            if (r >= m || r < 0 || c >= n || c < 0 || matrix[r][c] <= matrix[row][col]) {
+            if (r < 0 || r >= matrix.length || c < 0 || c >= matrix[0].length || matrix[r][c] <= matrix[row][col]) {
                 continue;
             }
-            int l = help(matrix, r, c, cache) + 1;
-            max = Math.max(max, l);
+            max = Math.max(1 + help(matrix, cache, r, c), max);
         }
         cache[row][col] = max;
-        return max;
+        return cache[row][col];
     }
 }
 ```
