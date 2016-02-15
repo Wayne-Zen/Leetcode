@@ -11,25 +11,24 @@ public class Solution {
         int cnt1 = 0;
         int val2 = 0;
         int cnt2 = 0;
+        // 1,2,2,3,[2]
+        // 1: cnt 0
+        // 2: cnt 1 ;should add cnt here
         for (int num : nums) {
-            if (cnt1 == 0) {
-                val1 = num;
+            if (num == val1) {
                 cnt1++;
-                continue;
-            } else if (num == val1) {
-                cnt1++;
-                continue;
-            }
-            if (cnt2 == 0) {
-                val2 = num;
-                cnt2++;
-                continue;
             } else if (num == val2) {
                 cnt2++;
-                continue;
-            } 
-            cnt1--;
-            cnt2--;
+            } else if (cnt1 == 0) {
+                val1 = num;
+                cnt1++;
+            } else if (cnt2 == 0) {
+                val2 = num;
+                cnt2++;
+            }  else {
+                cnt1--;
+                cnt2--;
+            }
         }
         if (val1 == val2) {
             res.add(val1);
