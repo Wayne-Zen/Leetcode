@@ -18,6 +18,7 @@ public class Vector2D {
         while ((iIter == null || !iIter.hasNext()) && lIter.hasNext()) {
             iIter = lIter.next().iterator();
         }
+        // iIter != null && iIter.hasNext()
         return !(iIter == null || !iIter.hasNext());
     }
 }
